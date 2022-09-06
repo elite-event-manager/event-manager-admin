@@ -1,0 +1,25 @@
+{
+  "auth": {
+    "title": "Менеджер мероприятий",
+    "form": {
+      "email": {
+        "label": "Email"
+      },
+      "password": {
+        "label": "Password"
+      },
+      "signIn": "Sign In"
+    }
+  },
+  "main": {
+    "logo": "Менеджер мероприятий",
+    "copyright": "RentaTeam ©2022"
+  },
+  "dashboard": {
+    "sideMenu": {
+      "users": "Пользователи",
+      "events": "Мероприятия",
+      "logout": "Выйти"
+    }
+  }
+}
