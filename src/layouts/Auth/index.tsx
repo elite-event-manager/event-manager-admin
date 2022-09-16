@@ -1,30 +1,44 @@
-import { Button, Input, Typography, Form, Divider, Space } from 'antd'
+import { Button, Input, Typography, Form, Divider, notification } from 'antd'
+import { useEffect } from 'react'
+
+import { I_AuthForm } from './models/form'
+import * as S from './styles'
 
 import { useStoreDispatch } from 'hooks/useStoreDispatch'
 import { t } from 'languages'
+import { authAPI } from 'services/auth'
 import { signIn } from 'store/profile'
 
 export const AuthLayout = () => {
   const dispatch = useStoreDispatch()
+  const [fetchSignIn, { data, isSuccess }] = authAPI.useSignInMutation()
 
-  const handleSingIn = () => {
-    dispatch(signIn())
+  const [form] = Form.useForm<I_AuthForm>()
+
+  const handleSingIn = (values: I_AuthForm) => {
+    fetchSignIn(values)
   }
 
+  // Успешная аутентификация
+  useEffect(() => {
+    if (data && isSuccess) {
+      dispatch(signIn(data))
+    }
+  }, [data, dispatch, isSuccess])
+
   return (
-    <div className='auth'>
-      <Space direction='vertical'>
-        <Typography.Title level={3}>{t('auth.title')}</Typography.Title>
+    <S.Layout>
+      <S.AuthForm>
+        <Typography.Title level={3}>{t('app.title')}</Typography.Title>
         <Divider />
         <Form
-          name='signIn'
-          initialValues={{ remember: true }}
           autoComplete='off'
-          onFinish={handleSingIn}
           layout='vertical'
-          className='form'
+          form={form}
+          onFinish={handleSingIn}
+          initialValues={{ phone: '+7 950 000 00 00' }}
         >
-          <Form.Item label={t('auth.form.email.label')} name='login' rules={[{ required: true }]}>
+          <Form.Item label={t('auth.form.phone.label')} name='phone' rules={[{ required: true }]}>
             <Input />
           </Form.Item>
 
@@ -35,14 +49,15 @@ export const AuthLayout = () => {
           >
             <Input.Password />
           </Form.Item>
+          <Divider />
+
           <Form.Item>
             <Button type='primary' htmlType='submit' block>
               {t('auth.form.signIn')}
             </Button>
           </Form.Item>
         </Form>
-        <Divider />
-      </Space>
-    </div>
+      </S.AuthForm>
+    </S.Layout>
   )
 }

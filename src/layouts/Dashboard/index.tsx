@@ -53,16 +53,16 @@ export const DashboardLayout = ({ children }: I_DashboardLayout) => {
           items={menuItems}
           onClick={handleMenuItem}
           theme='dark'
-          defaultSelectedKeys={[location.pathname]}
-          selectedKeys={[location.pathname]}
+          defaultSelectedKeys={[location.pathname.split('/')[1]]}
+          selectedKeys={[location.pathname.split('/')[1]]}
           mode='inline'
           className='menu'
         />
       </Layout.Sider>
       <Layout>
-        <Layout.Content style={{ margin: '0 16px' }}>{children}</Layout.Content>
+        <Layout.Content style={{ margin: '16px' }}>{children}</Layout.Content>
         <Layout.Footer style={{ textAlign: 'center' }}>
-          {t('main.copyright')} — Event Manager <b>{APP_VERSION}</b>
+          {t('app.copyright')} — {t('app.title')} <b>{APP_VERSION}</b>
         </Layout.Footer>
       </Layout>
     </Layout>

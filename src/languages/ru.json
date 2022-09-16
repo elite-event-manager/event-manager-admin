@@ -1,25 +1,59 @@
 {
-  "auth": {
+  "app": {
     "title": "Менеджер мероприятий",
+    "copyright": "RentaTeam ©2022"
+  },
+  "auth": {
     "form": {
-      "email": {
-        "label": "Email"
+      "phone": {
+        "label": "Номер телефона"
       },
       "password": {
-        "label": "Password"
+        "label": "Пароль"
       },
-      "signIn": "Sign In"
+      "signIn": "Войти"
     }
-  },
-  "main": {
-    "logo": "Менеджер мероприятий",
-    "copyright": "RentaTeam ©2022"
   },
   "dashboard": {
     "sideMenu": {
       "users": "Пользователи",
       "events": "Мероприятия",
       "logout": "Выйти"
+    }
+  },
+  "modal": {
+    "confirm": {
+      "logout": {
+        "title": "Выход из профиля",
+        "content": "Вы действительно хотите выйти из профиля?",
+        "ok": "Подтверждаю",
+        "cancel": "Отмена"
+      },
+      "removeUser": {
+        "title": "Удаление пользователя",
+        "content": "Вы действительно хотите удалить пользователя?",
+        "ok": "Подтверждаю",
+        "cancel": "Отмена"
+      }
+    }
+  },
+  "breadcrumbs": {
+    "users": "Пользователи",
+    "usersNew": "Создание пользователя",
+    "events": "Мероприятия"
+  },
+  "usersTable": {
+    "table": {
+      "id": "ID",
+      "user": "Пользователь",
+      "role": "Роль",
+      "createdAt": "Дата регистрации",
+      "updatedAt": "Последняя активность"
+    },
+    "tooltip": {
+      "delete": "Удалить",
+      "update": "Редактировать",
+      "view": "Просмотр"
     }
   }
 }

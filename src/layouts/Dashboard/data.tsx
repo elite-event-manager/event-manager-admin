@@ -2,7 +2,6 @@ import { LogoutOutlined, TeamOutlined, ScheduleOutlined } from '@ant-design/icon
 import { Link } from 'react-router-dom'
 
 import { t } from 'languages'
-import { E_Routes } from 'models/routes'
 
 import type { MenuProps } from 'antd'
 
@@ -25,14 +24,10 @@ const getItem = (
 }
 
 export const menuItems: MenuProps['items'] = [
+  getItem(<Link to='/users'>{t('dashboard.sideMenu.users')}</Link>, 'users', <TeamOutlined />),
   getItem(
-    <Link to={E_Routes.users}>{t('dashboard.sideMenu.users')}</Link>,
-    E_Routes.users,
-    <TeamOutlined />,
-  ),
-  getItem(
-    <Link to={E_Routes.events}>{t('dashboard.sideMenu.events')}</Link>,
-    E_Routes.events,
+    <Link to='/events'>{t('dashboard.sideMenu.events')}</Link>,
+    'events',
     <ScheduleOutlined />,
   ),
   getItem(t('dashboard.sideMenu.logout'), 'logout', <LogoutOutlined />),

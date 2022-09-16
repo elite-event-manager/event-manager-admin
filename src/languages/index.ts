@@ -1,6 +1,6 @@
 import RU from './ru.json'
 
-import { E_Locale } from 'models/app'
+import { E_Locale } from 'models/shared/app'
 
 const translations = { [E_Locale.ru]: RU }
 
