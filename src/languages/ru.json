@@ -55,5 +55,19 @@
       "update": "Редактировать",
       "view": "Просмотр"
     }
+  },
+  "userForm": {
+    "fields": {
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "description": "Описание",
+      "avatar": "Фотография",
+      "status": "Статус",
+      "role": "Роль"
+    },
+    "actions": {
+      "create": "Создать",
+      "cancel": "Отмена"
+    }
   }
 }

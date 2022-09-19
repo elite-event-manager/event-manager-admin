@@ -10,7 +10,7 @@ export const Users = () => {
   const navigate = useNavigate()
 
   const handleToCreateUser = () => {
-    navigate('/users/new')
+    navigate('/users/create')
   }
 
   return (
@@ -19,11 +19,13 @@ export const Users = () => {
         <Breadcrumb.Item>{t('breadcrumbs.users')}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
-      <Button onClick={handleToCreateUser} type='primary'>
-        Создать пользователя
-      </Button>
-      <C.Brick />
-      <UsersTable />
+      <C.WrapperPage>
+        <Button onClick={handleToCreateUser} type='primary'>
+          Создать пользователя
+        </Button>
+        <C.Brick />
+        <UsersTable />
+      </C.WrapperPage>
     </div>
   )
 }

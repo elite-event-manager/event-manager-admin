@@ -1,10 +1,11 @@
 import { Breadcrumb, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 
+import { CreateUserForm } from 'features/UserForm'
 import { t } from 'languages'
 import * as C from 'styles/components'
 
-export const UsersNew = () => {
+export const CreateUser = () => {
   return (
     <div>
       <Breadcrumb>
@@ -14,7 +15,9 @@ export const UsersNew = () => {
         <Breadcrumb.Item>{t('breadcrumbs.usersNew')}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
-      <C.Brick />
+      <C.WrapperPage>
+        <CreateUserForm />
+      </C.WrapperPage>
     </div>
   )
 }

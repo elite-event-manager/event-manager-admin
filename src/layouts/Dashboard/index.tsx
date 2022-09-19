@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { menuItems } from './data'
+import * as S from './styles'
 
 import { useStoreDispatch } from 'hooks/useStoreDispatch'
 import { t } from 'languages'
@@ -47,7 +48,7 @@ export const DashboardLayout = ({ children }: I_DashboardLayout) => {
   }
 
   return (
-    <Layout style={{ minHeight: '100vh', flexDirection: 'row' }}>
+    <S.MainLayout>
       <Layout.Sider collapsible collapsed={isCollapsed} onCollapse={handleCollapse}>
         <Menu
           items={menuItems}
@@ -56,15 +57,14 @@ export const DashboardLayout = ({ children }: I_DashboardLayout) => {
           defaultSelectedKeys={[location.pathname.split('/')[1]]}
           selectedKeys={[location.pathname.split('/')[1]]}
           mode='inline'
-          className='menu'
         />
       </Layout.Sider>
       <Layout>
-        <Layout.Content style={{ margin: '16px' }}>{children}</Layout.Content>
-        <Layout.Footer style={{ textAlign: 'center' }}>
+        <S.ContentLayout>{children}</S.ContentLayout>
+        <S.FooterLayout>
           {t('app.copyright')} — {t('app.title')} <b>{APP_VERSION}</b>
-        </Layout.Footer>
+        </S.FooterLayout>
       </Layout>
-    </Layout>
+    </S.MainLayout>
   )
 }

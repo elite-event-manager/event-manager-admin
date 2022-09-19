@@ -13,7 +13,7 @@ export const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path={E_Routes.users} element={<Pages.Users />} />
         <Route path={E_Routes.events} element={<Pages.Events />} />
-        <Route path={E_Routes.usersNew} element={<Pages.UsersNew />} />
+        <Route path={E_Routes.createUser} element={<Pages.CreateUser />} />
       </Route>
       <Route path='*' element={<Navigate to={E_Routes.users} />} />
     </Routes>

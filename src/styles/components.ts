@@ -14,3 +14,9 @@ export const Brick = styled.div<I_BrickProps>`
     height: ${({ md = 16 }) => md}px;
   }
 `
+
+export const WrapperPage = styled.div`
+  padding: 24px;
+
+  background-color: white;
+`

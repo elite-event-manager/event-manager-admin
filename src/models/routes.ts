@@ -1,8 +1,8 @@
 export enum E_Routes {
   users = '/users',
-  usersNew = '/users/new',
+  createUser = '/users/create',
   usersUpdate = '/users/update/:userId',
   events = '/events',
-  eventsNew = '/events/new',
+  createEvent = '/events/create',
   eventsUpdate = '/events/update/:eventId',
 }
