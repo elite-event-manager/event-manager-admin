@@ -7,27 +7,28 @@ import { getColumns } from './data'
 
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
+import { ViewUserModal } from 'components/Modals'
 import { t } from 'languages'
 import { T_UserId } from 'models/shared/user'
+import { dictionariesAPI } from 'services/dictionaries'
 import { usersAPI } from 'services/users'
 import { formatUserToDataSource } from 'utils/helpers/table'
 
 export const UsersTable = () => {
   const [searchText, setSearchText] = useState('')
+  const [isModalUserOpen, setIsModalUserOpen] = useState(false)
+  const [modalUserId, setModalUserId] = useState<T_UserId | null>(null)
+
   const searchInput = useRef<InputRef>(null)
 
-  const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void) => {
-    confirm()
-    setSearchText(selectedKeys[0])
-  }
+  // Удаление пользователя
+  const [fetchDeleteUser] = usersAPI.useDeleteUserMutation()
 
-  const handleReset = (clearFilters: () => void, confirm: (param?: FilterConfirmProps) => void) => {
-    clearFilters()
-    confirm()
-    setSearchText('')
-  }
-
+  // Получение пользователей
   const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery()
+
+  // Получения словаря со статусами
+  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
 
   const handleRemove = (userId: T_UserId) => {
     Modal.confirm({
@@ -38,28 +39,60 @@ export const UsersTable = () => {
       cancelText: t('modal.confirm.removeUser.cancel'),
       maskClosable: true,
       onOk: () => {
-        console.log('fetchRemoveReview', userId)
+        fetchDeleteUser(userId)
       },
     })
   }
 
-  if (isUsersFetching) {
+  // Поиск по таблице
+  const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void) => {
+    confirm()
+    setSearchText(selectedKeys[0])
+  }
+
+  // Сброс поиска по таблице
+  const handleReset = (clearFilters: () => void, confirm: (param?: FilterConfirmProps) => void) => {
+    clearFilters()
+    confirm()
+    setSearchText('')
+  }
+
+  // Закрытие модального окна с пользователями
+  const handleCloseModalUser = () => {
+    setIsModalUserOpen(false)
+  }
+
+  const handleOpenModalUser = (userId: T_UserId) => () => {
+    setIsModalUserOpen(true)
+    setModalUserId(userId)
+  }
+
+  if (isUsersFetching || isRolesFetching) {
     return <Loader />
   }
 
-  if (usersData) {
+  if (usersData && rolesData) {
     const dataTable = formatUserToDataSource(usersData)
     return (
-      <Table
-        columns={getColumns({
-          handleRemove,
-          handleSearch,
-          handleReset,
-          searchInput,
-          searchText,
-        })}
-        dataSource={dataTable}
-      />
+      <>
+        <Table
+          columns={getColumns({
+            handleRemove,
+            handleSearch,
+            handleReset,
+            searchInput,
+            searchText,
+            roles: rolesData.data,
+            handleOpenModalUser,
+          })}
+          dataSource={dataTable}
+        />
+        <ViewUserModal
+          userId={modalUserId}
+          isOpen={isModalUserOpen}
+          handleClose={handleCloseModalUser}
+        />
+      </>
     )
   }
 

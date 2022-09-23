@@ -7,8 +7,10 @@ import Highlighter from 'react-highlight-words'
 import { Link } from 'react-router-dom'
 
 import { t } from 'languages'
-import { T_UserId } from 'models/shared/user'
+import { T_DictionaryUserRole } from 'models/shared/dictionaries'
+import { E_UserRole, T_UserId } from 'models/shared/user'
 import { T_UserRecord } from 'models/user'
+import { getRoleName } from 'utils/dictionaries/roles'
 import { E_FormatDate } from 'utils/helpers/date'
 
 interface I_GetColumnsProps {
@@ -17,6 +19,8 @@ interface I_GetColumnsProps {
   handleReset: (clearFilters: () => void, confirm: (param?: FilterConfirmProps) => void) => void
   searchInput: RefObject<InputRef>
   searchText: string
+  roles: T_DictionaryUserRole[]
+  handleOpenModalUser: (userId: T_UserId) => () => void
 }
 
 export const getColumns = ({
@@ -25,6 +29,8 @@ export const getColumns = ({
   handleReset,
   searchInput,
   searchText,
+  roles,
+  handleOpenModalUser,
 }: I_GetColumnsProps) => [
   {
     title: t('usersTable.table.id'),
@@ -96,7 +102,7 @@ export const getColumns = ({
     title: t('usersTable.table.role'),
     dataIndex: 'role',
     sorter: (a: T_UserRecord, b: T_UserRecord) => a.role.localeCompare(b.role),
-    render: (role: string) => <Tag color='#51258F'>{role}</Tag>,
+    render: (roleId: E_UserRole) => <Tag color='#51258F'>{getRoleName(roles, roleId)}</Tag>,
   },
 
   {
@@ -104,8 +110,8 @@ export const getColumns = ({
     dataIndex: 'createdAt',
     sorter: (a: T_UserRecord, b: T_UserRecord) =>
       moment(a.createdAt).unix() - moment(b.createdAt).unix(),
-    render: (record: T_UserRecord) => (
-      <Space size='middle'>{moment(record.createdAt).format(E_FormatDate.default)}</Space>
+    render: (value: string) => (
+      <Space size='middle'>{moment(value).format(E_FormatDate.default)}</Space>
     ),
   },
   {
@@ -113,8 +119,8 @@ export const getColumns = ({
     dataIndex: 'updatedAt',
     sorter: (a: T_UserRecord, b: T_UserRecord) =>
       moment(a.updatedAt).unix() - moment(b.updatedAt).unix(),
-    render: (record: T_UserRecord) => (
-      <Space size='middle'>{moment(record.updatedAt).format(E_FormatDate.default)}</Space>
+    render: (value: string) => (
+      <Space size='middle'>{moment(value).format(E_FormatDate.default)}</Space>
     ),
   },
   {
@@ -125,12 +131,12 @@ export const getColumns = ({
           <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
         </Tooltip>
         <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
-          <Link to={`/users/${record.id}`} target='_blank'>
+          <Link to={`/users/update/${record.id}`}>
             <Button icon={<EditOutlined />} />
           </Link>
         </Tooltip>
         <Tooltip title={t('usersTable.tooltip.view')} placement='topLeft'>
-          <Button icon={<EyeOutlined />} />
+          <Button onClick={handleOpenModalUser(record.id)} icon={<EyeOutlined />} />
         </Tooltip>
       </Space>
     ),

@@ -1,7 +1,8 @@
 import { Layout } from 'antd'
 import styled from 'styled-components'
 
-export const MainLayout = styled(Layout)`
+export const MainLayout = styled.div`
+  display: flex;
   flex-direction: 'row';
 
   min-height: 100vh;

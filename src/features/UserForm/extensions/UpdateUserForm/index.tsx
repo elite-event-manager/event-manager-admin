@@ -14,11 +14,17 @@ import { T_UserForm } from 'models/user'
 import { usersAPI } from 'services/users'
 import { formToUser } from 'utils/forms/users'
 
-export const CreateUserForm = () => {
+interface I_UpdateUserFormProps {
+  initialValues: T_UserForm
+}
+
+export const UpdateUserForm = ({ initialValues }: I_UpdateUserFormProps) => {
   const navigate = useNavigate()
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<T_UserForm>()
   const avatarValue = Form.useWatch('avatar', form)
+
+  console.log('avatarValue', avatarValue)
 
   // Создание пользователя
   const [fetchCreateUser, { data, isSuccess }] = usersAPI.useCreateUserMutation()
@@ -43,7 +49,7 @@ export const CreateUserForm = () => {
   }
 
   return (
-    <Form form={form} layout='vertical' onFinish={handleFinish}>
+    <Form form={form} layout='vertical' onFinish={handleFinish} initialValues={initialValues}>
       <GeneralSection />
       <AvatarSection avatarValue={avatarValue} />
 

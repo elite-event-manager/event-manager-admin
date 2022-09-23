@@ -9,8 +9,3 @@ export type I_AuthResponse = {
   }
   message?: T_ServerMessage
 }
-
-export interface I_SignInPayload {
-  phone: string
-  password: string
-}

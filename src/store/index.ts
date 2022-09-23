@@ -16,6 +16,8 @@ import { profileSlice } from './profile'
 
 import { rtkQueryErrorLogger } from 'middlewares/rtkQueryErrorLogger'
 import { authAPI } from 'services/auth'
+import { dictionariesAPI } from 'services/dictionaries'
+import { filesAPI } from 'services/files'
 import { usersAPI } from 'services/users'
 
 const persistConfig = {
@@ -32,6 +34,8 @@ const rootReducer = combineReducers({
   // Services
   [authAPI.reducerPath]: authAPI.reducer,
   [usersAPI.reducerPath]: usersAPI.reducer,
+  [dictionariesAPI.reducerPath]: dictionariesAPI.reducer,
+  [filesAPI.reducerPath]: filesAPI.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -43,7 +47,13 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(authAPI.middleware, usersAPI.middleware, rtkQueryErrorLogger),
+    }).concat(
+      authAPI.middleware,
+      usersAPI.middleware,
+      dictionariesAPI.middleware,
+      filesAPI.middleware,
+      rtkQueryErrorLogger,
+    ),
 })
 
 export const persistor = persistStore(store)

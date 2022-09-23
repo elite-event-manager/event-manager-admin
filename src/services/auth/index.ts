@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { I_AuthResponse, I_SignInPayload } from './models/signIn'
+import { I_SignInPayload } from './models/payload'
+import { I_AuthResponse } from './models/response'
 
 import { baseQueryWithReAuth } from 'services/utils'
 

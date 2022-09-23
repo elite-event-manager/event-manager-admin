@@ -39,7 +39,8 @@
   },
   "breadcrumbs": {
     "users": "Пользователи",
-    "usersNew": "Создание пользователя",
+    "createUser": "Создание пользователя",
+    "updateUser": "Обновление пользователя",
     "events": "Мероприятия"
   },
   "usersTable": {
@@ -60,6 +61,8 @@
     "fields": {
       "firstName": "Имя",
       "lastName": "Фамилия",
+      "phone": "Телефон",
+      "password": "Пароль",
       "description": "Описание",
       "avatar": "Фотография",
       "status": "Статус",
@@ -68,6 +71,11 @@
     "actions": {
       "create": "Создать",
       "cancel": "Отмена"
+    }
+  },
+  "components": {
+    "uploadImageButton": {
+      "label": "Загрузить"
     }
   }
 }

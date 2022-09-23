@@ -1,4 +1,5 @@
-import { Button, Input, Typography, Form, Divider, notification } from 'antd'
+import { Button, Input, Typography, Form, Divider } from 'antd'
+import { MaskedInput } from 'antd-mask-input'
 import { useEffect } from 'react'
 
 import { I_AuthForm } from './models/form'
@@ -8,6 +9,7 @@ import { useStoreDispatch } from 'hooks/useStoreDispatch'
 import { t } from 'languages'
 import { authAPI } from 'services/auth'
 import { signIn } from 'store/profile'
+import { maskPatterns } from 'utils/forms/maskPatterns'
 
 export const AuthLayout = () => {
   const dispatch = useStoreDispatch()
@@ -31,15 +33,9 @@ export const AuthLayout = () => {
       <S.AuthForm>
         <Typography.Title level={3}>{t('app.title')}</Typography.Title>
         <Divider />
-        <Form
-          autoComplete='off'
-          layout='vertical'
-          form={form}
-          onFinish={handleSingIn}
-          initialValues={{ phone: '+7 950 000 00 00' }}
-        >
+        <Form autoComplete='off' layout='vertical' form={form} onFinish={handleSingIn}>
           <Form.Item label={t('auth.form.phone.label')} name='phone' rules={[{ required: true }]}>
-            <Input />
+            <MaskedInput mask={maskPatterns.phone} />
           </Form.Item>
 
           <Form.Item

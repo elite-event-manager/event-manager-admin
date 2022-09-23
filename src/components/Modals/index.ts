@@ -1,0 +1,1 @@
+export { ViewUserModal } from './ViewUserModal'
