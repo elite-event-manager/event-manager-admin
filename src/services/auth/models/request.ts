@@ -1,4 +1,4 @@
-export interface I_SignInPayload {
+export interface I_SignInRequest {
   phone: string
   password: string
 }

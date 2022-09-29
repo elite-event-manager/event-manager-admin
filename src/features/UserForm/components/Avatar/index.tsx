@@ -11,11 +11,13 @@ import {
 } from 'utils/forms/fileUpload'
 
 interface I_AvatarSectionProps {
-  avatarValue: any | undefined
+  avatarValue: any
 }
 
 export const AvatarSection = ({ avatarValue }: I_AvatarSectionProps) => {
   const [fetchUpload] = filesAPI.useUploadFileMutation()
+
+  console.log(avatarValue)
 
   return (
     <Row>

@@ -11,5 +11,4 @@ export enum E_ServerMessageStatus {
 export type T_ServerMessage = {
   text: string
   status: E_ServerMessageStatus
-  isNotifying: boolean
 }

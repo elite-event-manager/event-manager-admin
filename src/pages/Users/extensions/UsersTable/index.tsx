@@ -57,7 +57,7 @@ export const UsersTable = () => {
     setSearchText('')
   }
 
-  // Закрытие модального окна с пользователями
+  // Закрытие модального окна пользователя
   const handleCloseModalUser = () => {
     setIsModalUserOpen(false)
   }

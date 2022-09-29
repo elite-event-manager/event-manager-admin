@@ -8,16 +8,17 @@ import {
   GeneralSection,
   StatusSection,
   RoleSection,
+  PasswordSection,
 } from 'features/UserForm/components'
 import { t } from 'languages'
-import { T_UserForm } from 'models/user'
+import { T_CreateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
 import { formToUser } from 'utils/forms/users'
 
 export const CreateUserForm = () => {
   const navigate = useNavigate()
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<T_CreateUserForm>()
   const avatarValue = Form.useWatch('avatar', form)
 
   // Создание пользователя
@@ -26,14 +27,15 @@ export const CreateUserForm = () => {
   useEffect(() => {
     if (data && isSuccess) {
       notification.open({
-        message: '',
+        message: t('notifications.createUser.success'),
         icon: <CheckOutlined style={{ color: '#52c41a' }} />,
       })
       navigate(`/users`)
     }
   }, [isSuccess, data, navigate])
 
-  const handleFinish = (values: T_UserForm) => {
+  const handleFinish = (values: T_CreateUserForm) => {
+    console.log('values', values)
     const payload = formToUser(values)
     fetchCreateUser(payload)
   }
@@ -45,6 +47,7 @@ export const CreateUserForm = () => {
   return (
     <Form form={form} layout='vertical' onFinish={handleFinish}>
       <GeneralSection />
+      <PasswordSection />
       <AvatarSection avatarValue={avatarValue} />
 
       <Row>
@@ -58,7 +61,7 @@ export const CreateUserForm = () => {
           <Button size='large' type='primary' htmlType='submit'>
             {t('userForm.actions.create')}
           </Button>
-          <Button onClick={handleCancel} size='large' type='dashed' htmlType='button'>
+          <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
             {t('userForm.actions.cancel')}
           </Button>
         </Space>

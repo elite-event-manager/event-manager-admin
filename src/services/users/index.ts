@@ -1,9 +1,12 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
+import { I_ChangePasswordRequest } from './models/request'
+
 import { baseQueryWithReAuth } from '../utils'
 
 import { T_UserId } from 'models/shared/user'
-import { I_User, T_UserRequest } from 'models/user'
+import { I_User } from 'models/user'
+import { T_CreateUserRequest, T_UpdateUserRequest } from 'models/user/forms'
 
 export const usersAPI = createApi({
   reducerPath: 'usersAPI',
@@ -22,17 +25,34 @@ export const usersAPI = createApi({
         url: `/users/${payload}`,
       }),
       transformResponse: (response: I_User) => {
-        response.avatar = import.meta.env.VITE_SERVER_API + response.avatar
+        response.avatar.url = import.meta.env.VITE_SERVER_API + response.avatar.url
         return response
       },
       providesTags: ['users'],
     }),
 
-    createUser: build.mutation<I_User, T_UserRequest>({
+    createUser: build.mutation<I_User, T_CreateUserRequest>({
       query: (payload) => ({
         url: `/users`,
         method: 'POST',
         body: payload,
+      }),
+      invalidatesTags: ['users'],
+    }),
+
+    changePassword: build.mutation<void, I_ChangePasswordRequest>({
+      query: (payload) => ({
+        url: `/users/changePassword`,
+        method: 'POST',
+        body: payload,
+      }),
+    }),
+
+    updateUser: build.mutation<I_User, { user: T_UpdateUserRequest; userId: T_UserId }>({
+      query: (payload) => ({
+        url: `/users/${payload.userId}`,
+        method: 'PUT',
+        body: payload.user,
       }),
       invalidatesTags: ['users'],
     }),

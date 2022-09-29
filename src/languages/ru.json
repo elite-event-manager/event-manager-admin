@@ -35,6 +35,19 @@
         "ok": "Подтверждаю",
         "cancel": "Отмена"
       }
+    },
+    "viewUser": {
+      "title": "Просмотр пользователя",
+      "created": "Создан:",
+      "updated": "Обновлён:"
+    },
+    "updateUserPassword": {
+      "title": "Обновление пароля пользователя",
+      "newPassword": "Новый пароль",
+      "rePassword": "Повторите пароль",
+      "actions": {
+        "update": "Обновить"
+      }
     }
   },
   "breadcrumbs": {
@@ -63,6 +76,7 @@
       "lastName": "Фамилия",
       "phone": "Телефон",
       "password": "Пароль",
+      "rePassword": "Повторите пароль",
       "description": "Описание",
       "avatar": "Фотография",
       "status": "Статус",
@@ -70,12 +84,25 @@
     },
     "actions": {
       "create": "Создать",
+      "update": "Обновить",
+      "updatePassword": "Обновить пароль",
       "cancel": "Отмена"
     }
   },
   "components": {
     "uploadImageButton": {
       "label": "Загрузить"
+    }
+  },
+  "notifications": {
+    "createUser": {
+      "success": "Пользователь успешно добавлен"
+    },
+    "updateUser": {
+      "success": "Пользователь успешно обновлён"
+    },
+    "changePassword": {
+      "success": "Пароль изменён успешно"
     }
   }
 }

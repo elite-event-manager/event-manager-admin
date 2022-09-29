@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { I_User, T_UserForm, T_UserRequest } from 'models/user'
+import { I_User } from 'models/user'
 
-export const formToUser = (form: T_UserForm): T_UserRequest => {
+export const formToUser = (form: any): any => {
   const { avatar, ...rest } = form
-  const avatarPath = new URL(avatar[0].url).pathname
 
   return {
     ...rest,
-    avatar: avatarPath,
+    avatar: avatar[0],
   }
 }
 
-export const userToForm = (user: I_User): T_UserForm => {
+export const userToForm = (user: I_User): any => {
   const { createdAt, updatedAt, id, avatar, ...rest } = user
+
   return {
     ...rest,
-    avatar: [{ url: avatar }],
+    avatar: [avatar],
   }
 }

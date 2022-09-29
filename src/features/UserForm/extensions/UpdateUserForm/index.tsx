@@ -1,8 +1,11 @@
 import { CheckOutlined } from '@ant-design/icons'
 import { Button, Divider, Form, notification, Row, Space } from 'antd'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
+import { ErrorFeedback } from 'components/ErrorFeedback'
+import { Loader } from 'components/Loader'
+import { UpdateUserPasswordModal } from 'components/Modals'
 import {
   AvatarSection,
   GeneralSection,
@@ -10,65 +13,125 @@ import {
   RoleSection,
 } from 'features/UserForm/components'
 import { t } from 'languages'
-import { T_UserForm } from 'models/user'
+import { T_Params } from 'models/routes'
+import { T_UpdateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
-import { formToUser } from 'utils/forms/users'
+import { formToUser, userToForm } from 'utils/forms/users'
 
-interface I_UpdateUserFormProps {
-  initialValues: T_UserForm
-}
-
-export const UpdateUserForm = ({ initialValues }: I_UpdateUserFormProps) => {
+export const UpdateUserForm = () => {
   const navigate = useNavigate()
+  const params = useParams<T_Params>()
 
-  const [form] = Form.useForm<T_UserForm>()
+  const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false)
+
+  const [form] = Form.useForm<T_UpdateUserForm>()
   const avatarValue = Form.useWatch('avatar', form)
 
-  console.log('avatarValue', avatarValue)
+  // Обновление пользователя
+  const [fetchUpdateUser, { data, isSuccess }] = usersAPI.useUpdateUserMutation()
 
-  // Создание пользователя
-  const [fetchCreateUser, { data, isSuccess }] = usersAPI.useCreateUserMutation()
+  // Обновление пароля пользователя
+  const [fetchChangePassword, { isSuccess: isPasswordChangeSuccess }] =
+    usersAPI.useChangePasswordMutation()
 
+  // Успешное обновление пользователя
   useEffect(() => {
     if (data && isSuccess) {
       notification.open({
-        message: '',
+        message: t('notifications.updateUser.success'),
         icon: <CheckOutlined style={{ color: '#52c41a' }} />,
       })
       navigate(`/users`)
     }
   }, [isSuccess, data, navigate])
 
-  const handleFinish = (values: T_UserForm) => {
+  useEffect(() => {
+    if (isPasswordChangeSuccess) {
+      notification.open({
+        message: t('notifications.changePassword.success'),
+        icon: <CheckOutlined style={{ color: '#52c41a' }} />,
+      })
+    }
+  }, [isPasswordChangeSuccess])
+
+  // Если параметр адресной строки не найден
+  if (!params.userId) return <Navigate to='/users' />
+
+  // Получение пользователя
+  const { data: userData, isFetching: isUserFetching } = usersAPI.useGetUserQuery(
+    Number(params.userId),
+  )
+
+  const handleFinish = (values: T_UpdateUserForm) => {
     const payload = formToUser(values)
-    fetchCreateUser(payload)
+    fetchUpdateUser({ user: payload, userId: Number(params.userId) })
   }
 
   const handleCancel = () => {
     navigate(-1)
   }
 
-  return (
-    <Form form={form} layout='vertical' onFinish={handleFinish} initialValues={initialValues}>
-      <GeneralSection />
-      <AvatarSection avatarValue={avatarValue} />
+  const handleCloseModalPassword = () => {
+    setIsModalPasswordOpen(false)
+  }
 
-      <Row>
-        <StatusSection />
-        <RoleSection />
-      </Row>
+  const handleOpenModalPassword = () => {
+    setIsModalPasswordOpen(true)
+  }
 
-      <Divider />
-      <Form.Item>
-        <Space>
-          <Button size='large' type='primary' htmlType='submit'>
-            {t('userForm.actions.create')}
-          </Button>
-          <Button onClick={handleCancel} size='large' type='dashed' htmlType='button'>
-            {t('userForm.actions.cancel')}
-          </Button>
-        </Space>
-      </Form.Item>
-    </Form>
-  )
+  const handleOkModalPassword = (password: string) => {
+    if (password?.length >= 6 && userData?.id) {
+      fetchChangePassword({ password, userId: userData.id })
+      setIsModalPasswordOpen(false)
+    }
+  }
+
+  if (isUserFetching) return <Loader relative />
+
+  if (userData) {
+    return (
+      <>
+        <Form
+          form={form}
+          layout='vertical'
+          onFinish={handleFinish}
+          initialValues={userToForm(userData)}
+        >
+          <GeneralSection />
+          <AvatarSection avatarValue={avatarValue} />
+
+          <Row>
+            <StatusSection />
+            <RoleSection />
+          </Row>
+
+          <Divider />
+          <Form.Item>
+            <Space>
+              <Button size='large' type='primary' htmlType='submit'>
+                {t('userForm.actions.update')}
+              </Button>
+              <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
+                {t('userForm.actions.cancel')}
+              </Button>
+              <Button
+                onClick={handleOpenModalPassword}
+                size='large'
+                type='dashed'
+                htmlType='button'
+              >
+                {t('userForm.actions.updatePassword')}
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
+        <UpdateUserPasswordModal
+          isOpen={isModalPasswordOpen}
+          onOk={handleOkModalPassword}
+          onClose={handleCloseModalPassword}
+        />
+      </>
+    )
+  }
+  return <ErrorFeedback />
 }

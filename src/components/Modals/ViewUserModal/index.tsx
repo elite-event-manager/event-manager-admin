@@ -6,6 +6,7 @@ import * as S from './styles'
 
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
+import { t } from 'languages'
 import { T_UserId } from 'models/shared/user'
 import { dictionariesAPI } from 'services/dictionaries'
 import { usersAPI } from 'services/users'
@@ -38,14 +39,14 @@ export const ViewUserModal = ({ isOpen, handleClose, userId }: I_ViewUserModalPr
   }, [fetchGetUser, userId])
 
   return (
-    <Modal title='Просмотр пользователя' open={isOpen} footer={null} onCancel={handleClose}>
+    <Modal title={t('modal.viewUser.title')} open={isOpen} footer={null} onCancel={handleClose}>
       {isUserFetching || isStatusesFetching || isRolesFetching ? (
         <Loader relative />
       ) : userData && rolesData && statusesData ? (
         <div>
           <Row>
             <Col span={4}>
-              <S.UserAvatar src={userData.avatar} />
+              <S.UserAvatar src={userData.avatar.url} />
             </Col>
             <Col span={19} offset={1}>
               <Space direction='vertical'>
@@ -67,12 +68,14 @@ export const ViewUserModal = ({ isOpen, handleClose, userId }: I_ViewUserModalPr
           <Divider />
           <Row>
             <Col>
-              <b>Создан:</b> {moment(userData.createdAt).format(E_FormatDate.default)}
+              <b>{t('modal.viewUser.created')}</b>{' '}
+              {moment(userData.createdAt).format(E_FormatDate.default)}
             </Col>
           </Row>
           <Row>
             <Col>
-              <b>Обновлён:</b> {moment(userData.updatedAt).format(E_FormatDate.default)}
+              <b>{t('modal.viewUser.updated')}</b>{' '}
+              {moment(userData.updatedAt).format(E_FormatDate.default)}
             </Col>
           </Row>
         </div>
