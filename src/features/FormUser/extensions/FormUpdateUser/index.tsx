@@ -11,14 +11,14 @@ import {
   GeneralSection,
   StatusSection,
   RoleSection,
-} from 'features/UserForm/components'
+} from 'features/FormUser/components'
 import { t } from 'languages'
 import { T_Params } from 'models/routes'
 import { T_UpdateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
 import { formToUser, userToForm } from 'utils/forms/users'
 
-export const UpdateUserForm = () => {
+export const FormUpdateUser = () => {
   const navigate = useNavigate()
   const params = useParams<T_Params>()
 
@@ -100,7 +100,7 @@ export const UpdateUserForm = () => {
           <GeneralSection />
           <AvatarSection avatarValue={avatarValue} />
 
-          <Row>
+          <Row gutter={[16, 4]}>
             <StatusSection />
             <RoleSection />
           </Row>

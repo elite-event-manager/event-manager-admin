@@ -15,6 +15,14 @@ export const authAPI = createApi({
         method: 'POST',
         body: payload,
       }),
+      transformResponse: (response: I_AuthResponse) => {
+        if (response.data) {
+          console.log(response.data.user.avatar)
+          response.data.user.avatar.url =
+            import.meta.env.VITE_SERVER_API + response.data.user.avatar.url
+        }
+        return response
+      },
     }),
     check: build.query<I_AuthResponse, void>({
       query: () => ({

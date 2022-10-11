@@ -12,7 +12,7 @@ export const RoleSection = () => {
 
   if (rolesData) {
     return (
-      <Col span={6} offset={1}>
+      <Col xs={24} lg={9} xl={6}>
         <Form.Item name='role' label={t('userForm.fields.role')} rules={[{ required: true }]}>
           <Select>
             {rolesData.data.map((status) => (

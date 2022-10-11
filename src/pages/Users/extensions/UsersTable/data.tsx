@@ -6,6 +6,7 @@ import { RefObject } from 'react'
 import Highlighter from 'react-highlight-words'
 import { Link } from 'react-router-dom'
 
+import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
 import { T_DictionaryUserRole } from 'models/shared/dictionaries'
 import { E_UserRole, T_UserId } from 'models/shared/user'
@@ -130,11 +131,13 @@ export const getColumns = ({
         <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
           <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
         </Tooltip>
-        <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
-          <Link to={`/users/update/${record.id}`}>
-            <Button icon={<EditOutlined />} />
-          </Link>
-        </Tooltip>
+        <RoleGate scopes={[E_UserRole.superAdmin, E_UserRole.admin]}>
+          <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
+            <Link to={`/users/update/${record.id}`}>
+              <Button icon={<EditOutlined />} />
+            </Link>
+          </Tooltip>
+        </RoleGate>
         <Tooltip title={t('usersTable.tooltip.view')} placement='topLeft'>
           <Button onClick={handleOpenModalUser(record.id)} icon={<EyeOutlined />} />
         </Tooltip>

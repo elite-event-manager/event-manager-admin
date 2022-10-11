@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { T_File } from 'models/shared/upload'
 import { E_UserRole } from 'models/shared/user'
 import { I_AuthResponse } from 'services/auth/models/response'
 import { LocalStorage } from 'utils/helpers/localStorage'
 
-interface I_Profile {
+export interface I_Profile {
   isAuth: boolean
   firstName: string
   lastName: string
   role: E_UserRole | ''
+  avatar: T_File
 }
 
 const initialState: I_Profile = {
@@ -16,6 +18,7 @@ const initialState: I_Profile = {
   firstName: '',
   lastName: '',
   role: '',
+  avatar: { id: 0, filename: '', mimeType: '', url: '' },
 }
 
 export const profileSlice = createSlice({
@@ -28,6 +31,7 @@ export const profileSlice = createSlice({
         state.firstName = action.payload.data.user.firstName
         state.lastName = action.payload.data.user.lastName
         state.role = action.payload.data.user.role
+        state.avatar = action.payload.data.user.avatar
 
         if (action.payload.data.accessToken)
           LocalStorage.setAccessToken(action.payload.data.accessToken)

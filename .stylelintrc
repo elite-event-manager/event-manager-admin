@@ -30,10 +30,9 @@
     "stylelint-config-clean-order",
     "stylelint-config-prettier"
   ],
-  "plugins": [
-    "stylelint-order"
-  ],
+  "plugins": ["stylelint-order"],
   "rules": {
+    "color-function-notation": null,
     "no-empty-source": null
   }
 }

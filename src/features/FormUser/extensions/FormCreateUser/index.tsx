@@ -9,13 +9,13 @@ import {
   StatusSection,
   RoleSection,
   PasswordSection,
-} from 'features/UserForm/components'
+} from 'features/FormUser/components'
 import { t } from 'languages'
 import { T_CreateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
 import { formToUser } from 'utils/forms/users'
 
-export const CreateUserForm = () => {
+export const FormCreateUser = () => {
   const navigate = useNavigate()
 
   const [form] = Form.useForm<T_CreateUserForm>()
@@ -50,7 +50,7 @@ export const CreateUserForm = () => {
       <PasswordSection />
       <AvatarSection avatarValue={avatarValue} />
 
-      <Row>
+      <Row gutter={[16, 4]}>
         <StatusSection />
         <RoleSection />
       </Row>

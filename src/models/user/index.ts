@@ -15,7 +15,7 @@ export interface I_User {
   updatedAt: Date
 }
 
-export type T_UserPreview = Pick<I_User, 'phone' | 'role' | 'firstName' | 'lastName'>
+export type T_UserPreview = Pick<I_User, 'phone' | 'role' | 'firstName' | 'lastName' | 'avatar'>
 
 export type T_UserRecord = Omit<I_User, 'firstName' | 'lastName'> & {
   username: string

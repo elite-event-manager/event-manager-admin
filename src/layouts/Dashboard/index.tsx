@@ -6,11 +6,11 @@ import { useLocation } from 'react-router-dom'
 import { menuItems } from './data'
 import * as S from './styles'
 
+import { Sidebar } from 'features/Sidebar'
 import { useStoreDispatch } from 'hooks/useStoreDispatch'
+import { useStoreSelector } from 'hooks/useStoreSelector'
 import { t } from 'languages'
 import { logout } from 'store/profile'
-
-import type { MenuInfo } from 'rc-menu/lib/interface'
 
 interface I_DashboardLayout {
   children: ReactNode
@@ -18,6 +18,7 @@ interface I_DashboardLayout {
 
 export const DashboardLayout = ({ children }: I_DashboardLayout) => {
   const dispatch = useStoreDispatch()
+  const profile = useStoreSelector((state) => state.profile)
   const location = useLocation()
 
   const [isCollapsed, setCollapsed] = useState(false)
@@ -36,7 +37,7 @@ export const DashboardLayout = ({ children }: I_DashboardLayout) => {
     })
   }
 
-  const handleMenuItem = ({ key }: MenuInfo) => {
+  const handleMenuItem = (key: string) => {
     switch (key) {
       case 'logout':
         handleLogout()
@@ -49,16 +50,7 @@ export const DashboardLayout = ({ children }: I_DashboardLayout) => {
 
   return (
     <S.MainLayout>
-      <Layout.Sider collapsible collapsed={isCollapsed} onCollapse={handleCollapse}>
-        <Menu
-          items={menuItems}
-          onClick={handleMenuItem}
-          theme='dark'
-          defaultSelectedKeys={[location.pathname.split('/')[1]]}
-          selectedKeys={[location.pathname.split('/')[1]]}
-          mode='inline'
-        />
-      </Layout.Sider>
+      <Sidebar profile={profile} items={menuItems} />
       <Layout>
         <S.ContentLayout>{children}</S.ContentLayout>
         <S.FooterLayout>

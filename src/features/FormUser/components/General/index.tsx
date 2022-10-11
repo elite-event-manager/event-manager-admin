@@ -6,8 +6,8 @@ import { maskPatterns } from 'utils/forms/maskPatterns'
 
 export const GeneralSection = () => (
   <>
-    <Row>
-      <Col span={4}>
+    <Row gutter={[16, 4]}>
+      <Col xs={24} lg={6} xl={4}>
         <Form.Item
           name='firstName'
           label={t('userForm.fields.firstName')}
@@ -16,7 +16,7 @@ export const GeneralSection = () => (
           <Input />
         </Form.Item>
       </Col>
-      <Col span={4} offset={1}>
+      <Col xs={24} lg={6} xl={4}>
         <Form.Item
           name='lastName'
           label={t('userForm.fields.lastName')}
@@ -25,7 +25,7 @@ export const GeneralSection = () => (
           <Input />
         </Form.Item>
       </Col>
-      <Col span={3} offset={1}>
+      <Col xs={24} lg={6} xl={4}>
         <Form.Item name='phone' label={t('userForm.fields.phone')} rules={[{ required: true }]}>
           <MaskedInput mask={maskPatterns.phone} />
         </Form.Item>
@@ -33,13 +33,13 @@ export const GeneralSection = () => (
     </Row>
 
     <Row>
-      <Col span={13}>
+      <Col xs={24} lg={18} xl={12}>
         <Form.Item
           name='description'
           label={t('userForm.fields.description')}
           rules={[{ required: true }]}
         >
-          <Input.TextArea showCount />
+          <Input.TextArea showCount rows={4} />
         </Form.Item>
       </Col>
     </Row>

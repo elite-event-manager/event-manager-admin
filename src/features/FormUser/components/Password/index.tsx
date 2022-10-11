@@ -4,8 +4,8 @@ import { t } from 'languages'
 
 export const PasswordSection = () => {
   return (
-    <Row>
-      <Col span={6}>
+    <Row gutter={[16, 4]}>
+      <Col xs={24} lg={9} xl={6}>
         <Form.Item
           name='password'
           label={t('userForm.fields.password')}
@@ -15,7 +15,7 @@ export const PasswordSection = () => {
           <Input.Password />
         </Form.Item>
       </Col>
-      <Col span={6} offset={1}>
+      <Col xs={24} lg={9} xl={6}>
         <Form.Item
           name='confirm'
           label={t('userForm.fields.rePassword')}

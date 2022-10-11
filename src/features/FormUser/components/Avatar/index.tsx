@@ -21,7 +21,7 @@ export const AvatarSection = ({ avatarValue }: I_AvatarSectionProps) => {
 
   return (
     <Row>
-      <Col span={13}>
+      <Col xs={24} lg={18} xl={12}>
         <Form.Item
           name='avatar'
           label={t('userForm.fields.avatar')}

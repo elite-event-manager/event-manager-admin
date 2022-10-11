@@ -13,7 +13,7 @@ export const StatusSection = () => {
 
   if (statusesData) {
     return (
-      <Col span={6}>
+      <Col xs={24} lg={9} xl={6}>
         <Form.Item name='status' label={t('userForm.fields.status')} rules={[{ required: true }]}>
           <Select>
             {statusesData.data.map((status) => (

@@ -96,5 +96,5 @@ export const UsersTable = () => {
     )
   }
 
-  return <ErrorFeedback />
+  return <ErrorFeedback relative />
 }

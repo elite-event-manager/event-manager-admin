@@ -1,7 +1,7 @@
 import { Breadcrumb, Divider } from 'antd'
 import { Link } from 'react-router-dom'
 
-import { UpdateUserForm } from 'features/UserForm'
+import { FormUpdateUser } from 'features/FormUser'
 import { t } from 'languages'
 import * as C from 'styles/components'
 
@@ -16,7 +16,7 @@ export const UpdateUser = () => {
       </Breadcrumb>
       <Divider />
       <C.WrapperPage>
-        <UpdateUserForm />
+        <FormUpdateUser />
       </C.WrapperPage>
     </div>
   )
