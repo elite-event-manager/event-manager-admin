@@ -32,6 +32,7 @@
   ],
   "plugins": ["stylelint-order"],
   "rules": {
+    "value-keyword-case": null,
     "color-function-notation": null,
     "no-empty-source": null
   }

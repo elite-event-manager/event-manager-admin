@@ -1,7 +1,6 @@
-import { LeftOutlined, LogoutOutlined } from '@ant-design/icons'
+import { LeftOutlined } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import { AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import { T_MenuItem } from './models'
@@ -12,89 +11,95 @@ import {
   variantsSidebarWrapper,
   variantsListItemIcon,
   variantsListItemText,
-  variantsProfileInfo,
-  variantsProfileLogout,
 } from './variants'
 
+import { useActions } from 'hooks/useActions'
+import { useMediaQuery } from 'hooks/useMediaQuery'
+import { useStoreSelector } from 'hooks/useStoreSelector'
 import { t } from 'languages'
-import { I_Profile } from 'store/profile'
+import { E_MediaQuery } from 'styles/theme'
 
 interface I_SidebarProps {
   items: T_MenuItem[]
-  profile: I_Profile
+  selectedItem: string
 }
 
-export const Sidebar = ({ items, profile }: I_SidebarProps) => {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+export const Sidebar = ({ items, selectedItem }: I_SidebarProps) => {
+  const { isOpen, isCollapsed } = useStoreSelector((state) => state.sidebar)
+  const isMobile = useMediaQuery(E_MediaQuery.md)
+  const { closeSidebar, toggleSidebarCollapse } = useActions()
 
-  const toggleCollapse = () => {
-    setIsCollapsed((prev) => !prev)
+  const handleClose = () => {
+    closeSidebar()
+  }
+
+  const handleToggleCollapse = () => {
+    toggleSidebarCollapse()
   }
 
   return (
-    <S.SidebarWrapper
-      animate={isCollapsed ? 'collapsed' : 'opened'}
-      variants={variantsSidebarWrapper}
-    >
-      <S.SidebarInner>
-        <S.SidebarLabel isCollapsed={isCollapsed}>
-          <S.SidebarTitle animate={isCollapsed ? 'collapsed' : 'opened'} variants={variantsTitle}>
-            Event Manager
-          </S.SidebarTitle>
-          <S.SidebarCollapse
+    <AnimatePresence>
+      {(!isMobile || isOpen) && (
+        <>
+          <S.SidebarWrapper
+            initial={{ x: isCollapsed ? -90 : -250 }}
             animate={isCollapsed ? 'collapsed' : 'opened'}
-            variants={variantsCollapse}
-            onClick={toggleCollapse}
+            exit={{ x: isCollapsed ? -90 : -250 }}
+            variants={variantsSidebarWrapper}
           >
-            <LeftOutlined />
-          </S.SidebarCollapse>
-        </S.SidebarLabel>
-        <S.SidebarList>
-          {items.map((item) => (
-            <Link key={item.key} to={item.to}>
-              <Tooltip placement='right' title={t(item.label)}>
-                <S.SidebarListItem>
-                  <S.SidebarListItemIcon
-                    animate={isCollapsed ? 'collapsed' : 'opened'}
-                    variants={variantsListItemIcon}
-                  >
-                    {item.icon}
-                  </S.SidebarListItemIcon>
-                  <AnimatePresence>
-                    <S.SidebarListItemText
-                      animate={isCollapsed ? 'collapsed' : 'opened'}
-                      variants={variantsListItemText}
-                    >
-                      {t(item.label)}
-                    </S.SidebarListItemText>
-                  </AnimatePresence>
-                </S.SidebarListItem>
-              </Tooltip>
-            </Link>
-          ))}
-        </S.SidebarList>
-      </S.SidebarInner>
-      <S.SidebarProfile>
-        <S.SidebarProfileInfo
-          animate={isCollapsed ? 'collapsed' : 'opened'}
-          variants={variantsProfileInfo}
-        >
-          <S.SidebarProfileAvatar src={profile.avatar.url} />
-          <S.SidebarProfileLabel>
-            <span>
-              {profile.lastName} {profile.firstName}
-            </span>
-            <br />
-            <span>{profile.role}</span>
-          </S.SidebarProfileLabel>
-        </S.SidebarProfileInfo>
-        <S.SidebarProfileLogout
-          animate={isCollapsed ? 'collapsed' : 'opened'}
-          variants={variantsProfileLogout}
-        >
-          <LogoutOutlined />
-        </S.SidebarProfileLogout>
-      </S.SidebarProfile>
-    </S.SidebarWrapper>
+            <S.SidebarInner>
+              <S.SidebarLabel isCollapsed={isCollapsed}>
+                <S.SidebarTitle
+                  initial={false}
+                  animate={isCollapsed ? 'collapsed' : 'opened'}
+                  variants={variantsTitle}
+                >
+                  {t('dashboard.sideMenu.title')}
+                </S.SidebarTitle>
+                <S.SidebarCollapse
+                  animate={isCollapsed ? 'collapsed' : 'opened'}
+                  variants={variantsCollapse}
+                  onClick={handleToggleCollapse}
+                >
+                  <LeftOutlined />
+                </S.SidebarCollapse>
+              </S.SidebarLabel>
+              <S.SidebarList>
+                {items.map((item) => (
+                  <Link key={item.key} to={item.to}>
+                    <Tooltip placement='right' title={isCollapsed && t(item.label)}>
+                      <S.SidebarListItem isActive={item.key === selectedItem}>
+                        <S.SidebarListItemIcon
+                          animate={isCollapsed ? 'collapsed' : 'opened'}
+                          variants={variantsListItemIcon}
+                        >
+                          {item.icon}
+                        </S.SidebarListItemIcon>
+                        <S.SidebarListItemTextOverflow>
+                          <S.SidebarListItemText
+                            animate={isCollapsed ? 'collapsed' : 'opened'}
+                            variants={variantsListItemText}
+                          >
+                            {t(item.label)}
+                          </S.SidebarListItemText>
+                        </S.SidebarListItemTextOverflow>
+                      </S.SidebarListItem>
+                    </Tooltip>
+                  </Link>
+                ))}
+              </S.SidebarList>
+            </S.SidebarInner>
+          </S.SidebarWrapper>
+          {isMobile && (
+            <S.SidebarOverlay
+              onClick={handleClose}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+          )}
+        </>
+      )}
+    </AnimatePresence>
   )
 }

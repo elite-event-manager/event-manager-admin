@@ -16,6 +16,7 @@
   },
   "dashboard": {
     "sideMenu": {
+      "title": "Event Manager",
       "users": "Пользователи",
       "events": "Мероприятия",
       "logout": "Выйти"

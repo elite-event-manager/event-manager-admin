@@ -1,20 +1,19 @@
 import { useEffect } from 'react'
 
-import { useStoreDispatch } from 'hooks/useStoreDispatch'
+import { useActions } from 'hooks/useActions'
 import { AppRoutes } from 'routes'
 import { authAPI } from 'services/auth'
-import { signIn } from 'store/profile'
 
 export const App = () => {
-  const dispatch = useStoreDispatch()
+  const { signIn } = useActions()
   const { isSuccess, data, isFetching } = authAPI.useCheckQuery()
 
   // Успешная аутентификация
   useEffect(() => {
     if (data && isSuccess) {
-      dispatch(signIn(data))
+      signIn(data)
     }
-  }, [data, dispatch, isSuccess])
+  }, [data, isSuccess, signIn])
 
   if (isFetching) return null
   return <AppRoutes />

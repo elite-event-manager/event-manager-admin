@@ -14,6 +14,7 @@ import storage from 'redux-persist/lib/storage'
 import { appSlice } from './app'
 import { profileSlice } from './profile'
 
+import { sidebarSlice } from 'features/Sidebar/slice'
 import { rtkQueryErrorLogger } from 'middlewares/rtkQueryErrorLogger'
 import { authAPI } from 'services/auth'
 import { dictionariesAPI } from 'services/dictionaries'
@@ -30,6 +31,9 @@ const rootReducer = combineReducers({
   // App slices
   [profileSlice.name]: profileSlice.reducer,
   [appSlice.name]: appSlice.reducer,
+
+  // Feature slices
+  [sidebarSlice.name]: sidebarSlice.reducer,
 
   // Services
   [authAPI.reducerPath]: authAPI.reducer,

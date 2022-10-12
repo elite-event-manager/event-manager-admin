@@ -22,4 +22,4 @@ export const appSlice = createSlice({
   },
 })
 
-export const { switchLanguage } = appSlice.actions
+export const appActions = appSlice.actions

@@ -2,19 +2,33 @@ import { Variants } from 'framer-motion'
 
 export const variantsSidebarWrapper: Variants = {
   collapsed: {
+    x: 0,
     width: 88,
+    transition: {
+      stiffness: 0,
+    },
   },
   opened: {
+    x: 0,
     width: 240,
+    transition: {
+      stiffness: 0,
+    },
   },
 }
 
 export const variantsTitle: Variants = {
   collapsed: {
-    x: -300,
+    x: -240,
+    transition: {
+      stiffness: 0,
+    },
   },
   opened: {
     x: 0,
+    transition: {
+      stiffness: 0,
+    },
   },
 }
 
@@ -22,46 +36,44 @@ export const variantsCollapse: Variants = {
   collapsed: {
     x: 0,
     rotate: 180,
+    transition: {
+      stiffness: 0,
+    },
   },
   opened: {
     x: 160,
+    transition: {
+      stiffness: 0,
+    },
   },
 }
 
 export const variantsListItemIcon: Variants = {
   collapsed: {
-    x: 4,
+    x: 3,
+    transition: {
+      stiffness: 0,
+    },
   },
   opened: {
     x: 0,
+    transition: {
+      stiffness: 0,
+    },
   },
 }
 
 export const variantsListItemText: Variants = {
   collapsed: {
-    x: 24,
-    maxWidth: 0,
+    x: -240,
+    transition: {
+      stiffness: 0,
+    },
   },
   opened: {
     x: 24,
-    maxWidth: '100%',
-  },
-}
-
-export const variantsProfileInfo: Variants = {
-  collapsed: {
-    x: -300,
-  },
-  opened: {
-    x: 0,
-  },
-}
-
-export const variantsProfileLogout: Variants = {
-  collapsed: {
-    x: 0,
-  },
-  opened: {
-    x: 164,
+    transition: {
+      stiffness: 0,
+    },
   },
 }

@@ -47,4 +47,4 @@ export const profileSlice = createSlice({
   },
 })
 
-export const { signIn, logout } = profileSlice.actions
+export const profileActions = profileSlice.actions

@@ -1,11 +1,14 @@
 import { motion } from 'framer-motion'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 interface I_StyledComponentProps {
   isCollapsed: boolean
 }
 
 export const SidebarWrapper = styled(motion.div)`
+  position: fixed;
+  z-index: 100;
+
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -13,10 +16,12 @@ export const SidebarWrapper = styled(motion.div)`
 
   min-width: 88px;
   max-width: 240px;
+  height: 100vh;
 
   color: #ffffffa6;
 
   background-color: #1a1325;
+  box-shadow: rgba(0, 0, 0, 15%) 1.95px 1.95px 2.6px;
 `
 
 export const SidebarInner = styled.div`
@@ -24,8 +29,6 @@ export const SidebarInner = styled.div`
   flex-direction: column;
   gap: 16px;
   justify-content: center;
-
-  padding: 16px;
 `
 
 export const SidebarLabel = styled.div<I_StyledComponentProps>`
@@ -33,6 +36,8 @@ export const SidebarLabel = styled.div<I_StyledComponentProps>`
 
   display: flex;
   align-items: center;
+
+  padding: 16px 16px 0;
 `
 
 export const SidebarTitle = styled(motion.span)`
@@ -58,7 +63,7 @@ export const SidebarCollapse = styled(motion.span)`
 
   border-radius: 8px;
 
-  transition: color, background ease 500ms;
+  transition: color ease 500ms, background ease 500ms;
 
   :hover {
     color: #fff;
@@ -68,92 +73,84 @@ export const SidebarCollapse = styled(motion.span)`
 `
 
 export const SidebarList = styled.ul`
+  overflow-x: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  height: calc(100vh - 80px);
+  padding-inline: 16px;
+
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #1e1939;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #fff;
+  }
 `
 
-export const SidebarListItem = styled.li`
+export const SidebarListItem = styled.li<{ isActive: boolean }>`
   position: relative;
 
   width: 100%;
+  min-width: 56px;
   height: 56px;
   padding: 16px;
 
   border-radius: 8px;
 
-  transition-timing-function: ease;
-  transition-duration: 500ms;
-  transition-property: color background;
+  transition: color ease 500ms, background ease 500ms;
 
-  :hover {
-    color: #fff;
+  ${({ isActive }) =>
+    isActive
+      ? css`
+          background: #51258f;
+          color: #fff;
+        `
+      : css`
+          :hover {
+            color: #fff;
 
-    background: #24163a;
-  }
+            background: #24163a;
+          }
+        `}
 `
 
 export const SidebarListItemIcon = styled(motion.span)`
   position: absolute;
 `
 
+export const SidebarListItemTextOverflow = styled.div`
+  position: relative;
+
+  overflow: hidden;
+
+  height: 100%;
+  margin-left: 24px;
+`
+
 export const SidebarListItemText = styled(motion.span)`
   position: absolute;
+  left: -24px;
 
   overflow: hidden;
 
   width: 190px;
-  height: 100%;
 `
+export const SidebarOverlay = styled(motion.div)`
+  position: fixed;
+  z-index: 90;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 
-export const SidebarProfile = styled.div`
-  position: relative;
-
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-
-  height: 68px;
-  padding: 16px;
-
-  background: #24163a;
-`
-
-export const SidebarProfileInfo = styled(motion.div)`
-  position: absolute;
-
-  display: flex;
-  gap: 8px;
-
-  width: 160px;
-`
-
-export const SidebarProfileAvatar = styled.img`
-  width: 50px;
-  height: 50px;
-
-  object-fit: cover;
-  border-radius: 50%;
-`
-
-export const SidebarProfileLabel = styled.div``
-export const SidebarProfileLogout = styled(motion.div)`
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 48px;
-  height: 48px;
-
-  border-radius: 8px;
-
-  transition: color, background ease 500ms;
-
-  :hover {
-    color: #fff;
-
-    background: #391085;
-  }
+  background-color: #00000080;
+  backdrop-filter: blur(2px);
 `

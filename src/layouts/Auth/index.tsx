@@ -5,14 +5,13 @@ import { useEffect } from 'react'
 import { I_AuthForm } from './models/form'
 import * as S from './styles'
 
-import { useStoreDispatch } from 'hooks/useStoreDispatch'
+import { useActions } from 'hooks/useActions'
 import { t } from 'languages'
 import { authAPI } from 'services/auth'
-import { signIn } from 'store/profile'
 import { maskPatterns } from 'utils/forms/maskPatterns'
 
 export const AuthLayout = () => {
-  const dispatch = useStoreDispatch()
+  const { signIn } = useActions()
   const [fetchSignIn, { data, isSuccess }] = authAPI.useSignInMutation()
 
   const [form] = Form.useForm<I_AuthForm>()
@@ -24,9 +23,9 @@ export const AuthLayout = () => {
   // Успешная аутентификация
   useEffect(() => {
     if (data && isSuccess) {
-      dispatch(signIn(data))
+      signIn(data)
     }
-  }, [data, dispatch, isSuccess])
+  }, [data, isSuccess, signIn])
 
   return (
     <S.Layout>

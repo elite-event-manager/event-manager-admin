@@ -5,7 +5,7 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/dist/query'
 
-import { logout } from 'store/profile'
+import { profileActions } from 'store/profile'
 import { LocalStorage } from 'utils/helpers/localStorage'
 
 const baseQuery = fetchBaseQuery({
@@ -28,7 +28,7 @@ export const baseQueryWithReAuth: BaseQueryFn<
   const result = await baseQuery(args, api, extraOptions)
 
   if (result.error && result.error.status === 401) {
-    api.dispatch(logout())
+    api.dispatch(profileActions.logout())
   }
   return result
 }

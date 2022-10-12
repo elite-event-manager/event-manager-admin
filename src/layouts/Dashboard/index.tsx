@@ -1,27 +1,28 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { Modal, Layout, Menu } from 'antd'
-import { ReactNode, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Modal } from 'antd'
+import { ReactNode } from 'react'
 
 import { menuItems } from './data'
 import * as S from './styles'
+import { variantsLayoutContent } from './variants'
 
+import { Header } from 'features/Header'
 import { Sidebar } from 'features/Sidebar'
-import { useStoreDispatch } from 'hooks/useStoreDispatch'
+import { useActions } from 'hooks/useActions'
+import { useMediaQuery } from 'hooks/useMediaQuery'
 import { useStoreSelector } from 'hooks/useStoreSelector'
 import { t } from 'languages'
-import { logout } from 'store/profile'
+import { E_MediaQuery } from 'styles/theme'
 
 interface I_DashboardLayout {
   children: ReactNode
 }
 
 export const DashboardLayout = ({ children }: I_DashboardLayout) => {
-  const dispatch = useStoreDispatch()
-  const profile = useStoreSelector((state) => state.profile)
-  const location = useLocation()
+  const isSidebarCollapsed = useStoreSelector((state) => state.sidebar.isCollapsed)
+  const { logout } = useActions()
 
-  const [isCollapsed, setCollapsed] = useState(false)
+  const isMatch = useMediaQuery(E_MediaQuery.md)
 
   const handleLogout = () => {
     Modal.confirm({
@@ -32,31 +33,25 @@ export const DashboardLayout = ({ children }: I_DashboardLayout) => {
       cancelText: t('modal.confirm.logout.cancel'),
       maskClosable: true,
       onOk: () => {
-        dispatch(logout())
+        logout()
       },
     })
   }
 
-  const handleMenuItem = (key: string) => {
-    switch (key) {
-      case 'logout':
-        handleLogout()
-    }
-  }
-
-  const handleCollapse = () => {
-    setCollapsed((prev) => !prev)
-  }
-
   return (
-    <S.MainLayout>
-      <Sidebar profile={profile} items={menuItems} />
-      <Layout>
-        <S.ContentLayout>{children}</S.ContentLayout>
-        <S.FooterLayout>
+    <S.Layout>
+      <Sidebar items={menuItems} selectedItem={location.pathname.split('/')[1]} />
+      <S.LayoutWrapper
+        initial={false}
+        animate={isMatch ? 'mobile' : isSidebarCollapsed ? 'collapsed' : 'opened'}
+        variants={variantsLayoutContent}
+      >
+        <Header />
+        <S.LayoutContent>{children}</S.LayoutContent>
+        <S.LayoutFooter>
           {t('app.copyright')} — {t('app.title')} <b>{APP_VERSION}</b>
-        </S.FooterLayout>
-      </Layout>
-    </S.MainLayout>
+        </S.LayoutFooter>
+      </S.LayoutWrapper>
+    </S.Layout>
   )
 }
