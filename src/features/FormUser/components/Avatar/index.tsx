@@ -17,8 +17,6 @@ interface I_AvatarSectionProps {
 export const AvatarSection = ({ avatarValue }: I_AvatarSectionProps) => {
   const [fetchUpload] = filesAPI.useUploadFileMutation()
 
-  console.log(avatarValue)
-
   return (
     <Row>
       <Col xs={24} lg={18} xl={12}>

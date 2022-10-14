@@ -9,4 +9,5 @@ export enum E_Routes {
 
 export type T_Params = {
   userId: string
+  eventId: string
 }

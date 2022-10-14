@@ -18,7 +18,7 @@ export const Users = () => {
   return (
     <div>
       <Breadcrumb>
-        <Breadcrumb.Item>{t('breadcrumbs.users')}</Breadcrumb.Item>
+        <Breadcrumb.Item>{t('dashboard.header.users')}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
       <C.WrapperPage>

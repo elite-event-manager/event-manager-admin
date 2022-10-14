@@ -10,9 +10,9 @@ export const CreateUser = () => {
     <div>
       <Breadcrumb>
         <Breadcrumb.Item>
-          <Link to='/users'>{t('breadcrumbs.users')}</Link>
+          <Link to='/users'>{t('dashboard.header.users')}</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>{t('breadcrumbs.createUser')}</Breadcrumb.Item>
+        <Breadcrumb.Item>{t('dashboard.header.createUser')}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
       <C.WrapperPage>

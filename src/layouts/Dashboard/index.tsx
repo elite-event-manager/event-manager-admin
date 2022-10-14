@@ -1,5 +1,3 @@
-import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { Modal } from 'antd'
 import { ReactNode } from 'react'
 
 import { menuItems } from './data'
@@ -8,7 +6,6 @@ import { variantsLayoutContent } from './variants'
 
 import { Header } from 'features/Header'
 import { Sidebar } from 'features/Sidebar'
-import { useActions } from 'hooks/useActions'
 import { useMediaQuery } from 'hooks/useMediaQuery'
 import { useStoreSelector } from 'hooks/useStoreSelector'
 import { t } from 'languages'
@@ -20,23 +17,8 @@ interface I_DashboardLayout {
 
 export const DashboardLayout = ({ children }: I_DashboardLayout) => {
   const isSidebarCollapsed = useStoreSelector((state) => state.sidebar.isCollapsed)
-  const { logout } = useActions()
 
   const isMatch = useMediaQuery(E_MediaQuery.md)
-
-  const handleLogout = () => {
-    Modal.confirm({
-      title: t('modal.confirm.logout.title'),
-      icon: <ExclamationCircleOutlined />,
-      content: t('modal.confirm.logout.content'),
-      okText: t('modal.confirm.logout.ok'),
-      cancelText: t('modal.confirm.logout.cancel'),
-      maskClosable: true,
-      onOk: () => {
-        logout()
-      },
-    })
-  }
 
   return (
     <S.Layout>

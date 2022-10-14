@@ -27,7 +27,7 @@ export const UsersTable = () => {
   // Получение пользователей
   const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery()
 
-  // Получения словаря со статусами
+  // Получения словаря с ролями
   const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
 
   const handleRemove = (userId: T_UserId) => {

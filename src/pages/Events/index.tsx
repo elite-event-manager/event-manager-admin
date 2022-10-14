@@ -7,7 +7,7 @@ export const Events = () => {
   return (
     <div>
       <Breadcrumb>
-        <Breadcrumb.Item>{t('breadcrumbs.events')}</Breadcrumb.Item>
+        <Breadcrumb.Item>{t('dashboard.header.events')}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
 

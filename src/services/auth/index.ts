@@ -17,7 +17,6 @@ export const authAPI = createApi({
       }),
       transformResponse: (response: I_AuthResponse) => {
         if (response.data) {
-          console.log(response.data.user.avatar)
           response.data.user.avatar.url =
             import.meta.env.VITE_SERVER_API + response.data.user.avatar.url
         }
@@ -28,6 +27,13 @@ export const authAPI = createApi({
       query: () => ({
         url: `auth/check`,
       }),
+      transformResponse: (response: I_AuthResponse) => {
+        if (response.data) {
+          response.data.user.avatar.url =
+            import.meta.env.VITE_SERVER_API + response.data.user.avatar.url
+        }
+        return response
+      },
     }),
   }),
 })

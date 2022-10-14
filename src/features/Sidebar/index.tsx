@@ -54,7 +54,7 @@ export const Sidebar = ({ items, selectedItem }: I_SidebarProps) => {
                   animate={isCollapsed ? 'collapsed' : 'opened'}
                   variants={variantsTitle}
                 >
-                  {t('dashboard.sideMenu.title')}
+                  {t('dashboard.sidebar.title')}
                 </S.SidebarTitle>
                 <S.SidebarCollapse
                   animate={isCollapsed ? 'collapsed' : 'opened'}
