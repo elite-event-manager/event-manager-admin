@@ -19,4 +19,5 @@ export const WrapperPage = styled.div`
   padding: 24px;
 
   background-color: white;
+  box-shadow: rgba(0, 0, 0, 16%) 0 1px 4px;
 `

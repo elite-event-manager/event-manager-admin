@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components'
 export const GlobalStyles = createGlobalStyle`
   html,
   body {
-    overflow-x: hidden;
+    overflow: hidden;
     
     min-height:  100vh;
     margin: 0;
@@ -13,18 +13,6 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: 400;
     
     background-color: #F0F2F5;
-    
-    ::-webkit-scrollbar {
-      width: 2px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background-color: #1E1939;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: #fff;
-    }
   }
 
   * {

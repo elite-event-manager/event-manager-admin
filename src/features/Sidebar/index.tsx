@@ -5,13 +5,6 @@ import { Link } from 'react-router-dom'
 
 import { T_MenuItem } from './models'
 import * as S from './styles'
-import {
-  variantsCollapse,
-  variantsTitle,
-  variantsSidebarWrapper,
-  variantsListItemIcon,
-  variantsListItemText,
-} from './variants'
 
 import { useActions } from 'hooks/useActions'
 import { useMediaQuery } from 'hooks/useMediaQuery'
@@ -41,26 +34,13 @@ export const Sidebar = ({ items, selectedItem }: I_SidebarProps) => {
     <AnimatePresence>
       {(!isMobile || isOpen) && (
         <>
-          <S.SidebarWrapper
-            initial={{ x: isCollapsed ? -90 : -250 }}
-            animate={isCollapsed ? 'collapsed' : 'opened'}
-            exit={{ x: isCollapsed ? -90 : -250 }}
-            variants={variantsSidebarWrapper}
-          >
+          <S.SidebarWrapper isMobile={isMobile} isCollapsed={isCollapsed}>
             <S.SidebarInner>
-              <S.SidebarLabel isCollapsed={isCollapsed}>
-                <S.SidebarTitle
-                  initial={false}
-                  animate={isCollapsed ? 'collapsed' : 'opened'}
-                  variants={variantsTitle}
-                >
+              <S.SidebarLabel>
+                <S.SidebarTitle isCollapsed={isCollapsed}>
                   {t('dashboard.sidebar.title')}
                 </S.SidebarTitle>
-                <S.SidebarCollapse
-                  animate={isCollapsed ? 'collapsed' : 'opened'}
-                  variants={variantsCollapse}
-                  onClick={handleToggleCollapse}
-                >
+                <S.SidebarCollapse isCollapsed={isCollapsed} onClick={handleToggleCollapse}>
                   <LeftOutlined />
                 </S.SidebarCollapse>
               </S.SidebarLabel>
@@ -69,17 +49,11 @@ export const Sidebar = ({ items, selectedItem }: I_SidebarProps) => {
                   <Link key={item.key} to={item.to}>
                     <Tooltip placement='right' title={isCollapsed && t(item.label)}>
                       <S.SidebarListItem isActive={item.key === selectedItem}>
-                        <S.SidebarListItemIcon
-                          animate={isCollapsed ? 'collapsed' : 'opened'}
-                          variants={variantsListItemIcon}
-                        >
+                        <S.SidebarListItemIcon isCollapsed={isCollapsed}>
                           {item.icon}
                         </S.SidebarListItemIcon>
                         <S.SidebarListItemTextOverflow>
-                          <S.SidebarListItemText
-                            animate={isCollapsed ? 'collapsed' : 'opened'}
-                            variants={variantsListItemText}
-                          >
+                          <S.SidebarListItemText isCollapsed={isCollapsed}>
                             {t(item.label)}
                           </S.SidebarListItemText>
                         </S.SidebarListItemTextOverflow>
@@ -90,14 +64,7 @@ export const Sidebar = ({ items, selectedItem }: I_SidebarProps) => {
               </S.SidebarList>
             </S.SidebarInner>
           </S.SidebarWrapper>
-          {isMobile && (
-            <S.SidebarOverlay
-              onClick={handleClose}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-          )}
+          {isMobile && <S.SidebarOverlay onClick={handleClose} />}
         </>
       )}
     </AnimatePresence>

@@ -76,6 +76,7 @@ export const UsersTable = () => {
     return (
       <>
         <Table
+          scroll={{ x: 'max-content' }}
           columns={getColumns({
             handleRemove,
             handleSearch,

@@ -1,14 +1,19 @@
 import { Variants } from 'framer-motion'
 
-export const variantsSidebarWrapper: Variants = {
-  collapsed: {
+export enum E_SidebarVariant {
+  collapsed = 'collapsed',
+  opened = 'opened',
+}
+
+export const sidebarWrapperVariants: Variants = {
+  [E_SidebarVariant.collapsed]: {
     x: 0,
     width: 88,
     transition: {
       stiffness: 0,
     },
   },
-  opened: {
+  [E_SidebarVariant.opened]: {
     x: 0,
     width: 240,
     transition: {
@@ -17,14 +22,14 @@ export const variantsSidebarWrapper: Variants = {
   },
 }
 
-export const variantsTitle: Variants = {
-  collapsed: {
+export const sidebarTitleVariants: Variants = {
+  [E_SidebarVariant.collapsed]: {
     x: -240,
     transition: {
       stiffness: 0,
     },
   },
-  opened: {
+  [E_SidebarVariant.opened]: {
     x: 0,
     transition: {
       stiffness: 0,
@@ -32,15 +37,15 @@ export const variantsTitle: Variants = {
   },
 }
 
-export const variantsCollapse: Variants = {
-  collapsed: {
+export const sidebarCollapseVariants: Variants = {
+  [E_SidebarVariant.collapsed]: {
     x: 0,
     rotate: 180,
     transition: {
       stiffness: 0,
     },
   },
-  opened: {
+  [E_SidebarVariant.opened]: {
     x: 160,
     transition: {
       stiffness: 0,
@@ -48,14 +53,14 @@ export const variantsCollapse: Variants = {
   },
 }
 
-export const variantsListItemIcon: Variants = {
-  collapsed: {
+export const sidebarListItemIconVariants: Variants = {
+  [E_SidebarVariant.collapsed]: {
     x: 3,
     transition: {
       stiffness: 0,
     },
   },
-  opened: {
+  [E_SidebarVariant.opened]: {
     x: 0,
     transition: {
       stiffness: 0,
@@ -63,14 +68,14 @@ export const variantsListItemIcon: Variants = {
   },
 }
 
-export const variantsListItemText: Variants = {
-  collapsed: {
+export const sidebarListItemTextVariants: Variants = {
+  [E_SidebarVariant.collapsed]: {
     x: -240,
     transition: {
       stiffness: 0,
     },
   },
-  opened: {
+  [E_SidebarVariant.opened]: {
     x: 24,
     transition: {
       stiffness: 0,

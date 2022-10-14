@@ -1,20 +1,23 @@
 import { motion } from 'framer-motion'
 import styled, { css } from 'styled-components'
 
-interface I_StyledComponentProps {
+import * as m from './motion'
+
+interface I_SidebarProps {
   isCollapsed: boolean
 }
 
-export const SidebarWrapper = styled(motion.div)`
-  position: fixed;
+export const SidebarWrapper = styled(motion.div).attrs<I_SidebarProps>(({ isCollapsed }) =>
+  m.sidebarWrapperAttrs(isCollapsed),
+)<{ isMobile: boolean; isCollapsed: boolean }>`
   z-index: 100;
 
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   justify-content: space-between;
 
-  min-width: 88px;
   max-width: 240px;
   height: 100vh;
 
@@ -22,6 +25,16 @@ export const SidebarWrapper = styled(motion.div)`
 
   background-color: #1a1325;
   box-shadow: rgba(0, 0, 0, 15%) 1.95px 1.95px 2.6px;
+
+  ${({ isMobile }) =>
+    isMobile
+      ? css`
+          position: absolute;
+          min-width: 88px;
+        `
+      : css`
+          position: relative;
+        `}
 `
 
 export const SidebarInner = styled.div`
@@ -31,7 +44,7 @@ export const SidebarInner = styled.div`
   justify-content: center;
 `
 
-export const SidebarLabel = styled.div<I_StyledComponentProps>`
+export const SidebarLabel = styled.div`
   position: relative;
 
   display: flex;
@@ -40,7 +53,9 @@ export const SidebarLabel = styled.div<I_StyledComponentProps>`
   padding: 16px 16px 0;
 `
 
-export const SidebarTitle = styled(motion.span)`
+export const SidebarTitle = styled(motion.span).attrs<I_SidebarProps>(({ isCollapsed }) =>
+  m.sidebarTitleAttrs(isCollapsed),
+)<I_SidebarProps>`
   position: absolute;
 
   width: 156px;
@@ -51,7 +66,9 @@ export const SidebarTitle = styled(motion.span)`
   text-transform: uppercase;
 `
 
-export const SidebarCollapse = styled(motion.span)`
+export const SidebarCollapse = styled(motion.span).attrs<I_SidebarProps>(({ isCollapsed }) =>
+  m.sidebarCollapseAttrs(isCollapsed),
+)<I_SidebarProps>`
   cursor: pointer;
 
   display: flex;
@@ -122,7 +139,9 @@ export const SidebarListItem = styled.li<{ isActive: boolean }>`
         `}
 `
 
-export const SidebarListItemIcon = styled(motion.span)`
+export const SidebarListItemIcon = styled(motion.span).attrs<I_SidebarProps>(({ isCollapsed }) =>
+  m.sidebarListItemIconAttrs(isCollapsed),
+)<I_SidebarProps>`
   position: absolute;
 `
 
@@ -135,7 +154,9 @@ export const SidebarListItemTextOverflow = styled.div`
   margin-left: 24px;
 `
 
-export const SidebarListItemText = styled(motion.span)`
+export const SidebarListItemText = styled(motion.span).attrs<I_SidebarProps>(({ isCollapsed }) =>
+  m.sidebarListItemTextAttrs(isCollapsed),
+)<I_SidebarProps>`
   position: absolute;
   left: -24px;
 
@@ -143,7 +164,7 @@ export const SidebarListItemText = styled(motion.span)`
 
   width: 190px;
 `
-export const SidebarOverlay = styled(motion.div)`
+export const SidebarOverlay = styled(motion.div).attrs(m.sidebarOverlayAttrs)`
   position: fixed;
   z-index: 90;
   top: 0;

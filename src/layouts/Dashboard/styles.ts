@@ -13,14 +13,20 @@ export const LayoutWrapper = styled(motion.div)`
   flex: auto;
   flex-direction: column;
 
-  margin-left: 240px;
+  width: 100%;
+  height: 100vh;
 
   background: #f0f2f5;
 `
 
+export const LayoutContainer = styled.div`
+  overflow: auto;
+
+  padding: 16px;
+`
+
 export const LayoutContent = styled.div`
   height: 200vh;
-  margin: 16px;
 `
 export const LayoutFooter = styled.div`
   text-align: center;
