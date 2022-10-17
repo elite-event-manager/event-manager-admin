@@ -1,6 +1,6 @@
 import { ExclamationCircleOutlined } from '@ant-design/icons'
 import { Table, Modal, InputRef } from 'antd'
-import { FilterConfirmProps } from 'antd/lib/table/interface'
+import { ColumnsType, FilterConfirmProps } from 'antd/lib/table/interface'
 import { useRef, useState } from 'react'
 
 import { getColumns } from './data'
@@ -10,6 +10,7 @@ import { Loader } from 'components/Loader'
 import { ViewUserModal } from 'components/Modals'
 import { t } from 'languages'
 import { T_UserId } from 'models/shared/user'
+import { T_UserRecord } from 'models/user'
 import { dictionariesAPI } from 'services/dictionaries'
 import { usersAPI } from 'services/users'
 import { formatUserToDataSource } from 'utils/helpers/table'
@@ -77,16 +78,19 @@ export const UsersTable = () => {
       <>
         <Table
           scroll={{ x: 'max-content' }}
-          columns={getColumns({
-            handleRemove,
-            handleSearch,
-            handleReset,
-            searchInput,
-            searchText,
-            roles: rolesData.data,
-            handleOpenModalUser,
-          })}
+          columns={
+            getColumns({
+              handleRemove,
+              handleSearch,
+              handleReset,
+              searchInput,
+              searchText,
+              roles: rolesData.data,
+              handleOpenModalUser,
+            }) as ColumnsType<T_UserRecord>
+          }
           dataSource={dataTable}
+          pagination={{ position: ['bottomLeft', 'topLeft'] }}
         />
         <ViewUserModal
           userId={modalUserId}

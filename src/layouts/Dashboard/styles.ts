@@ -13,7 +13,7 @@ export const LayoutWrapper = styled(motion.div)`
   flex: auto;
   flex-direction: column;
 
-  width: 100%;
+  width: calc(100% - 240px);
   height: 100vh;
 
   background: #f0f2f5;

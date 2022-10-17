@@ -108,12 +108,6 @@ export const FormUpdateUser = () => {
           <Divider />
           <Form.Item>
             <Space>
-              <Button size='large' type='primary' htmlType='submit'>
-                {t('userForm.actions.update')}
-              </Button>
-              <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
-                {t('userForm.actions.cancel')}
-              </Button>
               <Button
                 onClick={handleOpenModalPassword}
                 size='large'
@@ -121,6 +115,12 @@ export const FormUpdateUser = () => {
                 htmlType='button'
               >
                 {t('userForm.actions.updatePassword')}
+              </Button>
+              <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
+                {t('userForm.actions.cancel')}
+              </Button>
+              <Button size='large' type='primary' htmlType='submit'>
+                {t('userForm.actions.update')}
               </Button>
             </Space>
           </Form.Item>

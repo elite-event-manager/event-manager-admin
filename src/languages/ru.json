@@ -18,7 +18,10 @@
     "sidebar": {
       "title": "Event Manager",
       "users": "Пользователи",
+      "request": "Заявки",
       "events": "Мероприятия",
+      "references": "Справки",
+      "partners": "Партнёры",
       "logout": "Выйти"
     },
     "header": {

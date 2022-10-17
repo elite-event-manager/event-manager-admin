@@ -11,7 +11,7 @@ import { T_CreateUserRequest, T_UpdateUserRequest } from 'models/user/forms'
 export const usersAPI = createApi({
   reducerPath: 'usersAPI',
   baseQuery: baseQueryWithReAuth,
-  tagTypes: ['users'],
+  tagTypes: ['users', 'user'],
   endpoints: (build) => ({
     getUsers: build.query<I_User[], void>({
       query: () => ({
@@ -28,7 +28,7 @@ export const usersAPI = createApi({
         response.avatar.url = import.meta.env.VITE_SERVER_API + response.avatar.url
         return response
       },
-      providesTags: ['users'],
+      providesTags: ['users', 'user'],
     }),
 
     createUser: build.mutation<I_User, T_CreateUserRequest>({
@@ -54,7 +54,7 @@ export const usersAPI = createApi({
         method: 'PUT',
         body: payload.user,
       }),
-      invalidatesTags: ['users'],
+      invalidatesTags: ['users', 'user'],
     }),
 
     deleteUser: build.mutation<void, T_UserId>({

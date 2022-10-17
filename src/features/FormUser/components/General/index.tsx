@@ -7,7 +7,15 @@ import { maskPatterns } from 'utils/forms/maskPatterns'
 export const GeneralSection = () => (
   <>
     <Row gutter={[16, 4]}>
-      <Col xs={24} lg={6} xl={4}>
+      <Col xs={24} lg={9} xl={6}>
+        <Form.Item name='phone' label={t('userForm.fields.phone')} rules={[{ required: true }]}>
+          <MaskedInput mask={maskPatterns.phone} />
+        </Form.Item>
+      </Col>
+    </Row>
+
+    <Row gutter={[16, 4]}>
+      <Col xs={24} lg={9} xl={6}>
         <Form.Item
           name='firstName'
           label={t('userForm.fields.firstName')}
@@ -16,18 +24,13 @@ export const GeneralSection = () => (
           <Input />
         </Form.Item>
       </Col>
-      <Col xs={24} lg={6} xl={4}>
+      <Col xs={24} lg={9} xl={6}>
         <Form.Item
           name='lastName'
           label={t('userForm.fields.lastName')}
           rules={[{ required: true }]}
         >
           <Input />
-        </Form.Item>
-      </Col>
-      <Col xs={24} lg={6} xl={4}>
-        <Form.Item name='phone' label={t('userForm.fields.phone')} rules={[{ required: true }]}>
-          <MaskedInput mask={maskPatterns.phone} />
         </Form.Item>
       </Col>
     </Row>
@@ -39,7 +42,7 @@ export const GeneralSection = () => (
           label={t('userForm.fields.description')}
           rules={[{ required: true }]}
         >
-          <Input.TextArea showCount rows={4} />
+          <Input.TextArea rows={4} />
         </Form.Item>
       </Col>
     </Row>

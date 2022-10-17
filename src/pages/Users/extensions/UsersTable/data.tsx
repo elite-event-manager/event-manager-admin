@@ -143,5 +143,6 @@ export const getColumns = ({
         </Tooltip>
       </Space>
     ),
+    align: 'center',
   },
 ]

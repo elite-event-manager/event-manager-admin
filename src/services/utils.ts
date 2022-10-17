@@ -5,6 +5,7 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/dist/query'
 
+import { T_Tokens } from 'models/shared/app'
 import { profileActions } from 'store/profile'
 import { LocalStorage } from 'utils/helpers/localStorage'
 
@@ -25,10 +26,26 @@ export const baseQueryWithReAuth: BaseQueryFn<
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-  const result = await baseQuery(args, api, extraOptions)
+  let result = await baseQuery(args, api, extraOptions)
 
   if (result.error && result.error.status === 401) {
-    api.dispatch(profileActions.logout())
+    const refreshToken = LocalStorage.getRefreshToken()
+    const refreshResult = await fetch(`${import.meta.env.VITE_SERVER_API}/auth/refresh`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    })
+
+    const response = await refreshResult.json()
+
+    if (response) {
+      LocalStorage.setAccessToken((response as T_Tokens).accessToken)
+      LocalStorage.setRefreshToken((response as T_Tokens).refreshToken)
+      result = await baseQuery(args, api, extraOptions)
+    } else {
+      api.dispatch(profileActions.logout())
+    }
   }
   return result
 }

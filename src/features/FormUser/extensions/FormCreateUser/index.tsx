@@ -58,11 +58,11 @@ export const FormCreateUser = () => {
       <Divider />
       <Form.Item>
         <Space>
-          <Button size='large' type='primary' htmlType='submit'>
-            {t('userForm.actions.create')}
-          </Button>
           <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
             {t('userForm.actions.cancel')}
+          </Button>
+          <Button size='large' type='primary' htmlType='submit'>
+            {t('userForm.actions.create')}
           </Button>
         </Space>
       </Form.Item>
