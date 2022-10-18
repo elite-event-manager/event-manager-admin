@@ -128,16 +128,16 @@ export const getColumns = ({
     key: 'action',
     render: (record: T_UserRecord) => (
       <Space size='middle'>
-        <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
-          <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
-        </Tooltip>
         <RoleGate scopes={[E_UserRole.superAdmin, E_UserRole.admin]}>
-          <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
-            <Link to={`/users/update/${record.id}`}>
-              <Button icon={<EditOutlined />} />
-            </Link>
+          <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
+            <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
           </Tooltip>
         </RoleGate>
+        <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
+          <Link to={`/users/update/${record.id}`}>
+            <Button icon={<EditOutlined />} />
+          </Link>
+        </Tooltip>
         <Tooltip title={t('usersTable.tooltip.view')} placement='topLeft'>
           <Button onClick={handleOpenModalUser(record.id)} icon={<EyeOutlined />} />
         </Tooltip>

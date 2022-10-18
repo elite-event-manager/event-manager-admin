@@ -35,7 +35,7 @@ export const GeneralSection = () => (
       </Col>
     </Row>
 
-    <Row>
+    <Row gutter={[16, 4]}>
       <Col xs={24} lg={18} xl={12}>
         <Form.Item
           name='description'

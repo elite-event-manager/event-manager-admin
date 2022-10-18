@@ -22,11 +22,9 @@ export const Users = () => {
       </Breadcrumb>
       <Divider />
       <C.WrapperPage>
-        <RoleGate scopes={[E_UserRole.superAdmin, E_UserRole.admin]}>
-          <Button onClick={handleToCreateUser} type='primary'>
-            Создать пользователя
-          </Button>
-        </RoleGate>
+        <Button onClick={handleToCreateUser} type='primary'>
+          Создать пользователя
+        </Button>
         <C.Brick />
         <UsersTable />
       </C.WrapperPage>

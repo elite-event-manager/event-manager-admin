@@ -12,8 +12,10 @@ import {
   StatusSection,
   RoleSection,
 } from 'features/FormUser/components'
+import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
 import { T_Params } from 'models/routes'
+import { E_UserRole } from 'models/shared/user'
 import { T_UpdateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
 import { formToUser, userToForm } from 'utils/forms/users'
@@ -100,31 +102,29 @@ export const FormUpdateUser = () => {
           <GeneralSection />
           <AvatarSection avatarValue={avatarValue} />
 
-          <Row gutter={[16, 4]}>
-            <StatusSection />
-            <RoleSection />
-          </Row>
+          <RoleGate scopes={[E_UserRole.superAdmin]}>
+            <Row gutter={[16, 4]}>
+              <StatusSection />
+              <RoleSection />
+            </Row>
+          </RoleGate>
 
           <Divider />
           <Form.Item>
             <Space>
-              <Button
-                onClick={handleOpenModalPassword}
-                size='large'
-                type='dashed'
-                htmlType='button'
-              >
-                {t('userForm.actions.updatePassword')}
-              </Button>
               <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
                 {t('userForm.actions.cancel')}
               </Button>
               <Button size='large' type='primary' htmlType='submit'>
-                {t('userForm.actions.update')}
+                {t('userForm.actions.save')}
               </Button>
             </Space>
           </Form.Item>
         </Form>
+        <Divider />
+        <Button onClick={handleOpenModalPassword} size='large' type='dashed' htmlType='button'>
+          {t('userForm.actions.updatePassword')}
+        </Button>
         <UpdateUserPasswordModal
           isOpen={isModalPasswordOpen}
           onOk={handleOkModalPassword}

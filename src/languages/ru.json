@@ -90,7 +90,7 @@
     },
     "actions": {
       "create": "Создать",
-      "update": "Обновить",
+      "save": "Сохранить",
       "updatePassword": "Обновить пароль",
       "cancel": "Отмена"
     }

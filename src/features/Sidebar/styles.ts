@@ -23,7 +23,7 @@ export const SidebarWrapper = styled(motion.div).attrs<I_SidebarProps>(({ isColl
 
   color: #ffffffa6;
 
-  background-color: #1a1325;
+  background-color: ${({ theme }) => theme.palette.layoutHeaderBackground};
   box-shadow: rgba(0, 0, 0, 15%) 1.95px 1.95px 2.6px;
 
   ${({ isMobile }) =>
@@ -80,12 +80,12 @@ export const SidebarCollapse = styled(motion.span).attrs<I_SidebarProps>(({ isCo
 
   border-radius: 8px;
 
-  transition: color ease 500ms, background ease 500ms;
+  transition: color ease 500ms, background-color ease 500ms;
 
   :hover {
     color: #fff;
 
-    background: #24163a;
+    background-color: ${({ theme }) => theme.palette.layoutTriggerBackground};
   }
 `
 
@@ -122,19 +122,19 @@ export const SidebarListItem = styled.li<{ isActive: boolean }>`
 
   border-radius: 8px;
 
-  transition: color ease 500ms, background ease 500ms;
+  transition: color ease 500ms, background-color ease 500ms;
 
   ${({ isActive }) =>
     isActive
       ? css`
-          background: #51258f;
+          background-color: ${({ theme }) => theme.palette.primary};
           color: #fff;
         `
       : css`
           :hover {
             color: #fff;
 
-            background: #24163a;
+            background-color: ${({ theme }) => theme.palette.layoutTriggerBackground};
           }
         `}
 `
@@ -172,6 +172,6 @@ export const SidebarOverlay = styled(motion.div).attrs(m.sidebarOverlayAttrs)`
   bottom: 0;
   left: 0;
 
-  background-color: #00000080;
+  background-color: ${({ theme }) => theme.palette.overlay};
   backdrop-filter: blur(2px);
 `

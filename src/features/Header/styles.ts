@@ -40,7 +40,7 @@ export const HeaderRightSection = styled.div`
   gap: 8px;
   align-items: center;
 
-  max-width: 180px;
+  max-width: fit-content;
   padding-block: 4px;
   padding-inline: 16px;
 

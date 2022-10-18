@@ -7,6 +7,12 @@ export enum E_MediaQuery {
 
 export const theme = {
   // Source: https://getbootstrap.com/docs/4.0/layout/grid/
+  palette: {
+    primary: '#51258f',
+    layoutHeaderBackground: '#1a1325',
+    layoutTriggerBackground: '#24163a',
+    overlay: '#00000080',
+  },
   media: {
     xl: E_MediaQuery.xl,
     lg: E_MediaQuery.lg,
