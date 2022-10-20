@@ -15,7 +15,6 @@ import {
 import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
 import { T_Params } from 'models/routes'
-import { E_UserRole } from 'models/shared/user'
 import { T_UpdateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
 import { formToUser, userToForm } from 'utils/forms/users'
@@ -101,13 +100,13 @@ export const FormUpdateUser = () => {
         >
           <GeneralSection />
           <AvatarSection avatarValue={avatarValue} />
-
+          {/* 
           <RoleGate scopes={[E_UserRole.superAdmin]}>
             <Row gutter={[16, 4]}>
               <StatusSection />
               <RoleSection />
             </Row>
-          </RoleGate>
+          </RoleGate> */}
 
           <Divider />
           <Form.Item>

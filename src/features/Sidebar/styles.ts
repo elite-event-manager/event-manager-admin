@@ -7,8 +7,8 @@ interface I_SidebarProps {
   isCollapsed: boolean
 }
 
-export const SidebarWrapper = styled(motion.div).attrs<I_SidebarProps>(({ isCollapsed }) =>
-  m.sidebarWrapperAttrs(isCollapsed),
+export const SidebarWrapper = styled(motion.div).attrs<I_SidebarProps & { isMobile: boolean }>(
+  ({ isCollapsed, isMobile }) => m.sidebarWrapperAttrs(isCollapsed, isMobile),
 )<{ isMobile: boolean; isCollapsed: boolean }>`
   z-index: 100;
 

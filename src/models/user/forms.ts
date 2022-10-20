@@ -4,7 +4,7 @@ import { T_File } from 'models/shared/upload'
 
 export type T_UserForm = Pick<
   I_User,
-  'firstName' | 'lastName' | 'phone' | 'description' | 'status' | 'role'
+  'firstName' | 'lastName' | 'phone' | 'description' | 'status'
 > & {
   avatar: T_File[]
 }

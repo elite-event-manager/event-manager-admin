@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { E_AdminRole } from 'models/shared/admin'
 import { T_File } from 'models/shared/upload'
-import { E_UserRole } from 'models/shared/user'
 import { I_AuthResponse } from 'services/auth/models/response'
 import { LocalStorage } from 'utils/helpers/localStorage'
 
@@ -9,7 +9,7 @@ export interface I_Profile {
   isAuth: boolean
   firstName: string
   lastName: string
-  role: E_UserRole | ''
+  role: E_AdminRole | ''
   avatar: T_File
 }
 

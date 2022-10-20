@@ -1,30 +1,30 @@
 import { Breadcrumb, Button, Divider } from 'antd'
 import { useNavigate } from 'react-router-dom'
 
-import { UsersTable } from './extensions/UsersTable'
+import { AdminsTable } from './extensions/AdminsTable'
 
 import { t } from 'languages'
 import * as C from 'styles/components'
 
-export const Users = () => {
+export const Admins = () => {
   const navigate = useNavigate()
 
-  const handleToCreateUser = () => {
-    navigate('/users/create')
+  const handleToCreateAdmin = () => {
+    navigate('/admins/create')
   }
-
   return (
     <div>
       <Breadcrumb>
-        <Breadcrumb.Item>{t('dashboard.header.users')}</Breadcrumb.Item>
+        <Breadcrumb.Item>{t('dashboard.header.admins')}</Breadcrumb.Item>
       </Breadcrumb>
       <Divider />
+
       <C.WrapperPage>
-        <Button onClick={handleToCreateUser} type='primary'>
-          Создать пользователя
+        <Button onClick={handleToCreateAdmin} type='primary'>
+          Создать администратора
         </Button>
         <C.Brick />
-        <UsersTable />
+        {/* <AdminsTable /> */}
       </C.WrapperPage>
     </div>
   )

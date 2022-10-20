@@ -2,10 +2,13 @@ import { HTMLMotionProps } from 'framer-motion'
 
 import * as v from './variants'
 
-export const sidebarWrapperAttrs = (isCollapsed: boolean): HTMLMotionProps<'div'> => ({
-  initial: { x: isCollapsed ? -90 : -250 },
+export const sidebarWrapperAttrs = (
+  isCollapsed: boolean,
+  isMobile: boolean,
+): HTMLMotionProps<'div'> => ({
+  initial: { x: isMobile ? (isCollapsed ? -90 : -250) : 0 },
   animate: isCollapsed ? v.E_SidebarVariant.collapsed : v.E_SidebarVariant.opened,
-  exit: { x: isCollapsed ? -90 : -250 },
+  exit: { x: isMobile ? (isCollapsed ? -90 : -250) : 0 },
   variants: v.sidebarWrapperVariants,
 })
 

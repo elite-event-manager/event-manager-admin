@@ -1,11 +1,11 @@
 import { ReactNode } from 'react'
 
 import { useStoreSelector } from 'hooks/useStoreSelector'
-import { E_UserRole } from 'models/shared/user'
+import { E_AdminRole } from 'models/shared/admin'
 
 interface I_RoleGateProps {
   children: ReactNode
-  scopes: E_UserRole[]
+  scopes: E_AdminRole[]
 }
 
 export const RoleGate = ({ children, scopes = [] }: I_RoleGateProps) => {

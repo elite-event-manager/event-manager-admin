@@ -10,6 +10,12 @@ export const headerTitles: Record<E_Routes, string> = {
   [E_Routes.events]: 'dashboard.header.events',
   [E_Routes.createEvent]: 'dashboard.header.creteEvent',
   [E_Routes.updateEvent]: 'dashboard.header.updateEvent',
+  [E_Routes.admins]: 'dashboard.header.admins',
+  [E_Routes.createAdmin]: 'dashboard.header.createAdmin',
+  [E_Routes.updateAdmin]: 'dashboard.header.updateAdmin',
+  [E_Routes.partners]: 'dashboard.header.partners',
+  [E_Routes.references]: 'dashboard.header.references',
+  [E_Routes.tickets]: 'dashboard.header.tickets',
 }
 
 interface I_ProfileMenu {

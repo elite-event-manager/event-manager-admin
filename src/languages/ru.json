@@ -18,7 +18,8 @@
     "sidebar": {
       "title": "Event Manager",
       "users": "Пользователи",
-      "request": "Заявки",
+      "admins": "Администраторы",
+      "tickets": "Заявки",
       "events": "Мероприятия",
       "references": "Справки",
       "partners": "Партнёры",
@@ -30,7 +31,13 @@
       "updateUser": "Изменение пользователя",
       "events": "Мероприятия",
       "creteEvent": "Создание события",
-      "updateEvent": "Изменение события"
+      "updateEvent": "Изменение события",
+      "tickets": "Заявки",
+      "references": "Справки",
+      "partners": "Партнёры",
+      "admins": "Администраторы",
+      "createAdmin": "Создание администратора",
+      "updateAdmin": "Изменение администратора"
     }
   },
   "modal": {

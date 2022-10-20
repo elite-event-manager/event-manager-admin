@@ -8,20 +8,20 @@ import { Link } from 'react-router-dom'
 
 import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
-import { E_AdminRole } from 'models/shared/admin'
+import { T_AdminRecord } from 'models/admins'
+import { E_AdminRole, T_AdminId } from 'models/shared/admin'
 import { T_DictionaryUserRole } from 'models/shared/dictionaries'
-import { T_UserId } from 'models/shared/user'
-import { T_UserRecord } from 'models/user'
+import { getRoleName } from 'utils/dictionaries/roles'
 import { E_FormatDate } from 'utils/helpers/date'
 
 interface I_GetColumnsProps {
-  handleRemove: (userId: T_UserId) => void
+  handleRemove: (userId: T_AdminId) => void
   handleSearch: (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void) => void
   handleReset: (clearFilters: () => void, confirm: (param?: FilterConfirmProps) => void) => void
   searchInput: RefObject<InputRef>
   searchText: string
   roles: T_DictionaryUserRole[]
-  handleOpenModalUser: (userId: T_UserId) => () => void
+  handleOpenModalUser: (userId: T_AdminId) => () => void
 }
 
 export const getColumns = ({
@@ -36,7 +36,7 @@ export const getColumns = ({
   {
     title: t('usersTable.table.id'),
     dataIndex: 'id',
-    sorter: (a: T_UserRecord, b: T_UserRecord) => a.id - b.id,
+    sorter: (a: T_AdminRecord, b: T_AdminRecord) => a.id - b.id,
   },
   {
     title: t('usersTable.table.user'),
@@ -96,14 +96,20 @@ export const getColumns = ({
       }
     },
 
-    onFilter: (value: string | number | boolean, record: T_UserRecord) =>
+    onFilter: (value: string | number | boolean, record: T_AdminRecord) =>
       (record.username + record.phone).toLowerCase().includes(String(value).toLowerCase()),
+  },
+  {
+    title: t('usersTable.table.role'),
+    dataIndex: 'role',
+    sorter: (a: T_AdminRecord, b: T_AdminRecord) => a.role.localeCompare(b.role),
+    render: (roleId: E_AdminRole) => <Tag color='#51258F'>{getRoleName(roles, roleId)}</Tag>,
   },
 
   {
     title: t('usersTable.table.createdAt'),
     dataIndex: 'createdAt',
-    sorter: (a: T_UserRecord, b: T_UserRecord) =>
+    sorter: (a: T_AdminRecord, b: T_AdminRecord) =>
       moment(a.createdAt).unix() - moment(b.createdAt).unix(),
     render: (value: string) => (
       <Space size='middle'>{moment(value).format(E_FormatDate.default)}</Space>
@@ -112,7 +118,7 @@ export const getColumns = ({
   {
     title: t('usersTable.table.updatedAt'),
     dataIndex: 'updatedAt',
-    sorter: (a: T_UserRecord, b: T_UserRecord) =>
+    sorter: (a: T_AdminRecord, b: T_AdminRecord) =>
       moment(a.updatedAt).unix() - moment(b.updatedAt).unix(),
     render: (value: string) => (
       <Space size='middle'>{moment(value).format(E_FormatDate.default)}</Space>
@@ -120,7 +126,7 @@ export const getColumns = ({
   },
   {
     key: 'action',
-    render: (record: T_UserRecord) => (
+    render: (record: T_AdminRecord) => (
       <Space size='middle'>
         <RoleGate scopes={[E_AdminRole.superAdmin, E_AdminRole.admin]}>
           <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>

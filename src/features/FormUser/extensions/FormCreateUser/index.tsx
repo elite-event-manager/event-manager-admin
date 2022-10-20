@@ -12,7 +12,7 @@ import {
 } from 'features/FormUser/components'
 import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
-import { E_UserRole } from 'models/shared/user'
+import { E_AdminRole } from 'models/shared/admin'
 import { T_CreateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
 import { formToUser } from 'utils/forms/users'
@@ -52,7 +52,7 @@ export const FormCreateUser = () => {
       <PasswordSection />
       <AvatarSection avatarValue={avatarValue} />
 
-      <RoleGate scopes={[E_UserRole.superAdmin]}>
+      <RoleGate scopes={[E_AdminRole.superAdmin]}>
         <Row gutter={[16, 4]}>
           <StatusSection />
           <RoleSection />
