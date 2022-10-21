@@ -22,10 +22,10 @@ export const AdminsTable = () => {
 
   const searchInput = useRef<InputRef>(null)
 
-  // Удаление пользователя
+  // Удаление админа
   const [fetchDeleteUser] = usersAPI.useDeleteUserMutation()
 
-  // Получение пользователей
+  // Получение админов
   const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery()
 
   // Получения словаря с ролями

@@ -10,8 +10,7 @@ import {
 
 import { baseQueryWithReAuth } from '../utils'
 
-import { T_UserId } from 'models/shared/user'
-import { I_User } from 'models/user'
+import { T_AdminId } from 'models/shared/admin'
 import { T_CreateUserRequest, T_UpdateUserRequest } from 'models/user/forms'
 
 export const adminsAPI = createApi({
@@ -26,7 +25,7 @@ export const adminsAPI = createApi({
       providesTags: ['admins'],
     }),
 
-    getAdmin: build.query<T_GetAdminResponse, T_UserId>({
+    getAdmin: build.query<T_GetAdminResponse, T_AdminId>({
       query: (payload) => ({
         url: `/admins/${payload}`,
       }),
@@ -56,7 +55,7 @@ export const adminsAPI = createApi({
 
     updateAdmin: build.mutation<
       T_UpdateAdminResponse,
-      { user: T_UpdateUserRequest; userId: T_UserId }
+      { user: T_UpdateUserRequest; userId: T_AdminId }
     >({
       query: (payload) => ({
         url: `/admins/${payload.userId}`,
@@ -66,7 +65,7 @@ export const adminsAPI = createApi({
       invalidatesTags: ['admins', 'admin'],
     }),
 
-    deleteAdmin: build.mutation<void, T_UserId>({
+    deleteAdmin: build.mutation<void, T_AdminId>({
       query: (payload) => ({
         url: `/admins/${payload}`,
         method: 'DELETE',
