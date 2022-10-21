@@ -11,7 +11,6 @@ import {
 import { baseQueryWithReAuth } from '../utils'
 
 import { T_AdminId } from 'models/shared/admin'
-import { T_CreateUserRequest, T_UpdateUserRequest } from 'models/user/forms'
 
 export const adminsAPI = createApi({
   reducerPath: 'adminsAPI',
@@ -36,7 +35,7 @@ export const adminsAPI = createApi({
       providesTags: ['admins', 'admin'],
     }),
 
-    createAdmin: build.mutation<T_CreateAdminResponse, T_CreateUserRequest>({
+    createAdmin: build.mutation<T_CreateAdminResponse, any>({
       query: (payload) => ({
         url: `/admins`,
         method: 'POST',
@@ -48,15 +47,12 @@ export const adminsAPI = createApi({
     changePassword: build.mutation<void, T_ChangePasswordDto>({
       query: (payload) => ({
         url: `/admins/changePassword`,
-        method: 'POST',
+        method: 'PATCH',
         body: payload,
       }),
     }),
 
-    updateAdmin: build.mutation<
-      T_UpdateAdminResponse,
-      { user: T_UpdateUserRequest; userId: T_AdminId }
-    >({
+    updateAdmin: build.mutation<T_UpdateAdminResponse, { user: any; userId: T_AdminId }>({
       query: (payload) => ({
         url: `/admins/${payload.userId}`,
         method: 'PUT',

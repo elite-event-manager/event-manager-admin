@@ -24,7 +24,7 @@ export const Admins = () => {
           Создать администратора
         </Button>
         <C.Brick />
-        {/* <AdminsTable /> */}
+        <AdminsTable />
       </C.WrapperPage>
     </div>
   )

@@ -20,13 +20,18 @@ export const LayoutWrapper = styled(motion.div)`
 `
 
 export const LayoutContainer = styled.div`
+  position: relative;
+
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 
   padding: 16px;
 `
 
 export const LayoutContent = styled.div`
-  height: 200vh;
+  height: fit-content;
 `
 export const LayoutFooter = styled.div`
   text-align: center;

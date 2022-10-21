@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { E_AdminRole } from 'models/shared/admin'
 import { T_File } from 'models/shared/upload'
-import { I_AuthResponse } from 'services/auth/models/response'
+import { I_AuthResponse } from 'services/auth/models/responses'
 import { LocalStorage } from 'utils/helpers/localStorage'
 
 export interface I_Profile {

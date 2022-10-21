@@ -10,18 +10,18 @@ import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
 import { T_AdminRecord } from 'models/admins'
 import { E_AdminRole, T_AdminId } from 'models/shared/admin'
-import { T_DictionaryUserRole } from 'models/shared/dictionaries'
+import { T_DictionaryAdminRole } from 'models/shared/dictionaries'
 import { getRoleName } from 'utils/dictionaries/roles'
 import { E_FormatDate } from 'utils/helpers/date'
 
 interface I_GetColumnsProps {
-  handleRemove: (userId: T_AdminId) => void
+  handleRemove: (adminId: T_AdminId) => void
   handleSearch: (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void) => void
   handleReset: (clearFilters: () => void, confirm: (param?: FilterConfirmProps) => void) => void
   searchInput: RefObject<InputRef>
   searchText: string
-  roles: T_DictionaryUserRole[]
-  handleOpenModalUser: (userId: T_AdminId) => () => void
+  roles: T_DictionaryAdminRole[]
+  handleOpenModalUser: (adminId: T_AdminId) => () => void
 }
 
 export const getColumns = ({
@@ -103,7 +103,7 @@ export const getColumns = ({
     title: t('usersTable.table.role'),
     dataIndex: 'role',
     sorter: (a: T_AdminRecord, b: T_AdminRecord) => a.role.localeCompare(b.role),
-    render: (roleId: E_AdminRole) => <Tag color='#51258F'>{getRoleName(roles, roleId)}</Tag>,
+    render: (roleId: E_AdminRole) => <Tag>{getRoleName(roles, roleId)}</Tag>,
   },
 
   {
@@ -111,15 +111,6 @@ export const getColumns = ({
     dataIndex: 'createdAt',
     sorter: (a: T_AdminRecord, b: T_AdminRecord) =>
       moment(a.createdAt).unix() - moment(b.createdAt).unix(),
-    render: (value: string) => (
-      <Space size='middle'>{moment(value).format(E_FormatDate.default)}</Space>
-    ),
-  },
-  {
-    title: t('usersTable.table.updatedAt'),
-    dataIndex: 'updatedAt',
-    sorter: (a: T_AdminRecord, b: T_AdminRecord) =>
-      moment(a.updatedAt).unix() - moment(b.updatedAt).unix(),
     render: (value: string) => (
       <Space size='middle'>{moment(value).format(E_FormatDate.default)}</Space>
     ),
@@ -134,7 +125,7 @@ export const getColumns = ({
           </Tooltip>
         </RoleGate>
         <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
-          <Link to={`/users/update/${record.id}`}>
+          <Link to={`/admins/update/${record.id}`}>
             <Button icon={<EditOutlined />} />
           </Link>
         </Tooltip>
