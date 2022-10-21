@@ -87,13 +87,16 @@
     "fields": {
       "firstName": "Имя",
       "lastName": "Фамилия",
+      "middleName": "Отчество",
       "phone": "Телефон",
       "password": "Пароль",
       "rePassword": "Повторите пароль",
       "description": "Описание",
       "avatar": "Фотография",
       "status": "Статус",
-      "role": "Роль"
+      "address": "Адрес",
+      "age": "Возраст",
+      "job": "Место работы"
     },
     "actions": {
       "create": "Создать",

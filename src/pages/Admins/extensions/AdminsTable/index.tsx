@@ -9,11 +9,11 @@ import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
 import { ViewUserModal } from 'components/Modals'
 import { t } from 'languages'
+import { T_AdminRecord } from 'models/admins'
 import { T_UserId } from 'models/shared/user'
-import { T_UserRecord } from 'models/user'
+import { adminsAPI } from 'services/admins'
 import { dictionariesAPI } from 'services/dictionaries'
-import { usersAPI } from 'services/users'
-import { formatUserToDataSource } from 'utils/helpers/table'
+import { formatAdminToDataSource } from 'utils/helpers/table'
 
 export const AdminsTable = () => {
   const [searchText, setSearchText] = useState('')
@@ -23,17 +23,17 @@ export const AdminsTable = () => {
   const searchInput = useRef<InputRef>(null)
 
   // Удаление админа
-  const [fetchDeleteUser] = usersAPI.useDeleteUserMutation()
+  const [fetchDeleteUser] = adminsAPI.useDeleteAdminMutation()
 
   // Получение админов
-  const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery()
+  const { data: adminsData, isFetching: isAdminsFetching } = adminsAPI.useGetAdminsQuery()
 
   // Получения словаря с ролями
   const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
 
   const handleRemove = (userId: T_UserId) => {
     Modal.confirm({
-      title: t('modal.confirm.removeUser.title'),
+      title: t('modal.confirm.removeUser.title') + ` ID:${userId}`,
       icon: <ExclamationCircleOutlined />,
       content: t('modal.confirm.removeUser.content'),
       okText: t('modal.confirm.removeUser.ok'),
@@ -68,12 +68,12 @@ export const AdminsTable = () => {
     setModalUserId(userId)
   }
 
-  if (isUsersFetching || isRolesFetching) {
+  if (isAdminsFetching || isRolesFetching) {
     return <Loader />
   }
 
-  if (usersData && rolesData) {
-    const dataTable = formatUserToDataSource(usersData)
+  if (adminsData && rolesData) {
+    const dataTable = adminsData.data.length ? formatAdminToDataSource(adminsData.data) : []
     return (
       <>
         <Table
@@ -87,7 +87,7 @@ export const AdminsTable = () => {
               searchText,
               roles: rolesData.data,
               handleOpenModalUser,
-            }) as ColumnsType<T_UserRecord>
+            }) as ColumnsType<T_AdminRecord>
           }
           dataSource={dataTable}
           pagination={{ position: ['bottomLeft', 'topLeft'] }}

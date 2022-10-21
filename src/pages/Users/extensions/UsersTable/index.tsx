@@ -28,8 +28,9 @@ export const UsersTable = () => {
   // Получение пользователей
   const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery()
 
-  // Получения словаря с ролями
-  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
+  // Получения словаря со статусами
+  const { data: statusesData, isFetching: isStatusesFetching } =
+    dictionariesAPI.useGetStatusesQuery()
 
   const handleRemove = (userId: T_UserId) => {
     Modal.confirm({
@@ -68,12 +69,12 @@ export const UsersTable = () => {
     setModalUserId(userId)
   }
 
-  if (isUsersFetching || isRolesFetching) {
+  if (isUsersFetching || isStatusesFetching) {
     return <Loader />
   }
 
-  if (usersData && rolesData) {
-    const dataTable = formatUserToDataSource(usersData)
+  if (usersData && statusesData) {
+    const dataTable = usersData.data.length ? formatUserToDataSource(usersData.data) : []
     return (
       <>
         <Table
@@ -85,7 +86,7 @@ export const UsersTable = () => {
               handleReset,
               searchInput,
               searchText,
-              roles: rolesData.data,
+              statuses: statusesData.data,
               handleOpenModalUser,
             }) as ColumnsType<T_UserRecord>
           }

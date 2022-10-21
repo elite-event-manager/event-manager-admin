@@ -6,13 +6,18 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
 import { UpdateUserPasswordModal } from 'components/Modals'
-import { AvatarSection, GeneralSection } from 'features/FormUser/components'
+import {
+  AvatarSection,
+  GeneralSection,
+  StatusSection,
+  RoleSection,
+} from 'features/FormUser/components'
 import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
 import { T_Params } from 'models/routes'
 import { T_UpdateUserForm } from 'models/user/forms'
 import { usersAPI } from 'services/users'
-import { formUpdateToUser, userToFormUpdate } from 'utils/forms/users'
+import { formToUser, userToForm } from 'utils/forms/users'
 
 export const FormUpdateUser = () => {
   const navigate = useNavigate()
@@ -59,7 +64,7 @@ export const FormUpdateUser = () => {
   )
 
   const handleFinish = (values: T_UpdateUserForm) => {
-    const payload = formUpdateToUser(values)
+    const payload = formToUser(values)
     fetchUpdateUser({ user: payload, userId: Number(params.userId) })
   }
 
@@ -76,8 +81,8 @@ export const FormUpdateUser = () => {
   }
 
   const handleOkModalPassword = (password: string) => {
-    if (password?.length >= 6 && userData?.data.id) {
-      fetchChangePassword({ password, userId: userData?.data.id })
+    if (password?.length >= 6 && userData?.id) {
+      fetchChangePassword({ password, userId: userData.id })
       setIsModalPasswordOpen(false)
     }
   }
@@ -91,9 +96,9 @@ export const FormUpdateUser = () => {
           form={form}
           layout='vertical'
           onFinish={handleFinish}
-          initialValues={userToFormUpdate(userData.data)}
+          initialValues={userToForm(userData)}
         >
-          {/* <GeneralSection /> */}
+          <GeneralSection />
           <AvatarSection avatarValue={avatarValue} />
           {/* 
           <RoleGate scopes={[E_UserRole.superAdmin]}>

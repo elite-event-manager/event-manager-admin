@@ -5,9 +5,12 @@ export interface I_User {
   id: T_UserId
   phone: string
   firstName: string
+  middleName: string
+  age: number
+  address: string
+  job: string
   lastName: string
   description: string
-  password: string
   avatar: T_File
   status: E_UserStatus
   createdAt: Date
