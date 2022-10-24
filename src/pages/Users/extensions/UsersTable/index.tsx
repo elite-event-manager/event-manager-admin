@@ -1,7 +1,7 @@
-import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { Table, Modal, InputRef } from 'antd'
+import { ExclamationCircleOutlined, CheckOutlined } from '@ant-design/icons'
+import { Table, Modal, InputRef, notification } from 'antd'
 import { ColumnsType, FilterConfirmProps } from 'antd/lib/table/interface'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { getColumns } from './data'
 
@@ -23,13 +23,14 @@ export const UsersTable = () => {
   const searchInput = useRef<InputRef>(null)
 
   // Удаление пользователя
-  const [fetchDeleteUser] = usersAPI.useDeleteUserMutation()
+  const [fetchDeleteUser, { isSuccess: isDeleteUserSuccess }] = usersAPI.useDeleteUserMutation()
 
   // Получение пользователей
   const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery()
 
-  // Получения словаря с ролями
-  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
+  // Получения словаря со статусами
+  const { data: statusesData, isFetching: isStatusesFetching } =
+    dictionariesAPI.useGetStatusesQuery()
 
   const handleRemove = (userId: T_UserId) => {
     Modal.confirm({
@@ -44,6 +45,15 @@ export const UsersTable = () => {
       },
     })
   }
+
+  useEffect(() => {
+    if (isDeleteUserSuccess) {
+      notification.open({
+        message: t('notifications.deleteUser.success'),
+        icon: <CheckOutlined style={{ color: '#52c41a' }} />,
+      })
+    }
+  }, [isDeleteUserSuccess])
 
   // Поиск по таблице
   const handleSearch = (selectedKeys: string[], confirm: (param?: FilterConfirmProps) => void) => {
@@ -68,12 +78,12 @@ export const UsersTable = () => {
     setModalUserId(userId)
   }
 
-  if (isUsersFetching || isRolesFetching) {
+  if (isUsersFetching || isStatusesFetching) {
     return <Loader />
   }
 
-  if (usersData && rolesData) {
-    const dataTable = formatUserToDataSource(usersData)
+  if (usersData?.data && statusesData?.data) {
+    const dataTable = usersData.data.length ? formatUserToDataSource(usersData.data) : []
     return (
       <>
         <Table
@@ -85,7 +95,7 @@ export const UsersTable = () => {
               handleReset,
               searchInput,
               searchText,
-              roles: rolesData.data,
+              statuses: statusesData.data,
               handleOpenModalUser,
             }) as ColumnsType<T_UserRecord>
           }

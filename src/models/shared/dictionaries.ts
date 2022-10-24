@@ -1,7 +1,8 @@
-import { E_UserRole, E_UserStatus } from './user'
+import { E_AdminRole } from './admin'
+import { E_UserStatus } from './user'
 
-export type T_DictionaryUserRole = {
-  id: E_UserRole
+export type T_DictionaryAdminRole = {
+  id: E_AdminRole
   name: string
 }
 

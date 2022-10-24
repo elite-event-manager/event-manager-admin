@@ -16,6 +16,7 @@ import { profileSlice } from './profile'
 
 import { sidebarSlice } from 'features/Sidebar/slice'
 import { rtkQueryErrorLogger } from 'middlewares/rtkQueryErrorLogger'
+import { adminsAPI } from 'services/admins'
 import { authAPI } from 'services/auth'
 import { dictionariesAPI } from 'services/dictionaries'
 import { filesAPI } from 'services/files'
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   [sidebarSlice.name]: sidebarSlice.reducer,
 
   // Services
+  [adminsAPI.reducerPath]: adminsAPI.reducer,
   [authAPI.reducerPath]: authAPI.reducer,
   [usersAPI.reducerPath]: usersAPI.reducer,
   [dictionariesAPI.reducerPath]: dictionariesAPI.reducer,
@@ -52,6 +54,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(
+      adminsAPI.middleware,
       authAPI.middleware,
       usersAPI.middleware,
       dictionariesAPI.middleware,

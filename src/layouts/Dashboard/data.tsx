@@ -4,6 +4,7 @@ import {
   SnippetsOutlined,
   CommentOutlined,
   DeploymentUnitOutlined,
+  LockOutlined,
 } from '@ant-design/icons'
 
 import { T_MenuItem } from 'features/Sidebar/models'
@@ -16,10 +17,16 @@ export const menuItems: T_MenuItem[] = [
     to: '/users',
   },
   {
-    key: 'request',
-    label: 'dashboard.sidebar.request',
+    key: 'admins',
+    label: 'dashboard.sidebar.admins',
+    icon: <LockOutlined />,
+    to: '/admins',
+  },
+  {
+    key: 'tickets',
+    label: 'dashboard.sidebar.tickets',
     icon: <CommentOutlined />,
-    to: '/request',
+    to: '/tickets',
   },
   {
     key: 'events',

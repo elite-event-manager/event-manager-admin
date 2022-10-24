@@ -58,7 +58,7 @@ export const Header = () => {
               {isRolesFetching || !rolesData ? '...' : getRoleName(rolesData.data, profile.role)}
             </S.HeaderProfileInfoRole>
           </S.HeaderProfileInfo>
-          <S.HeaderProfileAvatar src={profile.avatar.url} />
+          <S.HeaderProfileAvatar src={profile.avatar?.url} alt='avatar' />
         </S.HeaderRightSection>
       </Dropdown>
     </S.HeaderWrapper>

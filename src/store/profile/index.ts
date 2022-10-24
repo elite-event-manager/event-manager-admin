@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import { E_AdminRole } from 'models/shared/admin'
 import { T_File } from 'models/shared/upload'
-import { E_UserRole } from 'models/shared/user'
-import { I_AuthResponse } from 'services/auth/models/response'
+import { T_AuthResponse } from 'services/auth/models/responses'
 import { LocalStorage } from 'utils/helpers/localStorage'
 
 export interface I_Profile {
   isAuth: boolean
   firstName: string
   lastName: string
-  role: E_UserRole | ''
+  role: E_AdminRole | ''
   avatar: T_File
 }
 
@@ -25,7 +25,7 @@ export const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-    signIn: (state, action: PayloadAction<I_AuthResponse>) => {
+    signIn: (state, action: PayloadAction<T_AuthResponse>) => {
       if (action.payload.data) {
         state.isAuth = true
         state.firstName = action.payload.data.user.firstName

@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { I_DictionaryUserRolesResponse, I_DictionaryUserStatusesResponse } from './models/response'
+import { I_DictionaryUserRolesResponse, I_DictionaryUserStatusesResponse } from './models/responses'
 
 import { baseQueryWithReAuth } from '../utils'
 

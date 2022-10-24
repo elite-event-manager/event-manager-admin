@@ -39,9 +39,9 @@ export const baseQueryWithReAuth: BaseQueryFn<
 
     const response = await refreshResult.json()
 
-    if (response) {
-      LocalStorage.setAccessToken((response as T_Tokens).accessToken)
-      LocalStorage.setRefreshToken((response as T_Tokens).refreshToken)
+    if (response.data) {
+      LocalStorage.setAccessToken((response?.data as T_Tokens).accessToken)
+      LocalStorage.setRefreshToken((response?.data as T_Tokens).refreshToken)
       result = await baseQuery(args, api, extraOptions)
     } else {
       api.dispatch(profileActions.logout())

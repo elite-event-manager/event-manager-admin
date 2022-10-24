@@ -1,21 +1,21 @@
 import { T_File } from '../shared/upload'
-import { E_UserRole, E_UserStatus, T_UserId } from '../shared/user'
+import { E_UserStatus, T_UserId } from '../shared/user'
 
 export interface I_User {
   id: T_UserId
   phone: string
   firstName: string
+  middleName: string
+  age: number
+  address: string
+  job: string
   lastName: string
   description: string
-  password: string
   avatar: T_File
-  role: E_UserRole
   status: E_UserStatus
   createdAt: Date
   updatedAt: Date
 }
-
-export type T_UserPreview = Pick<I_User, 'phone' | 'role' | 'firstName' | 'lastName' | 'avatar'>
 
 export type T_UserRecord = Omit<I_User, 'firstName' | 'lastName'> & {
   username: string

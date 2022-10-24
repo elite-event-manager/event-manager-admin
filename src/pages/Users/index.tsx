@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { UsersTable } from './extensions/UsersTable'
 
-import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
-import { E_UserRole } from 'models/shared/user'
 import * as C from 'styles/components'
 
 export const Users = () => {

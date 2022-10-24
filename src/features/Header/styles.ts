@@ -14,8 +14,9 @@ export const HeaderWrapper = styled.div`
   padding-inline: 16px;
 
   font-weight: 300;
+  color: white;
 
-  background: #fff;
+  background: ${({ theme }) => theme.palette.layoutHeaderBackground};
   box-shadow: rgba(0, 0, 0, 16%) 0 1px 4px;
 
   @media ${({ theme }) => theme.media.md} {
@@ -44,13 +45,13 @@ export const HeaderRightSection = styled.div`
   padding-block: 4px;
   padding-inline: 16px;
 
-  border-left: 1px solid rgb(217, 217, 217);
+  border-left: 1px solid ${({ theme }) => theme.palette.layoutTriggerBackground};
   border-radius: 4px;
 
   transition: background-color ease 500ms;
 
   :hover {
-    background-color: rgb(217, 217, 217);
+    background-color: ${({ theme }) => theme.palette.layoutTriggerBackground};
   }
 
   @media ${({ theme }) => theme.media.md} {

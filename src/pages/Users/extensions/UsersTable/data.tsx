@@ -8,10 +8,11 @@ import { Link } from 'react-router-dom'
 
 import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
-import { T_DictionaryUserRole } from 'models/shared/dictionaries'
-import { E_UserRole, T_UserId } from 'models/shared/user'
+import { E_AdminRole } from 'models/shared/admin'
+import { T_DictionaryUserStatus } from 'models/shared/dictionaries'
+import { E_UserStatus, T_UserId } from 'models/shared/user'
 import { T_UserRecord } from 'models/user'
-import { getRoleName } from 'utils/dictionaries/roles'
+import { getStatusName } from 'utils/dictionaries/statuses'
 import { E_FormatDate } from 'utils/helpers/date'
 
 interface I_GetColumnsProps {
@@ -20,7 +21,7 @@ interface I_GetColumnsProps {
   handleReset: (clearFilters: () => void, confirm: (param?: FilterConfirmProps) => void) => void
   searchInput: RefObject<InputRef>
   searchText: string
-  roles: T_DictionaryUserRole[]
+  statuses: T_DictionaryUserStatus[]
   handleOpenModalUser: (userId: T_UserId) => () => void
 }
 
@@ -30,7 +31,7 @@ export const getColumns = ({
   handleReset,
   searchInput,
   searchText,
-  roles,
+  statuses,
   handleOpenModalUser,
 }: I_GetColumnsProps) => [
   {
@@ -100,10 +101,10 @@ export const getColumns = ({
       (record.username + record.phone).toLowerCase().includes(String(value).toLowerCase()),
   },
   {
-    title: t('usersTable.table.role'),
-    dataIndex: 'role',
-    sorter: (a: T_UserRecord, b: T_UserRecord) => a.role.localeCompare(b.role),
-    render: (roleId: E_UserRole) => <Tag color='#51258F'>{getRoleName(roles, roleId)}</Tag>,
+    title: t('usersTable.table.status'),
+    dataIndex: 'status',
+    sorter: (a: T_UserRecord, b: T_UserRecord) => a.status.localeCompare(b.status),
+    render: (statusId: E_UserStatus) => <Tag>{getStatusName(statuses, statusId)}</Tag>,
   },
 
   {
@@ -128,7 +129,7 @@ export const getColumns = ({
     key: 'action',
     render: (record: T_UserRecord) => (
       <Space size='middle'>
-        <RoleGate scopes={[E_UserRole.superAdmin, E_UserRole.admin]}>
+        <RoleGate scopes={[E_AdminRole.superAdmin, E_AdminRole.admin]}>
           <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
             <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
           </Tooltip>
