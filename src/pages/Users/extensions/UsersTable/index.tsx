@@ -82,7 +82,7 @@ export const UsersTable = () => {
     return <Loader />
   }
 
-  if (usersData && statusesData) {
+  if (usersData?.data && statusesData?.data) {
     const dataTable = usersData.data.length ? formatUserToDataSource(usersData.data) : []
     return (
       <>

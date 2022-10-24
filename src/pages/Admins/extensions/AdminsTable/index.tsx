@@ -81,7 +81,7 @@ export const AdminsTable = () => {
     return <Loader />
   }
 
-  if (adminsData && rolesData) {
+  if (adminsData?.data && rolesData?.data) {
     const dataTable = adminsData.data.length ? formatAdminToDataSource(adminsData.data) : []
     return (
       <>

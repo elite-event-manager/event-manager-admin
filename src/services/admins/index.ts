@@ -29,7 +29,9 @@ export const adminsAPI = createApi({
         url: `/admins/${payload}`,
       }),
       transformResponse: (response: T_GetAdminResponse) => {
-        response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        if (response.data) {
+          response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        }
         return response
       },
       providesTags: ['admins', 'admin'],

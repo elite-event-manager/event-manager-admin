@@ -29,7 +29,9 @@ export const usersAPI = createApi({
         url: `/users/${payload}`,
       }),
       transformResponse: (response: T_GetUserResponse) => {
-        response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        if (response.data) {
+          response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        }
         return response
       },
       providesTags: ['users', 'user'],
