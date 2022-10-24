@@ -101,7 +101,7 @@ export const getColumns = ({
       (record.username + record.phone).toLowerCase().includes(String(value).toLowerCase()),
   },
   {
-    title: t('usersTable.table.role'),
+    title: t('usersTable.table.status'),
     dataIndex: 'status',
     sorter: (a: T_UserRecord, b: T_UserRecord) => a.status.localeCompare(b.status),
     render: (statusId: E_UserStatus) => <Tag>{getStatusName(statuses, statusId)}</Tag>,

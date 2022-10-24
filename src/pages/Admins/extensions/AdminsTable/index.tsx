@@ -1,16 +1,16 @@
-import { ExclamationCircleOutlined } from '@ant-design/icons'
-import { Table, Modal, InputRef } from 'antd'
+import { ExclamationCircleOutlined, CheckOutlined } from '@ant-design/icons'
+import { Table, Modal, InputRef, notification } from 'antd'
 import { ColumnsType, FilterConfirmProps } from 'antd/lib/table/interface'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { getColumns } from './data'
 
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
-import { ViewUserModal } from 'components/Modals'
+import { ViewAdminModal } from 'components/Modals/ViewAdminModal'
 import { t } from 'languages'
 import { T_AdminRecord } from 'models/admins'
-import { T_UserId } from 'models/shared/user'
+import { T_AdminId } from 'models/shared/admin'
 import { adminsAPI } from 'services/admins'
 import { dictionariesAPI } from 'services/dictionaries'
 import { formatAdminToDataSource } from 'utils/helpers/table'
@@ -18,12 +18,12 @@ import { formatAdminToDataSource } from 'utils/helpers/table'
 export const AdminsTable = () => {
   const [searchText, setSearchText] = useState('')
   const [isModalUserOpen, setIsModalUserOpen] = useState(false)
-  const [modalUserId, setModalUserId] = useState<T_UserId | null>(null)
+  const [modalAdminId, setModalAdminId] = useState<T_AdminId | null>(null)
 
   const searchInput = useRef<InputRef>(null)
 
   // Удаление админа
-  const [fetchDeleteUser] = adminsAPI.useDeleteAdminMutation()
+  const [fetchDeleteUser, { isSuccess: isDeleteAdminSuccess }] = adminsAPI.useDeleteAdminMutation()
 
   // Получение админов
   const { data: adminsData, isFetching: isAdminsFetching } = adminsAPI.useGetAdminsQuery()
@@ -31,13 +31,13 @@ export const AdminsTable = () => {
   // Получения словаря с ролями
   const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
 
-  const handleRemove = (userId: T_UserId) => {
+  const handleRemove = (userId: T_AdminId) => {
     Modal.confirm({
-      title: t('modal.confirm.removeUser.title') + ` ID:${userId}`,
+      title: t('modal.confirm.removeAdmin.title') + ` ID:${userId}`,
       icon: <ExclamationCircleOutlined />,
-      content: t('modal.confirm.removeUser.content'),
-      okText: t('modal.confirm.removeUser.ok'),
-      cancelText: t('modal.confirm.removeUser.cancel'),
+      content: t('modal.confirm.removeAdmin.content'),
+      okText: t('modal.confirm.removeAdmin.ok'),
+      cancelText: t('modal.confirm.removeAdmin.cancel'),
       maskClosable: true,
       onOk: () => {
         fetchDeleteUser(userId)
@@ -63,16 +63,25 @@ export const AdminsTable = () => {
     setIsModalUserOpen(false)
   }
 
-  const handleOpenModalUser = (userId: T_UserId) => () => {
+  const handleOpenModalUser = (adminId: T_AdminId) => () => {
     setIsModalUserOpen(true)
-    setModalUserId(userId)
+    setModalAdminId(adminId)
   }
+
+  useEffect(() => {
+    if (isDeleteAdminSuccess) {
+      notification.open({
+        message: t('notifications.deleteAdmin.success'),
+        icon: <CheckOutlined style={{ color: '#52c41a' }} />,
+      })
+    }
+  }, [isDeleteAdminSuccess])
 
   if (isAdminsFetching || isRolesFetching) {
     return <Loader />
   }
 
-  if (adminsData && rolesData) {
+  if (adminsData?.data && rolesData?.data) {
     const dataTable = adminsData.data.length ? formatAdminToDataSource(adminsData.data) : []
     return (
       <>
@@ -92,8 +101,8 @@ export const AdminsTable = () => {
           dataSource={dataTable}
           pagination={{ position: ['bottomLeft', 'topLeft'] }}
         />
-        <ViewUserModal
-          userId={modalUserId}
+        <ViewAdminModal
+          adminId={modalAdminId}
           isOpen={isModalUserOpen}
           handleClose={handleCloseModalUser}
         />

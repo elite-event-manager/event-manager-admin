@@ -29,7 +29,9 @@ export const usersAPI = createApi({
         url: `/users/${payload}`,
       }),
       transformResponse: (response: T_GetUserResponse) => {
-        response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        if (response.data) {
+          response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        }
         return response
       },
       providesTags: ['users', 'user'],
@@ -44,11 +46,11 @@ export const usersAPI = createApi({
       invalidatesTags: ['users'],
     }),
 
-    changePassword: build.mutation<void, T_ChangePasswordDto>({
+    changePassword: build.mutation<void, { password: T_ChangePasswordDto; userId: T_UserId }>({
       query: (payload) => ({
-        url: `/users/changePassword`,
+        url: `/users/changePassword${payload.userId}`,
         method: 'POST',
-        body: payload,
+        body: payload.password,
       }),
     }),
 

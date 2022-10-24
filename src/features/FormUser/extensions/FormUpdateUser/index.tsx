@@ -1,5 +1,5 @@
 import { CheckOutlined } from '@ant-design/icons'
-import { Button, Divider, Form, notification, Row, Space } from 'antd'
+import { Button, Divider, Form, notification, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
@@ -7,10 +7,10 @@ import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
 import { UpdateUserPasswordModal } from 'components/Modals'
 import { AvatarSection, GeneralSection } from 'features/FormUser/components'
-import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
 import { T_Params } from 'models/routes'
 import { T_UpdateUserForm } from 'models/user/forms'
+import { dictionariesAPI } from 'services/dictionaries'
 import { usersAPI } from 'services/users'
 import { formUpdateToUser, userToFormUpdate } from 'utils/forms/users'
 
@@ -58,6 +58,10 @@ export const FormUpdateUser = () => {
     Number(params.userId),
   )
 
+  // Получения словаря со статусами
+  const { data: statusesData, isFetching: isStatusesFetching } =
+    dictionariesAPI.useGetStatusesQuery()
+
   const handleFinish = (values: T_UpdateUserForm) => {
     const payload = formUpdateToUser(values)
     fetchUpdateUser({ user: payload, userId: Number(params.userId) })
@@ -76,15 +80,15 @@ export const FormUpdateUser = () => {
   }
 
   const handleOkModalPassword = (password: string) => {
-    if (password?.length >= 6 && userData?.data.id) {
-      fetchChangePassword({ password, userId: userData?.data.id })
+    if (password?.length >= 6 && userData?.data?.id) {
+      fetchChangePassword({ password: { password }, userId: userData?.data.id })
       setIsModalPasswordOpen(false)
     }
   }
 
-  if (isUserFetching) return <Loader relative />
+  if (isUserFetching || isStatusesFetching) return <Loader relative />
 
-  if (userData) {
+  if (userData?.data && statusesData?.data) {
     return (
       <>
         <Form
@@ -93,16 +97,8 @@ export const FormUpdateUser = () => {
           onFinish={handleFinish}
           initialValues={userToFormUpdate(userData.data)}
         >
-          {/* <GeneralSection /> */}
+          <GeneralSection statuses={statusesData.data} />
           <AvatarSection avatarValue={avatarValue} />
-          {/* 
-          <RoleGate scopes={[E_UserRole.superAdmin]}>
-            <Row gutter={[16, 4]}>
-              <StatusSection />
-              <RoleSection />
-            </Row>
-          </RoleGate> */}
-
           <Divider />
           <Form.Item>
             <Space>

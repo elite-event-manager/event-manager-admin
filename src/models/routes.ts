@@ -4,7 +4,7 @@ export enum E_Routes {
   updateUser = '/users/update/:userId',
   admins = '/admins',
   createAdmin = '/admins/create',
-  updateAdmin = '/admins/update/:userId',
+  updateAdmin = '/admins/update/:adminId',
   events = '/events',
   createEvent = '/events/create',
   updateEvent = '/events/update/:eventId',
@@ -15,5 +15,6 @@ export enum E_Routes {
 
 export type T_Params = {
   userId: string
+  adminId: string
   eventId: string
 }

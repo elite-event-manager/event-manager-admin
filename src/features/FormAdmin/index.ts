@@ -1,2 +1,2 @@
-export { FormCreateUser } from './extensions/FormCreateUser'
-export { FormUpdateUser } from './extensions/FormUpdateUser'
+export { FormCreateAdmin } from './extensions/FormCreateAdmin'
+export { FormUpdateAdmin } from './extensions/FormUpdateAdmin'

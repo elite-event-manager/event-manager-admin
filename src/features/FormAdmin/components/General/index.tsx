@@ -1,15 +1,31 @@
-import { Col, Form, Input, Row } from 'antd'
+import { Col, Form, Input, Row, Select } from 'antd'
 import { MaskedInput } from 'antd-mask-input'
 
 import { t } from 'languages'
+import { T_DictionaryAdminRole } from 'models/shared/dictionaries'
 import { maskPatterns } from 'utils/forms/maskPatterns'
 
-export const GeneralSection = () => (
+interface I_GeneralSectionProps {
+  roles: T_DictionaryAdminRole[]
+}
+
+export const GeneralSection = ({ roles }: I_GeneralSectionProps) => (
   <>
     <Row gutter={[16, 4]}>
-      <Col xs={24} lg={9} xl={4}>
-        <Form.Item name='phone' label={t('userForm.fields.phone')} rules={[{ required: true }]}>
+      <Col xs={24} lg={6} xl={4}>
+        <Form.Item name='phone' label={t('adminForm.fields.phone')} rules={[{ required: true }]}>
           <MaskedInput mask={maskPatterns.phone} />
+        </Form.Item>
+      </Col>
+      <Col xs={24} lg={6} xl={4}>
+        <Form.Item name='role' label={t('adminForm.fields.role')} rules={[{ required: true }]}>
+          <Select>
+            {roles.map((role) => (
+              <Select.Option key={role.id} value={role.id}>
+                {role.name}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
       </Col>
     </Row>
@@ -18,7 +34,7 @@ export const GeneralSection = () => (
       <Col xs={24} lg={6} xl={4}>
         <Form.Item
           name='lastName'
-          label={t('userForm.fields.lastName')}
+          label={t('adminForm.fields.lastName')}
           rules={[{ required: true }]}
         >
           <Input />
@@ -27,16 +43,7 @@ export const GeneralSection = () => (
       <Col xs={24} lg={6} xl={4}>
         <Form.Item
           name='firstName'
-          label={t('userForm.fields.firstName')}
-          rules={[{ required: true }]}
-        >
-          <Input />
-        </Form.Item>
-      </Col>
-      <Col xs={24} lg={6} xl={4}>
-        <Form.Item
-          name='middleName'
-          label={t('userForm.fields.middleName')}
+          label={t('adminForm.fields.firstName')}
           rules={[{ required: true }]}
         >
           <Input />
@@ -48,7 +55,7 @@ export const GeneralSection = () => (
       <Col xs={24} lg={18} xl={12}>
         <Form.Item
           name='description'
-          label={t('userForm.fields.description')}
+          label={t('adminForm.fields.description')}
           rules={[{ required: true }]}
         >
           <Input.TextArea rows={4} />

@@ -29,6 +29,5 @@ export type T_UpdateUserDto = {
 }
 
 export type T_ChangePasswordDto = {
-  userId: T_UserId
   password: string
 }
