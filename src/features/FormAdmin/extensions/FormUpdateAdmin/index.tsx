@@ -1,51 +1,48 @@
 import { CheckOutlined } from '@ant-design/icons'
-import { Button, Divider, Form, notification, Row, Space } from 'antd'
+import { Button, Divider, Form, notification, Space } from 'antd'
 import { useEffect, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
+
+import { AvatarSection, GeneralSection } from '../../components'
 
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
 import { UpdateUserPasswordModal } from 'components/Modals'
-import {
-  AvatarSection,
-  GeneralSection,
-  StatusSection,
-  RoleSection,
-} from 'features/FormUser/components'
-import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
+import { T_UpdateAdminForm } from 'models/admins/forms'
 import { T_Params } from 'models/routes'
-import { T_UpdateUserForm } from 'models/user/forms'
-import { usersAPI } from 'services/users'
-import { formToUser, userToForm } from 'utils/forms/users'
+import { adminsAPI } from 'services/admins'
+import { dictionariesAPI } from 'services/dictionaries'
+import { adminToFormUpdate, formUpdateToAdmin } from 'utils/forms/admins'
 
-export const FormUpdateUser = () => {
+export const FormUpdateAdmin = () => {
   const navigate = useNavigate()
   const params = useParams<T_Params>()
 
   const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false)
 
-  const [form] = Form.useForm<T_UpdateUserForm>()
+  const [form] = Form.useForm<T_UpdateAdminForm>()
   const avatarValue = Form.useWatch('avatar', form)
 
-  // Обновление пользователя
-  const [fetchUpdateUser, { data, isSuccess }] = usersAPI.useUpdateUserMutation()
+  // Обновление админа
+  const [fetchUpdateAdmin, { data, isSuccess }] = adminsAPI.useUpdateAdminMutation()
 
-  // Обновление пароля пользователя
+  // Обновление пароля
   const [fetchChangePassword, { isSuccess: isPasswordChangeSuccess }] =
-    usersAPI.useChangePasswordMutation()
+    adminsAPI.useChangePasswordMutation()
 
-  // Успешное обновление пользователя
+  // Успешное обновление админа
   useEffect(() => {
     if (data && isSuccess) {
       notification.open({
-        message: t('notifications.updateUser.success'),
+        message: t('notifications.updateAdmin.success'),
         icon: <CheckOutlined style={{ color: '#52c41a' }} />,
       })
-      navigate(`/users`)
+      navigate(`/admins`)
     }
   }, [isSuccess, data, navigate])
 
+  // Успешное обновление пароля
   useEffect(() => {
     if (isPasswordChangeSuccess) {
       notification.open({
@@ -56,16 +53,19 @@ export const FormUpdateUser = () => {
   }, [isPasswordChangeSuccess])
 
   // Если параметр адресной строки не найден
-  if (!params.userId) return <Navigate to='/users' />
+  if (!params.adminId) return <Navigate to='/admins' />
 
-  // Получение пользователя
-  const { data: userData, isFetching: isUserFetching } = usersAPI.useGetUserQuery(
-    Number(params.userId),
+  // Получение админа
+  const { data: adminData, isFetching: isAdminFetching } = adminsAPI.useGetAdminQuery(
+    Number(params.adminId),
   )
 
-  const handleFinish = (values: T_UpdateUserForm) => {
-    const payload = formToUser(values)
-    fetchUpdateUser({ user: payload, userId: Number(params.userId) })
+  // Получения словаря с ролями
+  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
+
+  const handleFinish = (values: T_UpdateAdminForm) => {
+    const payload = formUpdateToAdmin(values)
+    fetchUpdateAdmin({ admin: payload, adminId: Number(params.adminId) })
   }
 
   const handleCancel = () => {
@@ -81,48 +81,41 @@ export const FormUpdateUser = () => {
   }
 
   const handleOkModalPassword = (password: string) => {
-    if (password?.length >= 6 && userData?.id) {
-      fetchChangePassword({ password, userId: userData.id })
+    if (password?.length >= 6 && adminData?.data?.id) {
+      fetchChangePassword({ password: { password }, adminId: adminData.data.id })
       setIsModalPasswordOpen(false)
     }
   }
 
-  if (isUserFetching) return <Loader relative />
+  if (isAdminFetching || isRolesFetching) return <Loader relative />
 
-  if (userData) {
+  if (adminData?.data && rolesData?.data) {
     return (
       <>
         <Form
           form={form}
           layout='vertical'
           onFinish={handleFinish}
-          initialValues={userToForm(userData)}
+          initialValues={adminToFormUpdate(adminData.data)}
         >
-          <GeneralSection />
+          <GeneralSection roles={rolesData.data} />
           <AvatarSection avatarValue={avatarValue} />
-          {/* 
-          <RoleGate scopes={[E_UserRole.superAdmin]}>
-            <Row gutter={[16, 4]}>
-              <StatusSection />
-              <RoleSection />
-            </Row>
-          </RoleGate> */}
 
           <Divider />
           <Form.Item>
             <Space>
               <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
-                {t('userForm.actions.cancel')}
+                {t('adminForm.actions.cancel')}
               </Button>
               <Button size='large' type='primary' htmlType='submit'>
-                {t('userForm.actions.save')}
+                {t('adminForm.actions.save')}
               </Button>
             </Space>
           </Form.Item>
         </Form>
         <Divider />
         <Button onClick={handleOpenModalPassword} size='large' type='dashed' htmlType='button'>
-          {t('userForm.actions.updatePassword')}
+          {t('adminForm.actions.updatePassword')}
         </Button>
         <UpdateUserPasswordModal
           isOpen={isModalPasswordOpen}

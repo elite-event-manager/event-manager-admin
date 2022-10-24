@@ -34,12 +34,12 @@ export const getColumns = ({
   handleOpenModalUser,
 }: I_GetColumnsProps) => [
   {
-    title: t('usersTable.table.id'),
+    title: t('adminsTable.table.id'),
     dataIndex: 'id',
     sorter: (a: T_AdminRecord, b: T_AdminRecord) => a.id - b.id,
   },
   {
-    title: t('usersTable.table.user'),
+    title: t('adminsTable.table.user'),
     dataIndex: 'username',
 
     render: (username: string) => {
@@ -64,7 +64,7 @@ export const getColumns = ({
       <div style={{ padding: 8 }}>
         <Input
           ref={searchInput}
-          placeholder='Поиск пользователя'
+          placeholder='Поиск админа'
           value={selectedKeys[0]}
           onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys as string[], confirm)}
@@ -100,14 +100,14 @@ export const getColumns = ({
       (record.username + record.phone).toLowerCase().includes(String(value).toLowerCase()),
   },
   {
-    title: t('usersTable.table.role'),
+    title: t('adminsTable.table.role'),
     dataIndex: 'role',
     sorter: (a: T_AdminRecord, b: T_AdminRecord) => a.role.localeCompare(b.role),
     render: (roleId: E_AdminRole) => <Tag>{getRoleName(roles, roleId)}</Tag>,
   },
 
   {
-    title: t('usersTable.table.createdAt'),
+    title: t('adminsTable.table.createdAt'),
     dataIndex: 'createdAt',
     sorter: (a: T_AdminRecord, b: T_AdminRecord) =>
       moment(a.createdAt).unix() - moment(b.createdAt).unix(),
@@ -120,16 +120,16 @@ export const getColumns = ({
     render: (record: T_AdminRecord) => (
       <Space size='middle'>
         <RoleGate scopes={[E_AdminRole.superAdmin, E_AdminRole.admin]}>
-          <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
+          <Tooltip title={t('adminsTable.tooltip.delete')} placement='topLeft'>
             <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
           </Tooltip>
         </RoleGate>
-        <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
+        <Tooltip title={t('adminsTable.tooltip.update')} placement='topLeft'>
           <Link to={`/admins/update/${record.id}`}>
             <Button icon={<EditOutlined />} />
           </Link>
         </Tooltip>
-        <Tooltip title={t('usersTable.tooltip.view')} placement='topLeft'>
+        <Tooltip title={t('adminsTable.tooltip.view')} placement='topLeft'>
           <Button onClick={handleOpenModalUser(record.id)} icon={<EyeOutlined />} />
         </Tooltip>
       </Space>

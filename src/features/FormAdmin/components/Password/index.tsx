@@ -8,7 +8,7 @@ export const PasswordSection = () => {
       <Col xs={24} lg={9} xl={6}>
         <Form.Item
           name='password'
-          label={t('userForm.fields.password')}
+          label={t('adminForm.fields.password')}
           hasFeedback
           rules={[{ required: true }]}
         >
@@ -18,7 +18,7 @@ export const PasswordSection = () => {
       <Col xs={24} lg={9} xl={6}>
         <Form.Item
           name='confirm'
-          label={t('userForm.fields.rePassword')}
+          label={t('adminForm.fields.rePassword')}
           dependencies={['password']}
           hasFeedback
           rules={[

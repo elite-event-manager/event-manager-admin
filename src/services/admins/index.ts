@@ -1,6 +1,6 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { T_ChangePasswordDto } from './models/dtos'
+import { T_ChangePasswordDto, T_CreateAdminDto, T_UpdateAdminDto } from './models/dtos'
 import {
   T_GetAdminsResponse,
   T_CreateAdminResponse,
@@ -35,7 +35,7 @@ export const adminsAPI = createApi({
       providesTags: ['admins', 'admin'],
     }),
 
-    createAdmin: build.mutation<T_CreateAdminResponse, any>({
+    createAdmin: build.mutation<T_CreateAdminResponse, T_CreateAdminDto>({
       query: (payload) => ({
         url: `/admins`,
         method: 'POST',
@@ -44,19 +44,22 @@ export const adminsAPI = createApi({
       invalidatesTags: ['admins'],
     }),
 
-    changePassword: build.mutation<void, T_ChangePasswordDto>({
+    changePassword: build.mutation<void, { password: T_ChangePasswordDto; adminId: T_AdminId }>({
       query: (payload) => ({
-        url: `/admins/changePassword`,
+        url: `/admins/changePassword${payload.adminId}`,
         method: 'PATCH',
-        body: payload,
+        body: payload.password,
       }),
     }),
 
-    updateAdmin: build.mutation<T_UpdateAdminResponse, { user: any; userId: T_AdminId }>({
+    updateAdmin: build.mutation<
+      T_UpdateAdminResponse,
+      { admin: T_UpdateAdminDto; adminId: T_AdminId }
+    >({
       query: (payload) => ({
-        url: `/admins/${payload.userId}`,
+        url: `/admins/${payload.adminId}`,
         method: 'PUT',
-        body: payload.user,
+        body: payload.admin,
       }),
       invalidatesTags: ['admins', 'admin'],
     }),

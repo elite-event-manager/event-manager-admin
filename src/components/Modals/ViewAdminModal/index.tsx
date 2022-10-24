@@ -1,4 +1,4 @@
-import { Col, Divider, Modal, Row, Space, Tag } from 'antd'
+import { Col, Descriptions, Divider, Modal, Row, Space, Tag } from 'antd'
 import moment from 'moment'
 import { useEffect } from 'react'
 
@@ -7,73 +7,71 @@ import * as S from './styles'
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
 import { t } from 'languages'
-import { T_UserId } from 'models/shared/user'
+import { T_AdminId } from 'models/shared/admin'
+import { adminsAPI } from 'services/admins'
 import { dictionariesAPI } from 'services/dictionaries'
-import { usersAPI } from 'services/users'
-import { getStatusName } from 'utils/dictionaries/statuses'
+import { getRoleName } from 'utils/dictionaries/roles'
 import { E_FormatDate } from 'utils/helpers/date'
 
-interface I_ViewUserModalProps {
+interface I_ViewAdminModalProps {
   isOpen: boolean
   handleClose: () => void
-  userId: T_UserId | null
+  adminId: T_AdminId | null
 }
 
-export const ViewUserModal = ({ isOpen, handleClose, userId }: I_ViewUserModalProps) => {
-  // Получение пользователей
-  const [fetchGetUser, { data: userData, isFetching: isUserFetching }] =
-    usersAPI.useLazyGetUserQuery()
+export const ViewAdminModal = ({ isOpen, handleClose, adminId }: I_ViewAdminModalProps) => {
+  // Получение админа
+  const [fetchGetAdmin, { data: adminData, isFetching: isAdminFetching }] =
+    adminsAPI.useLazyGetAdminQuery()
 
-  // Получения словаря со статусами
+  // Получения словаря с ролями
   const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
 
-  // Получения словаря со статусами
-  const { data: statusesData, isFetching: isStatusesFetching } =
-    dictionariesAPI.useGetStatusesQuery()
-
   useEffect(() => {
-    if (userId) {
-      fetchGetUser(userId)
+    if (adminId) {
+      fetchGetAdmin(adminId)
     }
-  }, [fetchGetUser, userId])
+  }, [fetchGetAdmin, adminId])
 
   return (
-    <Modal title={t('modal.viewUser.title')} open={isOpen} footer={null} onCancel={handleClose}>
-      {isUserFetching || isStatusesFetching || isRolesFetching ? (
+    <Modal title={t('modal.viewAdmin.title')} open={isOpen} footer={null} onCancel={handleClose}>
+      {isAdminFetching || isRolesFetching ? (
         <Loader relative />
-      ) : userData && rolesData && statusesData ? (
+      ) : adminData?.data && rolesData?.data ? (
         <div>
-          <Row>
-            <Col span={4}>
-              <S.UserAvatar src={userData.avatar.url} />
+          <Row gutter={[16, 4]}>
+            <Col xl={6}>
+              <S.UserAvatar src={adminData.data.avatar.url} />
             </Col>
-            <Col span={19} offset={1}>
+            <Col xl={18}>
               <Space direction='vertical'>
                 <b>
-                  {userData.lastName} {userData.firstName}
+                  {adminData.data.lastName} {adminData.data.firstName}
                 </b>
-                <span>{userData.phone}</span>
+                <span>{adminData.data.phone}</span>
                 <span>
-                  <Tag color='#51258F'>{getStatusName(statusesData.data, userData.status)}</Tag>
+                  <Tag color='#51258F'>{getRoleName(rolesData.data, adminData.data.role)}</Tag>
                 </span>
               </Space>
             </Col>
           </Row>
           <Divider />
-          <Row>
-            <Col>{userData.description}</Col>
-          </Row>
+          <Descriptions bordered>
+            <Descriptions.Item span={24} label={t('modal.viewAdmin.description')}>
+              {adminData.data.description}
+            </Descriptions.Item>
+          </Descriptions>
           <Divider />
           <Row>
             <Col>
-              <b>{t('modal.viewUser.created')}</b>{' '}
-              {moment(userData.createdAt).format(E_FormatDate.default)}
+              <b>{t('modal.viewAdmin.created')}</b>{' '}
+              {moment(adminData.data.createdAt).format(E_FormatDate.default)}
             </Col>
           </Row>
           <Row>
             <Col>
-              <b>{t('modal.viewUser.updated')}</b>{' '}
-              {moment(userData.updatedAt).format(E_FormatDate.default)}
+              <b>{t('modal.viewAdmin.updated')}</b>{' '}
+              {moment(adminData.data.updatedAt).format(E_FormatDate.default)}
             </Col>
           </Row>
         </div>

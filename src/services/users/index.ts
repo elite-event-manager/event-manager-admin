@@ -44,11 +44,11 @@ export const usersAPI = createApi({
       invalidatesTags: ['users'],
     }),
 
-    changePassword: build.mutation<void, T_ChangePasswordDto>({
+    changePassword: build.mutation<void, { password: T_ChangePasswordDto; userId: T_UserId }>({
       query: (payload) => ({
-        url: `/users/changePassword`,
+        url: `/users/changePassword${payload.userId}`,
         method: 'POST',
-        body: payload,
+        body: payload.password,
       }),
     }),
 

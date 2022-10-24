@@ -3,54 +3,53 @@ import { Button, Divider, Form, notification, Space } from 'antd'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { AvatarSection, GeneralSection, PasswordSection } from '../../components'
+
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
-import { AvatarSection, GeneralSection, PasswordSection } from 'features/FormUser/components'
 import { t } from 'languages'
-import { T_CreateUserForm } from 'models/user/forms'
+import { T_CreateAdminForm } from 'models/admins/forms'
+import { adminsAPI } from 'services/admins'
 import { dictionariesAPI } from 'services/dictionaries'
-import { usersAPI } from 'services/users'
-import { formCreateToUser } from 'utils/forms/users'
+import { formCreateToAdmin } from 'utils/forms/admins'
 
-export const FormCreateUser = () => {
+export const FormCreateAdmin = () => {
   const navigate = useNavigate()
 
-  const [form] = Form.useForm<T_CreateUserForm>()
+  const [form] = Form.useForm<T_CreateAdminForm>()
   const avatarValue = Form.useWatch('avatar', form)
 
-  // Создание пользователя
-  const [fetchCreateUser, { data, isSuccess }] = usersAPI.useCreateUserMutation()
+  // Создание админа
+  const [fetchCreateAdmin, { data, isSuccess }] = adminsAPI.useCreateAdminMutation()
 
-  // Получения словаря со статусами
-  const { data: statusesData, isFetching: isStatusesFetching } =
-    dictionariesAPI.useGetStatusesQuery()
+  // Получения словаря с ролями
+  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
 
-  // Успешное создание пользователя
   useEffect(() => {
     if (data && isSuccess) {
       notification.open({
         message: t('notifications.createAdmin.success'),
         icon: <CheckOutlined style={{ color: '#52c41a' }} />,
       })
-      navigate(`/users`)
+      navigate(`/admins`)
     }
   }, [isSuccess, data, navigate])
 
-  const handleFinish = (values: T_CreateUserForm) => {
-    const payload = formCreateToUser(values)
-    fetchCreateUser(payload)
+  const handleFinish = (values: T_CreateAdminForm) => {
+    const payload = formCreateToAdmin(values)
+    fetchCreateAdmin(payload)
   }
 
   const handleCancel = () => {
     navigate(-1)
   }
 
-  if (isStatusesFetching) return <Loader relative />
+  if (isRolesFetching) return <Loader relative />
 
-  if (statusesData?.data) {
+  if (rolesData?.data) {
     return (
       <Form form={form} layout='vertical' onFinish={handleFinish}>
-        <GeneralSection statuses={statusesData.data} />
+        <GeneralSection roles={rolesData.data} />
         <PasswordSection />
         <AvatarSection avatarValue={avatarValue} />
 
@@ -58,10 +57,10 @@ export const FormCreateUser = () => {
         <Form.Item>
           <Space>
             <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
-              {t('userForm.actions.cancel')}
+              {t('adminForm.actions.cancel')}
             </Button>
             <Button size='large' type='primary' htmlType='submit'>
-              {t('userForm.actions.create')}
+              {t('adminForm.actions.create')}
             </Button>
           </Space>
         </Form.Item>

@@ -80,15 +80,15 @@ export const FormUpdateUser = () => {
   }
 
   const handleOkModalPassword = (password: string) => {
-    if (password?.length >= 6 && userData?.data.id) {
-      fetchChangePassword({ password, userId: userData?.data.id })
+    if (password?.length >= 6 && userData?.data?.id) {
+      fetchChangePassword({ password: { password }, userId: userData?.data.id })
       setIsModalPasswordOpen(false)
     }
   }
 
   if (isUserFetching || isStatusesFetching) return <Loader relative />
 
-  if (userData && statusesData) {
+  if (userData?.data && statusesData?.data) {
     return (
       <>
         <Form
