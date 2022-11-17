@@ -19,6 +19,9 @@ export const theme = {
     md: E_MediaQuery.md,
     sm: E_MediaQuery.sm,
   },
+  sizes: {
+    header: { height: 56 },
+  },
 }
 
 export type Theme = typeof theme

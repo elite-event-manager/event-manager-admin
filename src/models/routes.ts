@@ -5,6 +5,7 @@ export enum E_Routes {
   admins = '/admins',
   createAdmin = '/admins/create',
   updateAdmin = '/admins/update/:adminId',
+  roles = '/roles',
   events = '/events',
   createEvent = '/events/create',
   updateEvent = '/events/update/:eventId',

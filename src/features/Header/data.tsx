@@ -7,6 +7,7 @@ export const headerTitles: Record<E_Routes, string> = {
   [E_Routes.users]: 'dashboard.header.users',
   [E_Routes.createUser]: 'dashboard.header.createUser',
   [E_Routes.updateUser]: 'dashboard.header.updateUser',
+  [E_Routes.roles]: 'dashboard.header.roles',
   [E_Routes.events]: 'dashboard.header.events',
   [E_Routes.createEvent]: 'dashboard.header.creteEvent',
   [E_Routes.updateEvent]: 'dashboard.header.updateEvent',

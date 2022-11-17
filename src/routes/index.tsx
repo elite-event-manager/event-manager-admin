@@ -15,6 +15,7 @@ export const AppRoutes = () => {
         <Route path={E_Routes.createUser} element={<Pages.CreateUser />} />
         <Route path={E_Routes.updateUser} element={<Pages.UpdateUser />} />
         <Route path={E_Routes.admins} element={<Pages.Admins />} />
+        <Route path={E_Routes.roles} element={<Pages.Roles />} />
         <Route path={E_Routes.createAdmin} element={<Pages.CreateAdmin />} />
         <Route path={E_Routes.updateAdmin} element={<Pages.UpdateAdmin />} />
         <Route path={E_Routes.events} element={<Pages.Events />} />
