@@ -26,7 +26,9 @@ export const UsersTable = () => {
   const [fetchDeleteUser, { isSuccess: isDeleteUserSuccess }] = usersAPI.useDeleteUserMutation()
 
   // Получение пользователей
-  const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery()
+  const { data: usersData, isFetching: isUsersFetching } = usersAPI.useGetUsersQuery(null, {
+    refetchOnMountOrArgChange: true,
+  })
 
   // Получения словаря со статусами
   const { data: statusesData, isFetching: isStatusesFetching } =

@@ -1,5 +1,4 @@
-import { Button, Input, Typography, Form, Divider, notification } from 'antd'
-import { MaskedInput } from 'antd-mask-input'
+import { Button, Input, Typography, Form, Divider } from 'antd'
 import { useEffect } from 'react'
 
 import { I_AuthForm } from './models/form'
@@ -8,7 +7,6 @@ import * as S from './styles'
 import { useActions } from 'hooks/useActions'
 import { t } from 'languages'
 import { authAPI } from 'services/auth'
-import { maskPatterns } from 'utils/forms/maskPatterns'
 
 export const AuthLayout = () => {
   const { signIn } = useActions()
@@ -33,8 +31,8 @@ export const AuthLayout = () => {
         <Typography.Title level={3}>{t('app.title')}</Typography.Title>
         <Divider />
         <Form autoComplete='off' layout='vertical' form={form} onFinish={handleSingIn}>
-          <Form.Item label={t('auth.form.phone.label')} name='phone' rules={[{ required: true }]}>
-            <MaskedInput mask={maskPatterns.phone} />
+          <Form.Item label={t('auth.form.email.label')} name='email' rules={[{ required: true }]}>
+            <Input />
           </Form.Item>
 
           <Form.Item

@@ -1,7 +1,5 @@
 import { I_User } from '.'
 
-import { T_File } from 'models/shared/upload'
-
 export type T_UserForm = Pick<
   I_User,
   | 'phone'
@@ -14,13 +12,10 @@ export type T_UserForm = Pick<
   | 'job'
   | 'address'
 > & {
-  avatar: T_File[]
+  avatar: { url: string }[]
 }
 
-export type T_CreateUserForm = T_UserForm & {
-  password: string
-}
-
+export type T_CreateUserForm = T_UserForm
 export type T_UpdateUserForm = T_UserForm
 
 export type T_ChangePassword = {

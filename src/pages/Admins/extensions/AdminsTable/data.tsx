@@ -6,12 +6,10 @@ import { RefObject } from 'react'
 import Highlighter from 'react-highlight-words'
 import { Link } from 'react-router-dom'
 
-import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
 import { T_AdminRecord } from 'models/admins'
-import { E_AdminRole, T_AdminId } from 'models/shared/admin'
-import { T_DictionaryAdminRole } from 'models/shared/dictionaries'
-import { getRoleName } from 'utils/dictionaries/roles'
+import { I_AdminRole } from 'models/roles'
+import { T_AdminId } from 'models/shared/admin'
 import { E_FormatDate } from 'utils/helpers/date'
 
 interface I_GetColumnsProps {
@@ -20,7 +18,6 @@ interface I_GetColumnsProps {
   handleReset: (clearFilters: () => void, confirm: (param?: FilterConfirmProps) => void) => void
   searchInput: RefObject<InputRef>
   searchText: string
-  roles: T_DictionaryAdminRole[]
   handleOpenModalUser: (adminId: T_AdminId) => () => void
 }
 
@@ -30,7 +27,6 @@ export const getColumns = ({
   handleReset,
   searchInput,
   searchText,
-  roles,
   handleOpenModalUser,
 }: I_GetColumnsProps) => [
   {
@@ -97,13 +93,17 @@ export const getColumns = ({
     },
 
     onFilter: (value: string | number | boolean, record: T_AdminRecord) =>
-      (record.username + record.phone).toLowerCase().includes(String(value).toLowerCase()),
+      (record.username + record.email).toLowerCase().includes(String(value).toLowerCase()),
   },
   {
-    title: t('adminsTable.table.role'),
-    dataIndex: 'role',
-    sorter: (a: T_AdminRecord, b: T_AdminRecord) => a.role.localeCompare(b.role),
-    render: (roleId: E_AdminRole) => <Tag>{getRoleName(roles, roleId)}</Tag>,
+    title: t('adminsTable.table.roles'),
+    dataIndex: 'roles',
+    render: (roles: I_AdminRole[]) =>
+      roles.map((adminRole) => (
+        <Tooltip key={adminRole.roleId + adminRole.adminId} title={adminRole.role.description}>
+          <Tag>{adminRole.role.name}</Tag>
+        </Tooltip>
+      )),
   },
 
   {
@@ -119,11 +119,9 @@ export const getColumns = ({
     key: 'action',
     render: (record: T_AdminRecord) => (
       <Space size='middle'>
-        <RoleGate scopes={[E_AdminRole.superAdmin, E_AdminRole.admin]}>
-          <Tooltip title={t('adminsTable.tooltip.delete')} placement='topLeft'>
-            <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
-          </Tooltip>
-        </RoleGate>
+        <Tooltip title={t('adminsTable.tooltip.delete')} placement='topLeft'>
+          <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
+        </Tooltip>
         <Tooltip title={t('adminsTable.tooltip.update')} placement='topLeft'>
           <Link to={`/admins/update/${record.id}`}>
             <Button icon={<EditOutlined />} />

@@ -10,7 +10,7 @@ export const PasswordSection = () => {
           name='password'
           label={t('adminForm.fields.password')}
           hasFeedback
-          rules={[{ required: true }]}
+          rules={[{ required: true, min: 6 }]}
         >
           <Input.Password />
         </Form.Item>

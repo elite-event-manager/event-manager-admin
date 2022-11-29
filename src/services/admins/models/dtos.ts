@@ -1,25 +1,24 @@
-import { E_AdminRole } from 'models/shared/admin'
-import { T_File } from 'models/shared/upload'
-
 export type T_ChangePasswordDto = {
   password: string
 }
 
+export type T_ChangeRolesDto = {
+  rolesIds: number[]
+}
+
 export type T_CreateAdminDto = {
-  phone: string
+  email: string
   password: string
-  avatar: T_File
+  avatar: string
   firstName: string
   lastName: string
   description: string
-  role: E_AdminRole
 }
 
 export type T_UpdateAdminDto = {
-  phone: string
-  avatar: T_File
+  email: string
+  avatar: string
   firstName: string
   lastName: string
   description: string
-  role: E_AdminRole
 }

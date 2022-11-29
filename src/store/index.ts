@@ -20,6 +20,7 @@ import { adminsAPI } from 'services/admins'
 import { authAPI } from 'services/auth'
 import { dictionariesAPI } from 'services/dictionaries'
 import { filesAPI } from 'services/files'
+import { rolesAPI } from 'services/roles'
 import { usersAPI } from 'services/users'
 
 const persistConfig = {
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   [usersAPI.reducerPath]: usersAPI.reducer,
   [dictionariesAPI.reducerPath]: dictionariesAPI.reducer,
   [filesAPI.reducerPath]: filesAPI.reducer,
+  [rolesAPI.reducerPath]: rolesAPI.reducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -59,6 +61,7 @@ export const store = configureStore({
       usersAPI.middleware,
       dictionariesAPI.middleware,
       filesAPI.middleware,
+      rolesAPI.middleware,
       rtkQueryErrorLogger,
     ),
 })

@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
-import { AvatarSection, GeneralSection, PasswordSection } from 'features/FormUser/components'
+import { AvatarSection, GeneralSection } from 'features/FormUser/components'
 import { t } from 'languages'
 import { T_CreateUserForm } from 'models/user/forms'
 import { dictionariesAPI } from 'services/dictionaries'
@@ -51,7 +51,6 @@ export const FormCreateUser = () => {
     return (
       <Form form={form} layout='vertical' onFinish={handleFinish}>
         <GeneralSection statuses={statusesData.data} />
-        <PasswordSection />
         <AvatarSection avatarValue={avatarValue} />
 
         <Divider />

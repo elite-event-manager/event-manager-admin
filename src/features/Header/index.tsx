@@ -1,4 +1,4 @@
-import { MenuOutlined, ExclamationCircleOutlined } from '@ant-design/icons'
+import { MenuOutlined, ExclamationCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Modal } from 'antd'
 
 import { headerTitles, profileMenu } from './data'
@@ -9,9 +9,7 @@ import { useCurrentPath } from 'hooks/useCurrentPath'
 import { useMediaQuery } from 'hooks/useMediaQuery'
 import { useStoreSelector } from 'hooks/useStoreSelector'
 import { t } from 'languages'
-import { dictionariesAPI } from 'services/dictionaries'
 import { E_MediaQuery } from 'styles/theme'
-import { getRoleName } from 'utils/dictionaries/roles'
 
 export const Header = () => {
   const { openSidebar, logout } = useActions()
@@ -19,9 +17,6 @@ export const Header = () => {
 
   const currentPath = useCurrentPath()
   const isMatch = useMediaQuery(E_MediaQuery.md)
-
-  // Получения словаря с ролями
-  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
 
   const handleOpenSidebar = () => {
     openSidebar()
@@ -51,14 +46,15 @@ export const Header = () => {
       <Dropdown overlay={profileMenu({ onLogout: handleLogout })} placement='bottomLeft'>
         <S.HeaderRightSection>
           <S.HeaderProfileInfo>
+            {profile.avatar ? (
+              <S.HeaderProfileAvatar src={profile.avatar} alt='avatar' />
+            ) : (
+              <UserOutlined />
+            )}
             <S.HeaderProfileInfoName>
               {profile.lastName} {profile.firstName}
             </S.HeaderProfileInfoName>
-            <S.HeaderProfileInfoRole>
-              {isRolesFetching || !rolesData ? '...' : getRoleName(rolesData.data, profile.role)}
-            </S.HeaderProfileInfoRole>
           </S.HeaderProfileInfo>
-          <S.HeaderProfileAvatar src={profile.avatar?.url} alt='avatar' />
         </S.HeaderRightSection>
       </Dropdown>
     </S.HeaderWrapper>

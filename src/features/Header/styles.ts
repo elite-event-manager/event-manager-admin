@@ -11,7 +11,7 @@ export const HeaderWrapper = styled.div`
 
   width: 100%;
   height: 56px;
-  padding-inline: 16px;
+  padding-left: 16px;
 
   font-weight: 300;
   color: white;
@@ -20,7 +20,7 @@ export const HeaderWrapper = styled.div`
   box-shadow: rgba(0, 0, 0, 16%) 0 1px 4px;
 
   @media ${({ theme }) => theme.media.md} {
-    padding-inline: 4px;
+    padding-left: 4px;
   }
 `
 
@@ -42,11 +42,13 @@ export const HeaderRightSection = styled.div`
   align-items: center;
 
   max-width: fit-content;
+  height: 100%;
   padding-block: 4px;
   padding-inline: 16px;
 
   border-left: 1px solid ${({ theme }) => theme.palette.layoutTriggerBackground};
-  border-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 
   transition: background-color ease 500ms;
 
@@ -63,7 +65,9 @@ export const HeaderRightSection = styled.div`
 
 export const HeaderProfileInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
 
   :nth-child(2) {
     font-size: 8px;
