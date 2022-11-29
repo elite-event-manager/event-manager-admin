@@ -1,14 +1,12 @@
 import { DeleteOutlined, EditOutlined, EyeOutlined, SearchOutlined } from '@ant-design/icons'
-import { Button, Input, InputRef, Space, Tag, Tooltip } from 'antd'
+import { Button, Input, InputRef, Space, Tooltip } from 'antd'
 import { FilterConfirmProps, FilterDropdownProps } from 'antd/lib/table/interface'
 import moment from 'moment'
 import { RefObject } from 'react'
 import Highlighter from 'react-highlight-words'
 import { Link } from 'react-router-dom'
 
-import { RoleGate } from 'gates/Role'
 import { t } from 'languages'
-import { E_AdminRole } from 'models/shared/admin'
 import { T_DictionaryUserStatus } from 'models/shared/dictionaries'
 import { E_UserStatus, T_UserId } from 'models/shared/user'
 import { T_UserRecord } from 'models/user'
@@ -104,7 +102,7 @@ export const getColumns = ({
     title: t('usersTable.table.status'),
     dataIndex: 'status',
     sorter: (a: T_UserRecord, b: T_UserRecord) => a.status.localeCompare(b.status),
-    render: (statusId: E_UserStatus) => <Tag>{getStatusName(statuses, statusId)}</Tag>,
+    render: (statusId: E_UserStatus) => getStatusName(statuses, statusId),
   },
 
   {
@@ -129,11 +127,9 @@ export const getColumns = ({
     key: 'action',
     render: (record: T_UserRecord) => (
       <Space size='middle'>
-        <RoleGate scopes={[E_AdminRole.superAdmin, E_AdminRole.admin]}>
-          <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
-            <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
-          </Tooltip>
-        </RoleGate>
+        <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
+          <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
+        </Tooltip>
         <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
           <Link to={`/users/update/${record.id}`}>
             <Button icon={<EditOutlined />} />

@@ -1,4 +1,4 @@
-import { Col, Descriptions, Divider, Modal, Row, Space, Tag } from 'antd'
+import { Descriptions, Divider, Modal, Space } from 'antd'
 import moment from 'moment'
 import { useEffect } from 'react'
 
@@ -25,9 +25,6 @@ export const ViewUserModal = ({ isOpen, handleClose, userId }: I_ViewUserModalPr
     usersAPI.useLazyGetUserQuery()
 
   // Получения словаря со статусами
-  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
-
-  // Получения словаря со статусами
   const { data: statusesData, isFetching: isStatusesFetching } =
     dictionariesAPI.useGetStatusesQuery()
 
@@ -39,54 +36,43 @@ export const ViewUserModal = ({ isOpen, handleClose, userId }: I_ViewUserModalPr
 
   return (
     <Modal title={t('modal.viewUser.title')} open={isOpen} footer={null} onCancel={handleClose}>
-      {isUserFetching || isStatusesFetching || isRolesFetching ? (
+      {isUserFetching || isStatusesFetching ? (
         <Loader relative />
-      ) : userData?.data && rolesData?.data && statusesData?.data ? (
+      ) : userData?.data && statusesData?.data ? (
         <div>
-          <Row gutter={[16, 4]}>
-            <Col xl={6}>
-              <S.UserAvatar src={userData.data.avatar.url} />
-            </Col>
-            <Col xl={18}>
-              <Space direction='vertical'>
-                <b>
-                  {userData.data.lastName} {userData.data.firstName} {userData.data.middleName}
-                </b>
-                <span>{userData.data.phone}</span>
-                <span>
-                  <Tag>{getStatusName(statusesData.data, userData.data.status)}</Tag>
-                </span>
-              </Space>
-            </Col>
-          </Row>
+          <S.TopSection>
+            <S.UserAvatar src={userData.data.avatar} />
+            <Space direction='vertical'>
+              <b>
+                {userData.data.lastName} {userData.data.firstName} {userData.data.middleName}
+              </b>
+              <span>{userData.data.phone}</span>
+            </Space>
+          </S.TopSection>
           <Divider />
           <Descriptions bordered>
-            <Descriptions.Item span={24} label={t('modal.viewUser.age')}>
+            <Descriptions.Item span={3} label={t('modal.viewUser.status')}>
+              {getStatusName(statusesData.data, userData.data.status)}
+            </Descriptions.Item>
+            <Descriptions.Item span={3} label={t('modal.viewUser.age')}>
               {userData.data.age}
             </Descriptions.Item>
-            <Descriptions.Item span={24} label={t('modal.viewUser.address')}>
+            <Descriptions.Item span={3} label={t('modal.viewUser.address')}>
               {userData.data.address}
             </Descriptions.Item>
-            <Descriptions.Item span={24} label={t('modal.viewUser.job')}>
+            <Descriptions.Item span={3} label={t('modal.viewUser.job')}>
               {userData.data.job}
             </Descriptions.Item>
-            <Descriptions.Item span={24} label={t('modal.viewUser.description')}>
+            <Descriptions.Item span={3} label={t('modal.viewUser.description')}>
               {userData.data.description}
             </Descriptions.Item>
-          </Descriptions>
-          <Divider />
-          <Row>
-            <Col>
-              <b>{t('modal.viewUser.created')}</b>{' '}
+            <Descriptions.Item span={3} label={t('modal.viewUser.created')}>
               {moment(userData.data.createdAt).format(E_FormatDate.default)}
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <b>{t('modal.viewUser.updated')}</b>{' '}
+            </Descriptions.Item>
+            <Descriptions.Item span={3} label={t('modal.viewUser.updated')}>
               {moment(userData.data.updatedAt).format(E_FormatDate.default)}
-            </Col>
-          </Row>
+            </Descriptions.Item>
+          </Descriptions>
         </div>
       ) : (
         <ErrorFeedback relative />

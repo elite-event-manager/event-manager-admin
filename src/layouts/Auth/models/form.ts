@@ -1,4 +1,4 @@
 export interface I_AuthForm {
-  phone: string
+  email: string
   password: string
 }

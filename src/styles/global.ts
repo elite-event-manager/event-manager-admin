@@ -36,4 +36,8 @@ export const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
+
+  /* .ant-tree-show-line .ant-tree-switcher-line-icon {
+    display: none;
+  } */
 `

@@ -16,9 +16,9 @@ export const authAPI = createApi({
         body: payload,
       }),
       transformResponse: (response: T_AuthResponse) => {
-        if (response.data?.user.avatar?.url) {
-          response.data.user.avatar.url =
-            import.meta.env.VITE_SERVER_API + response.data.user.avatar.url
+        if (response.data?.admin.avatar) {
+          response.data.admin.avatar =
+            import.meta.env.VITE_SERVER_AVATAR + response.data.admin.avatar
         }
         return response
       },
@@ -28,9 +28,9 @@ export const authAPI = createApi({
         url: `auth/check`,
       }),
       transformResponse: (response: T_AuthResponse) => {
-        if (response.data?.user.avatar?.url) {
-          response.data.user.avatar.url =
-            import.meta.env.VITE_SERVER_API + response.data.user.avatar.url
+        if (response.data?.admin.avatar) {
+          response.data.admin.avatar =
+            import.meta.env.VITE_SERVER_AVATAR + response.data.admin.avatar
         }
         return response
       },

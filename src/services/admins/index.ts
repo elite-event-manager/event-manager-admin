@@ -1,6 +1,11 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
 
-import { T_ChangePasswordDto, T_CreateAdminDto, T_UpdateAdminDto } from './models/dtos'
+import {
+  T_ChangePasswordDto,
+  T_ChangeRolesDto,
+  T_CreateAdminDto,
+  T_UpdateAdminDto,
+} from './models/dtos'
 import {
   T_GetAdminsResponse,
   T_CreateAdminResponse,
@@ -17,7 +22,7 @@ export const adminsAPI = createApi({
   baseQuery: baseQueryWithReAuth,
   tagTypes: ['admins', 'admin'],
   endpoints: (build) => ({
-    getAdmins: build.query<T_GetAdminsResponse, void>({
+    getAdmins: build.query<T_GetAdminsResponse, null>({
       query: () => ({
         url: '/admins',
       }),
@@ -29,8 +34,8 @@ export const adminsAPI = createApi({
         url: `/admins/${payload}`,
       }),
       transformResponse: (response: T_GetAdminResponse) => {
-        if (response.data) {
-          response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        if (response.data?.avatar) {
+          response.data.avatar = import.meta.env.VITE_SERVER_AVATAR + response.data.avatar
         }
         return response
       },
@@ -46,27 +51,35 @@ export const adminsAPI = createApi({
       invalidatesTags: ['admins'],
     }),
 
-    changePassword: build.mutation<void, { password: T_ChangePasswordDto; adminId: T_AdminId }>({
+    changePassword: build.mutation<void, { body: T_ChangePasswordDto; adminId: string }>({
       query: (payload) => ({
-        url: `/admins/changePassword${payload.adminId}`,
+        url: `/admins/changePassword/${payload.adminId}`,
         method: 'PATCH',
-        body: payload.password,
+        body: payload.body,
       }),
     }),
 
-    updateAdmin: build.mutation<
-      T_UpdateAdminResponse,
-      { admin: T_UpdateAdminDto; adminId: T_AdminId }
-    >({
+    changeRoles: build.mutation<void, { body: T_ChangeRolesDto; adminId: string }>({
       query: (payload) => ({
-        url: `/admins/${payload.adminId}`,
-        method: 'PUT',
-        body: payload.admin,
+        url: `/admins/changeRoles/${payload.adminId}`,
+        method: 'PATCH',
+        body: payload.body,
       }),
       invalidatesTags: ['admins', 'admin'],
     }),
 
-    deleteAdmin: build.mutation<void, T_AdminId>({
+    updateAdmin: build.mutation<T_UpdateAdminResponse, { body: T_UpdateAdminDto; adminId: string }>(
+      {
+        query: (payload) => ({
+          url: `/admins/${payload.adminId}`,
+          method: 'PUT',
+          body: payload.body,
+        }),
+        invalidatesTags: ['admins', 'admin'],
+      },
+    ),
+
+    deleteAdmin: build.mutation<void, string>({
       query: (payload) => ({
         url: `/admins/${payload}`,
         method: 'DELETE',

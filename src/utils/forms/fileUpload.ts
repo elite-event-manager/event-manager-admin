@@ -1,7 +1,5 @@
 import { message } from 'antd'
 
-import { T_File } from 'models/shared/upload'
-
 export const uploadImageExtraText = '(.png, .jpeg, .jpg, .webp)'
 export const uploadImageAcceptFiles = '.png, .jpeg, .jpg, .webp'
 
@@ -16,10 +14,10 @@ export const customRequestUpload = async (options: any, fetchUpload: any) => {
   const data = new FormData()
   data.append('file', options.file)
   try {
-    const response: { data: T_File } = await fetchUpload(data)
+    const response: { data: { fileName: string } } = await fetchUpload(data)
+    console.log('response', response)
     options.onSuccess({
-      ...response.data,
-      url: import.meta.env.VITE_SERVER_API + response.data.url.replace('\\', '/'),
+      url: import.meta.env.VITE_SERVER_AVATAR + response.data.fileName,
     })
     message.success('File success uploaded!')
   } catch (e) {

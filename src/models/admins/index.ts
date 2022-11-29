@@ -1,19 +1,20 @@
-import { E_AdminRole, T_AdminId } from '../shared/admin'
-import { T_File } from '../shared/upload'
+import { T_AdminId } from '../shared/admin'
+
+import { I_AdminRole } from 'models/roles'
 
 export interface I_Admin {
   id: T_AdminId
-  phone: string
+  email: string
   firstName: string
   lastName: string
   description: string
-  avatar: T_File
-  role: E_AdminRole
+  avatar: string
+  roles: I_AdminRole[]
   createdAt: Date
   updatedAt: Date
 }
 
-export type T_AdminPreview = Pick<I_Admin, 'phone' | 'role' | 'firstName' | 'lastName' | 'avatar'>
+export type T_AdminPreview = Pick<I_Admin, 'email' | 'roles' | 'firstName' | 'lastName' | 'avatar'>
 
 export type T_AdminRecord = Omit<I_Admin, 'firstName' | 'lastName'> & {
   username: string

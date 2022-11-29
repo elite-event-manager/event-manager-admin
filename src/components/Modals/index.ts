@@ -1,2 +1,5 @@
 export { ViewUserModal } from './ViewUserModal'
-export { UpdateUserPasswordModal } from './UpdateUserPasswordModal'
+export { ViewAdminModal } from './ViewAdminModal'
+export { UpdatePasswordModal } from './UpdatePasswordModal'
+export { UpdateAdminRolesModal } from './UpdateAdminRolesModal'
+export { ViewRoleModal } from './ViewRoleModal'

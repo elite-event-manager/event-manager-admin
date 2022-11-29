@@ -12,9 +12,9 @@ export default defineConfig({
     preprocessorOptions: {
       less: {
         modifyVars: {
-          'primary-color': '#51258f',
-          'layout-header-background': '#1a1325',
-          'layout-trigger-background': '#24163a',
+          'primary-color': '#AB274F',
+          'layout-header-background': '#2D2D2D',
+          'layout-trigger-background': '#8B3550',
         },
         javascriptEnabled: true,
       },

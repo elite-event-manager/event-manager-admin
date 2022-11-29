@@ -1,11 +1,10 @@
 import { CheckOutlined } from '@ant-design/icons'
 import { Button, Divider, Form, notification, Space } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
-import { UpdateUserPasswordModal } from 'components/Modals'
 import { AvatarSection, GeneralSection } from 'features/FormUser/components'
 import { t } from 'languages'
 import { T_Params } from 'models/routes'
@@ -18,17 +17,11 @@ export const FormUpdateUser = () => {
   const navigate = useNavigate()
   const params = useParams<T_Params>()
 
-  const [isModalPasswordOpen, setIsModalPasswordOpen] = useState(false)
-
   const [form] = Form.useForm<T_UpdateUserForm>()
   const avatarValue = Form.useWatch('avatar', form)
 
   // Обновление пользователя
   const [fetchUpdateUser, { data, isSuccess }] = usersAPI.useUpdateUserMutation()
-
-  // Обновление пароля пользователя
-  const [fetchChangePassword, { isSuccess: isPasswordChangeSuccess }] =
-    usersAPI.useChangePasswordMutation()
 
   // Успешное обновление пользователя
   useEffect(() => {
@@ -40,15 +33,6 @@ export const FormUpdateUser = () => {
       navigate(`/users`)
     }
   }, [isSuccess, data, navigate])
-
-  useEffect(() => {
-    if (isPasswordChangeSuccess) {
-      notification.open({
-        message: t('notifications.changePassword.success'),
-        icon: <CheckOutlined style={{ color: '#52c41a' }} />,
-      })
-    }
-  }, [isPasswordChangeSuccess])
 
   // Если параметр адресной строки не найден
   if (!params.userId) return <Navigate to='/users' />
@@ -71,57 +55,34 @@ export const FormUpdateUser = () => {
     navigate(-1)
   }
 
-  const handleCloseModalPassword = () => {
-    setIsModalPasswordOpen(false)
-  }
-
-  const handleOpenModalPassword = () => {
-    setIsModalPasswordOpen(true)
-  }
-
-  const handleOkModalPassword = (password: string) => {
-    if (password?.length >= 6 && userData?.data?.id) {
-      fetchChangePassword({ password: { password }, userId: userData?.data.id })
-      setIsModalPasswordOpen(false)
-    }
-  }
-
   if (isUserFetching || isStatusesFetching) return <Loader relative />
+
+  console.log('userData', userData)
+  console.log('statusesData', statusesData)
 
   if (userData?.data && statusesData?.data) {
     return (
-      <>
-        <Form
-          form={form}
-          layout='vertical'
-          onFinish={handleFinish}
-          initialValues={userToFormUpdate(userData.data)}
-        >
-          <GeneralSection statuses={statusesData.data} />
-          <AvatarSection avatarValue={avatarValue} />
-          <Divider />
-          <Form.Item>
-            <Space>
-              <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
-                {t('userForm.actions.cancel')}
-              </Button>
-              <Button size='large' type='primary' htmlType='submit'>
-                {t('userForm.actions.save')}
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+      <Form
+        form={form}
+        layout='vertical'
+        onFinish={handleFinish}
+        initialValues={userToFormUpdate(userData.data)}
+      >
+        <GeneralSection statuses={statusesData.data} />
+        <AvatarSection avatarValue={avatarValue} />
         <Divider />
-        <Button onClick={handleOpenModalPassword} size='large' type='dashed' htmlType='button'>
-          {t('userForm.actions.updatePassword')}
-        </Button>
-        <UpdateUserPasswordModal
-          isOpen={isModalPasswordOpen}
-          onOk={handleOkModalPassword}
-          onClose={handleCloseModalPassword}
-        />
-      </>
+        <Form.Item>
+          <Space>
+            <Button onClick={handleCancel} size='large' type='default' htmlType='button'>
+              {t('userForm.actions.cancel')}
+            </Button>
+            <Button size='large' type='primary' htmlType='submit'>
+              {t('userForm.actions.save')}
+            </Button>
+          </Space>
+        </Form.Item>
+      </Form>
     )
   }
-  return <ErrorFeedback />
+  return <ErrorFeedback relative />
 }

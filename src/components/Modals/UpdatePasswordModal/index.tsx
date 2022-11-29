@@ -1,19 +1,21 @@
-import { Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal } from 'antd'
 
 import { t } from 'languages'
 import { T_ChangePassword } from 'models/user/forms'
 
-interface UpdateUserPasswordModalProps {
+interface UpdatePasswordModalProps {
   isOpen: boolean
   onClose: () => void
   onOk: (value: string) => void
+  isLoading: boolean
 }
 
-export const UpdateUserPasswordModal = ({
+export const UpdatePasswordModal = ({
   isOpen,
   onClose,
   onOk,
-}: UpdateUserPasswordModalProps) => {
+  isLoading,
+}: UpdatePasswordModalProps) => {
   const [form] = Form.useForm<T_ChangePassword>()
 
   const handleFinish = (values: T_ChangePassword) => {
@@ -23,18 +25,25 @@ export const UpdateUserPasswordModal = ({
 
   return (
     <Modal
-      title={t('modal.updateUserPassword.title')}
+      title={t('modal.updatePassword.title')}
       open={isOpen}
       onOk={form.submit}
       onCancel={onClose}
-      okText={t('modal.updateUserPassword.actions.update')}
+      footer={[
+        <Button key='cancel' disabled={isLoading} onClick={onClose}>
+          {t('modal.updatePassword.actions.cancel')}
+        </Button>,
+        <Button key='updateRole' loading={isLoading} onClick={form.submit}>
+          {t('modal.updatePassword.actions.update')}
+        </Button>,
+      ]}
     >
       <Form form={form} layout='vertical' onFinish={handleFinish}>
         <Form.Item
           name='password'
           label={t('userForm.fields.password')}
           hasFeedback
-          rules={[{ required: true }]}
+          rules={[{ required: true, min: 6 }]}
         >
           <Input.Password />
         </Form.Item>

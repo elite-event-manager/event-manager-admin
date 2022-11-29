@@ -17,7 +17,7 @@ export const usersAPI = createApi({
   baseQuery: baseQueryWithReAuth,
   tagTypes: ['users', 'user'],
   endpoints: (build) => ({
-    getUsers: build.query<T_GetUsersResponse, void>({
+    getUsers: build.query<T_GetUsersResponse, null>({
       query: () => ({
         url: '/users',
       }),
@@ -29,8 +29,8 @@ export const usersAPI = createApi({
         url: `/users/${payload}`,
       }),
       transformResponse: (response: T_GetUserResponse) => {
-        if (response.data) {
-          response.data.avatar.url = import.meta.env.VITE_SERVER_API + response.data.avatar.url
+        if (response.data?.avatar) {
+          response.data.avatar = import.meta.env.VITE_SERVER_AVATAR + response.data.avatar
         }
         return response
       },

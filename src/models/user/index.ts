@@ -1,4 +1,3 @@
-import { T_File } from '../shared/upload'
 import { E_UserStatus, T_UserId } from '../shared/user'
 
 export interface I_User {
@@ -11,7 +10,7 @@ export interface I_User {
   job: string
   lastName: string
   description: string
-  avatar: T_File
+  avatar: string
   status: E_UserStatus
   createdAt: Date
   updatedAt: Date

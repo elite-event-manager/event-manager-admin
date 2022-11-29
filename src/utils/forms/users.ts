@@ -8,7 +8,7 @@ export const formCreateToUser = (form: T_CreateUserForm): T_CreateUserDto => {
 
   return {
     ...rest,
-    avatar: avatar[0],
+    avatar: avatar[0].url.split('/').at(-1)!,
   }
 }
 
@@ -17,7 +17,7 @@ export const formUpdateToUser = (form: T_UpdateUserForm): T_UpdateUserDto => {
 
   return {
     ...rest,
-    avatar: avatar[0],
+    avatar: avatar[0].url.split('/').at(-1)!,
   }
 }
 
@@ -26,6 +26,6 @@ export const userToFormUpdate = (user: I_User): T_UpdateUserForm => {
 
   return {
     ...rest,
-    avatar: [avatar],
+    avatar: [{ url: avatar }],
   }
 }

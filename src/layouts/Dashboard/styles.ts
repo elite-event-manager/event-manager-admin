@@ -25,8 +25,9 @@ export const LayoutContainer = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  justify-content: space-between;
 
+  min-height: calc(100vh - ${({ theme }) => theme.sizes.header.height}px);
   padding: 16px;
 `
 
@@ -34,5 +35,7 @@ export const LayoutContent = styled.div`
   height: fit-content;
 `
 export const LayoutFooter = styled.div`
+  margin-top: 8px;
+
   text-align: center;
 `

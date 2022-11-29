@@ -7,12 +7,11 @@ import { getColumns } from './data'
 
 import { ErrorFeedback } from 'components/ErrorFeedback'
 import { Loader } from 'components/Loader'
-import { ViewAdminModal } from 'components/Modals/ViewAdminModal'
+import { ViewAdminModal } from 'components/Modals'
 import { t } from 'languages'
 import { T_AdminRecord } from 'models/admins'
 import { T_AdminId } from 'models/shared/admin'
 import { adminsAPI } from 'services/admins'
-import { dictionariesAPI } from 'services/dictionaries'
 import { formatAdminToDataSource } from 'utils/helpers/table'
 
 export const AdminsTable = () => {
@@ -26,21 +25,24 @@ export const AdminsTable = () => {
   const [fetchDeleteUser, { isSuccess: isDeleteAdminSuccess }] = adminsAPI.useDeleteAdminMutation()
 
   // Получение админов
-  const { data: adminsData, isFetching: isAdminsFetching } = adminsAPI.useGetAdminsQuery()
+  const {
+    data: adminsData,
+    isFetching: isAdminsFetching,
+    isLoading: isAdminsLoading,
+  } = adminsAPI.useGetAdminsQuery(null, {
+    refetchOnMountOrArgChange: true,
+  })
 
-  // Получения словаря с ролями
-  const { data: rolesData, isFetching: isRolesFetching } = dictionariesAPI.useGetRolesQuery()
-
-  const handleRemove = (userId: T_AdminId) => {
+  const handleRemove = (adminId: T_AdminId) => {
     Modal.confirm({
-      title: t('modal.confirm.removeAdmin.title') + ` ID:${userId}`,
+      title: t('modal.confirm.removeAdmin.title') + ` ID:${adminId}`,
       icon: <ExclamationCircleOutlined />,
       content: t('modal.confirm.removeAdmin.content'),
       okText: t('modal.confirm.removeAdmin.ok'),
       cancelText: t('modal.confirm.removeAdmin.cancel'),
       maskClosable: true,
       onOk: () => {
-        fetchDeleteUser(userId)
+        fetchDeleteUser(adminId)
       },
     })
   }
@@ -58,7 +60,6 @@ export const AdminsTable = () => {
     setSearchText('')
   }
 
-  // Закрытие модального окна пользователя
   const handleCloseModalUser = () => {
     setIsModalUserOpen(false)
   }
@@ -77,30 +78,33 @@ export const AdminsTable = () => {
     }
   }, [isDeleteAdminSuccess])
 
-  if (isAdminsFetching || isRolesFetching) {
-    return <Loader />
+  if (isAdminsLoading) {
+    return <Loader relative />
   }
 
-  if (adminsData?.data && rolesData?.data) {
+  if (adminsData?.data) {
     const dataTable = adminsData.data.length ? formatAdminToDataSource(adminsData.data) : []
     return (
       <>
-        <Table
-          scroll={{ x: 'max-content' }}
-          columns={
-            getColumns({
-              handleRemove,
-              handleSearch,
-              handleReset,
-              searchInput,
-              searchText,
-              roles: rolesData.data,
-              handleOpenModalUser,
-            }) as ColumnsType<T_AdminRecord>
-          }
-          dataSource={dataTable}
-          pagination={{ position: ['bottomLeft', 'topLeft'] }}
-        />
+        {isAdminsFetching ? (
+          <Loader relative />
+        ) : (
+          <Table
+            scroll={{ x: 'max-content' }}
+            columns={
+              getColumns({
+                handleRemove,
+                handleSearch,
+                handleReset,
+                searchInput,
+                searchText,
+                handleOpenModalUser,
+              }) as ColumnsType<T_AdminRecord>
+            }
+            dataSource={dataTable}
+            pagination={{ position: ['bottomLeft', 'topLeft'] }}
+          />
+        )}
         <ViewAdminModal
           adminId={modalAdminId}
           isOpen={isModalUserOpen}
