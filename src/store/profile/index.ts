@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { I_AdminsOnRoles } from 'models/roles'
+import { I_AdminRole } from 'models/roles'
 import { T_AuthResponse } from 'services/auth/models/responses'
+import { T_TokenData } from 'services/utils'
 import { LocalStorage } from 'utils/helpers/localStorage'
 
 export interface I_Profile {
   isAuth: boolean
   firstName: string
   lastName: string
-  roles: I_AdminsOnRoles[]
+  roles: I_AdminRole[]
   avatar: string
 }
 
@@ -37,6 +38,9 @@ export const profileSlice = createSlice({
         if (action.payload.data.refreshToken)
           LocalStorage.setRefreshToken(action.payload.data.refreshToken)
       }
+    },
+    refreshProfile: (state, action: PayloadAction<T_TokenData>) => {
+      state.roles = [...action.payload.roles]
     },
     logout: () => {
       LocalStorage.removeAccessToken()

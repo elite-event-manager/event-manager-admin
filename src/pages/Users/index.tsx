@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 import { UsersTable } from './extensions/UsersTable'
 
+import * as G from 'guards'
 import { t } from 'languages'
+import { E_RolePermission } from 'models/shared/role'
 import * as C from 'styles/components'
 
 export const Users = () => {
@@ -20,10 +22,12 @@ export const Users = () => {
       </Breadcrumb>
       <Divider />
       <C.WrapperPage>
-        <Button onClick={handleToCreateUser} type='primary'>
-          Создать пользователя
-        </Button>
-        <C.Brick />
+        <G.RolesGuard scope={[E_RolePermission['users.create']]}>
+          <Button onClick={handleToCreateUser} type='primary'>
+            {t('usersPage.actions.create')}
+          </Button>
+          <C.Brick />
+        </G.RolesGuard>
         <UsersTable />
       </C.WrapperPage>
     </div>

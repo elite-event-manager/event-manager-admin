@@ -25,7 +25,7 @@ export const FormUpdateRole = () => {
   useEffect(() => {
     if (data && isSuccess) {
       notification.open({
-        message: t('notifications.createAdmin.success'),
+        message: t('notifications.updateRole.success'),
         icon: <CheckOutlined style={{ color: '#52c41a' }} />,
       })
       navigate(`/roles`)

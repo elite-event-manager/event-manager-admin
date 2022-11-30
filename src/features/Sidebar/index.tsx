@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { T_MenuItem } from './models'
 import * as S from './styles'
 
+import * as G from 'guards'
 import { useActions } from 'hooks/useActions'
 import { useMediaQuery } from 'hooks/useMediaQuery'
 import { useStoreSelector } from 'hooks/useStoreSelector'
@@ -46,20 +47,22 @@ export const Sidebar = ({ items, selectedItem }: I_SidebarProps) => {
               </S.SidebarLabel>
               <S.SidebarList>
                 {items.map((item) => (
-                  <Link key={item.key} to={item.to}>
-                    <Tooltip placement='right' title={isCollapsed && t(item.label)}>
-                      <S.SidebarListItem isActive={item.key === selectedItem}>
-                        <S.SidebarListItemIcon isCollapsed={isCollapsed}>
-                          {item.icon}
-                        </S.SidebarListItemIcon>
-                        <S.SidebarListItemTextOverflow>
-                          <S.SidebarListItemText isCollapsed={isCollapsed}>
-                            {t(item.label)}
-                          </S.SidebarListItemText>
-                        </S.SidebarListItemTextOverflow>
-                      </S.SidebarListItem>
-                    </Tooltip>
-                  </Link>
+                  <G.RolesGuard key={item.key} scope={item.scope}>
+                    <Link to={item.to}>
+                      <Tooltip placement='right' title={isCollapsed && t(item.label)}>
+                        <S.SidebarListItem isActive={item.key === selectedItem}>
+                          <S.SidebarListItemIcon isCollapsed={isCollapsed}>
+                            {item.icon}
+                          </S.SidebarListItemIcon>
+                          <S.SidebarListItemTextOverflow>
+                            <S.SidebarListItemText isCollapsed={isCollapsed}>
+                              {t(item.label)}
+                            </S.SidebarListItemText>
+                          </S.SidebarListItemTextOverflow>
+                        </S.SidebarListItem>
+                      </Tooltip>
+                    </Link>
+                  </G.RolesGuard>
                 ))}
               </S.SidebarList>
             </S.SidebarInner>

@@ -79,7 +79,7 @@ export const adminsAPI = createApi({
       },
     ),
 
-    deleteAdmin: build.mutation<void, string>({
+    deleteAdmin: build.mutation<void, T_AdminId>({
       query: (payload) => ({
         url: `/admins/${payload}`,
         method: 'DELETE',
