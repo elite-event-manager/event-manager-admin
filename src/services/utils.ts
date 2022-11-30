@@ -4,10 +4,18 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/dist/query'
+import jwt_decode from 'jwt-decode'
 
+import { I_AdminRole } from 'models/roles'
 import { T_Tokens } from 'models/shared/app'
 import { profileActions } from 'store/profile'
 import { LocalStorage } from 'utils/helpers/localStorage'
+
+export type T_TokenData = {
+  sub: number
+  email: string
+  roles: I_AdminRole[]
+}
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${import.meta.env.VITE_SERVER_API}`,
@@ -40,8 +48,15 @@ export const baseQueryWithReAuth: BaseQueryFn<
     const response = await refreshResult.json()
 
     if (response.data) {
-      LocalStorage.setAccessToken((response?.data as T_Tokens).accessToken)
-      LocalStorage.setRefreshToken((response?.data as T_Tokens).refreshToken)
+      const accessToken = (response?.data as T_Tokens).accessToken
+      const refreshToken = (response?.data as T_Tokens).refreshToken
+      const decoded = jwt_decode<T_TokenData>(accessToken)
+
+      LocalStorage.setAccessToken(accessToken)
+      LocalStorage.setRefreshToken(refreshToken)
+
+      api.dispatch(profileActions.refreshProfile(decoded))
+
       result = await baseQuery(args, api, extraOptions)
     } else {
       api.dispatch(profileActions.logout())

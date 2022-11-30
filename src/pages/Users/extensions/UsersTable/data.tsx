@@ -6,8 +6,10 @@ import { RefObject } from 'react'
 import Highlighter from 'react-highlight-words'
 import { Link } from 'react-router-dom'
 
+import * as G from 'guards'
 import { t } from 'languages'
 import { T_DictionaryUserStatus } from 'models/shared/dictionaries'
+import { E_RolePermission } from 'models/shared/role'
 import { E_UserStatus, T_UserId } from 'models/shared/user'
 import { T_UserRecord } from 'models/user'
 import { getStatusName } from 'utils/dictionaries/statuses'
@@ -127,17 +129,23 @@ export const getColumns = ({
     key: 'action',
     render: (record: T_UserRecord) => (
       <Space size='middle'>
-        <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
-          <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
-        </Tooltip>
-        <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
-          <Link to={`/users/update/${record.id}`}>
-            <Button icon={<EditOutlined />} />
-          </Link>
-        </Tooltip>
-        <Tooltip title={t('usersTable.tooltip.view')} placement='topLeft'>
-          <Button onClick={handleOpenModalUser(record.id)} icon={<EyeOutlined />} />
-        </Tooltip>
+        <G.RolesGuard scope={[E_RolePermission['users.delete']]}>
+          <Tooltip title={t('usersTable.tooltip.delete')} placement='topLeft'>
+            <Button icon={<DeleteOutlined />} onClick={() => handleRemove(record.id)} />
+          </Tooltip>
+        </G.RolesGuard>
+        <G.RolesGuard scope={[E_RolePermission['users.update']]}>
+          <Tooltip title={t('usersTable.tooltip.update')} placement='topLeft'>
+            <Link to={`/users/update/${record.id}`}>
+              <Button icon={<EditOutlined />} />
+            </Link>
+          </Tooltip>
+        </G.RolesGuard>
+        <G.RolesGuard scope={[E_RolePermission['users.delete']]}>
+          <Tooltip title={t('usersTable.tooltip.view')} placement='topLeft'>
+            <Button onClick={handleOpenModalUser(record.id)} icon={<EyeOutlined />} />
+          </Tooltip>
+        </G.RolesGuard>
       </Space>
     ),
     align: 'center',
